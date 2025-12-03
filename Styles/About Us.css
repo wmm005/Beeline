@@ -3707,6 +3707,33 @@ body.no-scroll {
     }
     .footer-contact-col span, .footer-contact-col p { font-size: 0.7rem; }
 
+    /* === CTA Wrapper (价值观底部按钮) === */
+    .cta-wrapper {
+        margin-top: 40px;
+        padding: 0 15px;
+        text-align: center;
+    }
+
+    /* CTA 按钮及文字调整 */
+    .cta-wrapper .btn-primary,
+    .cta-wrapper .btn-secondary {
+        padding: 12px 25px;
+        font-size: 0.85rem;
+        white-space: nowrap;
+    }
+
+    /* 确保 CTA 文字不会撑破容器 */
+    .cta-wrapper a {
+        text-decoration: none;
+        display: inline-block;
+    }
+
+    /* CTA 箭头和文字缩小 */
+    .cta-wrapper .nav-arrow {
+        font-size: 0.9rem;
+        margin-left: 5px;
+    }
+
 
 
 

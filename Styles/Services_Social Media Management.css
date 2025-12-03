@@ -2094,3 +2094,240 @@ body.no-scroll {
 
 }
 
+/* ============================================================
+   MOBILE (Max-Width: 480px)
+   ============================================================ */
+
+  /* ==================== 0px - 479.98px (小手机/竖屏) ==================== */
+@media (max-width: 480px) {
+
+    /* === 1. 全局容器与字体 === */
+    h1 { font-size: 1.5rem; }
+    h2 { font-size: 1.4rem; margin-bottom: 10px; }
+    p { font-size: 0.9rem; }
+    
+    .container { 
+        padding: 0 15px; /* 两侧留白减到最小 */
+    }
+    
+    /* 按钮瘦身 */
+    .btn-primary, .btn-secondary {
+        padding: 10px 30px;
+        font-size: 0.9rem;
+    }
+    .btn .text-inner { top: 0px; }
+
+
+    /* === 2. 导航栏 === */
+    .nav-container { padding: 0 20px; }
+    .hamburger { transform: scale(0.8); } /* 按钮再小一点 */
+.lang-wrapper{
+  margin: 0;
+}
+.lang-btn { transform: scale(0.8); }
+.nav-right {
+        gap: 10px;
+    }
+    .nav-container .logo { transform: scale(0.8); }
+
+
+    /* === 2. 侧边栏 (Sidebar) 变窄、变紧凑 === */
+    .mobile-menu-sidebar {
+        min-width: 220px ; width: 50% ; /* 宽度变窄 */
+        max-width: 60vw;  
+        /* 内边距大幅减少：顶部留白减小，左右留白减小 */
+        padding: 70px 25px 30px 25px ; 
+    }
+
+    
+    .mobile-sidebar-search input {
+        font-size: 0.8rem ; /* 字体变小 */
+    }
+    .mobile-sidebar-search i {
+        font-size: 0.8rem;
+    }
+
+    
+
+    /* === 4. 菜单链接 (字体变小、行距变小) === */
+    .mobile-nav-links li a {
+        font-size: 0.8rem;
+        padding: 10px 0 ;    /* 上下间距：18px -> 12px */
+    }
+
+    .mobile-submenu li a {
+        font-size: 0.7rem ; /* 0.95rem -> 0.85rem */
+        padding: 8px 0 ;     /* 12px -> 8px */
+    }
+
+
+    /* === 6. 全屏搜索弹窗 (Search Overlay) === */
+    .mobile-search-overlay {
+        padding-top: 80px; /* 搜索框往上提 */
+    }
+
+    .mobile-search-bar {
+        width: 85% ; 
+    }
+    
+.item-category {
+  min-width: 50px ; 
+        width: 50px ;     /* 强制锁死宽度 */
+    font-size: 0.4rem;
+
+}
+
+/* === 8. FOOTER (极简模式) === */
+    .footer { padding: 30px 0 50px 0; }
+    .footer-nav { gap: 5px 15px; margin-bottom: 50px; } /* 间距更小 */
+    
+    .footer-content-row { gap: 30px 0; } /* 行距缩小 */
+    
+    .footer-logo img { width: 150px; }
+    
+    /* 联系方式换行显示 (小屏幕并排太挤了) */
+    .footer-contact-col {
+        flex-direction: column; /* ★ 改为垂直堆叠 */
+        gap: 15px;
+    }
+    .footer-contact-col span, .footer-contact-col p { font-size: 0.7rem; }
+
+    /* === 3. HERO SECTION (480px) === */
+    .hero {
+        padding: 80px 15px 40px 15px;
+        gap: 15px;
+        min-height: auto;
+    }
+
+    .hero-text {
+        flex: 0 0 100%;
+        max-width: 100%;
+        padding: 0;
+    }
+
+    .hero-text h1 {
+        font-size: 1.3rem;
+        margin-bottom: 10px;
+    }
+
+    .hero-text p {
+        font-size: 0.8rem;
+        margin-bottom: 20px;
+    }
+
+    .hero-image-animated {
+        flex: 0 0 100%;
+        max-width: 100%;
+        margin-top: 0;
+        text-align: center;
+    }
+
+    .hero-main-scene-shape-img {
+        max-width: 250px;
+        margin: 0 auto;
+    }
+
+    /* --- 1. Process 流程图修复：横向压缩 + 对齐 --- */
+    
+    .process-section {
+        padding: 20px 0; /* 减少上下留白 */
+    }
+
+    .steps-container-new {
+        display: flex;
+        flex-direction: row !important; /* 保持横排 */
+        justify-content: space-between;
+        align-items: flex-start;
+        width: 100%;
+        max-width: 100%;
+        padding: 0 2px; /* 几乎贴边，利用最大空间 */
+        gap: 0; 
+    }
+
+    .process-step-item {
+        flex: 1;      /* 均分宽度 */
+        min-width: 0; /* 允许压缩 */
+        gap: 10px;     /* 图标和文字紧凑点 */
+        transform: none;
+        opacity: 1;
+    }
+
+    /* 1. 图标再小一点 */
+    .step-icon-box {
+        width: 30px;   /* 原36px -> 30px */
+        height: 30px;
+        font-size: 1.1rem; /* 图标内部符号缩小 */
+        margin: 0 auto; /* 确保居中 */
+    }
+
+    /* 2. 箭头缩小 + 对齐 */
+    .process-arrow-connector {
+        flex: 0 0 12px; /* 占位宽度变小 */
+        width: 10px;    /* 箭头实际宽度 */
+        height: 10px;   /* 箭头实际高度 */
+        
+        /* 对齐公式：(Icon高度 30px - 箭头高度 10px) / 2 = 10px */
+        margin-top: 10px !important; 
+        
+        transform: none; /* 取消额外缩放，直接用宽高控制 */
+    }
+    
+    .process-arrow-connector svg {
+        width: 100%; height: 100%;
+    }
+
+    /* 3. 文字缩小 */
+    .step-title {
+        font-size: 0.45rem; /* 再小一点，防换行 */
+        line-height: 1.1;
+        height: auto;
+        min-height: auto;
+        word-wrap: break-word;
+        padding: 0;
+    }
+
+
+    /* --- 2. CTA 区域：更矮更紧凑 --- */
+
+    .cta-section {
+        min-height: 70px; /* 压到 70px */
+        padding: 8px 0;   /* 极窄内边距 */
+    }
+    
+    .cta-layout-container {
+        padding: 0 10px;
+        gap: 10px;
+    }
+
+    .cta-content-left {
+        margin-left: 100px; /* 背景箭头留位稍微减小 */
+        flex: 1;
+    }
+    
+
+    .cta-content-left h2 {
+        font-size: 0.6rem; /* 文字缩小 */
+        margin-bottom: 0;
+        text-align: left;
+        line-height: 1.2;
+    }
+
+    .cta-content-right .btn {
+        padding: 6px 12px; /* 按钮做得很小 */
+        font-size: 0.7rem;
+        height: auto;
+    }
+    
+    /* 背景箭头微调 */
+    .chevron-shape {
+        min-height: auto;
+        height: 100%;
+        top: 0;
+        transform:  translateX(-20px); /* 让背景也显得小一点 */
+        transform-origin: left center;
+    }
+    
+    .chevron-left { left: 0px; }
+    .chevron-mid { left: 50px; }
+    .chevron-right { display: none; }
+}
