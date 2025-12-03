@@ -1912,3 +1912,137 @@ body.no-scroll {
         margin-top: 60px;
     }
 }
+
+
+/* ============================================================
+   MOBILE (Max-Width: 480px)
+   ============================================================ */
+
+  /* ==================== 0px - 479.98px (小手机/竖屏) ==================== */
+@media (max-width: 480px) {
+
+    /* === 1. 全局容器与字体 === */
+    h1 { font-size: 1.5rem; }
+    h2 { font-size: 1.4rem; margin-bottom: 10px; }
+    p { font-size: 0.9rem; }
+    
+    .container { 
+        padding: 0 15px; /* 两侧留白减到最小 */
+    }
+    
+    /* 按钮瘦身 */
+    .btn-primary, .btn-secondary {
+        padding: 10px 30px;
+        font-size: 0.9rem;
+    }
+    .btn .text-inner { top: 0px; }
+
+
+    /* === 2. 导航栏 === */
+    .nav-container { padding: 0 20px; }
+    .hamburger { transform: scale(0.8); } /* 按钮再小一点 */
+.lang-wrapper{
+  margin: 0;
+}
+.lang-btn { transform: scale(0.8); }
+.nav-right {
+        gap: 10px;
+    }
+    .nav-container .logo { transform: scale(0.8); }
+
+
+    /* === 2. 侧边栏 (Sidebar) 变窄、变紧凑 === */
+    .mobile-menu-sidebar {
+        min-width: 220px ; width: 50% ; /* 宽度变窄 */
+        max-width: 60vw;  
+        /* 内边距大幅减少：顶部留白减小，左右留白减小 */
+        padding: 70px 25px 30px 25px ; 
+    }
+
+    
+    .mobile-sidebar-search input {
+        font-size: 0.8rem ; /* 字体变小 */
+    }
+    .mobile-sidebar-search i {
+        font-size: 0.8rem;
+    }
+
+    
+
+    /* === 4. 菜单链接 (字体变小、行距变小) === */
+    .mobile-nav-links li a {
+        font-size: 0.8rem;
+        padding: 10px 0 ;    /* 上下间距：18px -> 12px */
+    }
+
+    .mobile-submenu li a {
+        font-size: 0.7rem ; /* 0.95rem -> 0.85rem */
+        padding: 8px 0 ;     /* 12px -> 8px */
+    }
+
+
+    /* === 6. 全屏搜索弹窗 (Search Overlay) === */
+    .mobile-search-overlay {
+        padding-top: 80px; /* 搜索框往上提 */
+    }
+
+    .mobile-search-bar {
+        width: 85% ; 
+    }
+    
+.item-category {
+  min-width: 50px ; 
+        width: 50px ;     /* 强制锁死宽度 */
+    font-size: 0.4rem;
+
+}
+
+/* === 8. FOOTER (极简模式) === */
+    .footer { padding: 30px 0 50px 0; }
+    .footer-nav { gap: 5px 15px; margin-bottom: 50px; } /* 间距更小 */
+    
+    .footer-content-row { gap: 30px 0; } /* 行距缩小 */
+    
+    .footer-logo img { width: 150px; }
+    
+    /* 联系方式换行显示 (小屏幕并排太挤了) */
+    .footer-contact-col {
+        flex-direction: column; /* ★ 改为垂直堆叠 */
+        gap: 15px;
+    }
+    .footer-contact-col span, .footer-contact-col p { font-size: 0.7rem; }
+
+    
+    .whatsapp-float {
+        /* 1. 尺寸缩小 */
+        width: 40px;
+        height: 40px;
+        
+        /* 2. 位置更贴近角落 */
+        bottom: 15px;
+        right: 15px;
+        
+        /* 3. 图标字体缩小 */
+        font-size: 1.6rem;
+        
+        /* 4. 边框稍微细一点 */
+        border: 3px solid #ffffff;
+        
+        /* 5. ★★★ 核心：手机没法悬停，必须强制设为不透明，否则看不清 ★★★ */
+        opacity: 1; 
+    }
+
+    /* 6. 调整周围的环绕文字 (整体缩小并重新定位) */
+    .whatsapp-curved-text {
+        width: 80px;   /* 原 100px -> 80px */
+        height: 80px;
+
+        top: -18px;    
+
+    }
+
+    .whatsapp-curved-text text {
+        font-size: 11px;       /* 字体改小 */
+        letter-spacing: 0px;   /* 紧凑一点 */
+    }
+}

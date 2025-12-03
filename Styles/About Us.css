@@ -3966,4 +3966,38 @@ margin: 0;
     .team-member:nth-child(5) {
         max-width: 100% !important;
     }
+
+    .whatsapp-float {
+        /* 1. 尺寸缩小 */
+        width: 40px;
+        height: 40px;
+        
+        /* 2. 位置更贴近角落 */
+        bottom: 15px;
+        right: 15px;
+        
+        /* 3. 图标字体缩小 */
+        font-size: 1.6rem;
+        
+        /* 4. 边框稍微细一点 */
+        border: 3px solid #ffffff;
+        
+        /* 5. ★★★ 核心：手机没法悬停，必须强制设为不透明，否则看不清 ★★★ */
+        opacity: 1; 
+    }
+
+    /* 6. 调整周围的环绕文字 (整体缩小并重新定位) */
+    .whatsapp-curved-text {
+        width: 80px;   /* 原 100px -> 80px */
+        height: 80px;
+
+        top: -18px;    
+
+    }
+
+    .whatsapp-curved-text text {
+        font-size: 11px;       /* 字体改小 */
+        letter-spacing: 0px;   /* 紧凑一点 */
+    }
+
 }
