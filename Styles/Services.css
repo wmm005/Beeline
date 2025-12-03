@@ -6,6 +6,7 @@
 /* ==================== OVERALL & FONT ==================== */
 @import url('https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap');
 
+
 :root {
     /* 核心颜色 */
     --brand-yellow:   #F9A826;
@@ -94,6 +95,7 @@ img { max-width: 100%; height: auto; }
     display: inline-flex;
     align-items: center;
     justify-content: center;
+     text-decoration: none;
 }
 
 .btn-primary { 
@@ -152,7 +154,6 @@ img { max-width: 100%; height: auto; }
 .btn-primary .text-inner:nth-child(2) { color: var(--brand-yellow); }
 .btn-secondary .text-inner:nth-child(1) { color: white; }
 .btn-secondary .text-inner:nth-child(2) { color: var(--brand-blue); }
-
 
 
 /* ==================== 1. HEADER & NAV ==================== */
@@ -495,7 +496,6 @@ img { max-width: 100%; height: auto; }
     to { opacity: 1; transform: translateY(0); }
 }
 
-
 /* ==================== 10. 底部页脚 (FOOTER) ==================== */
 .footer { 
   background-color: var(--text-main); 
@@ -665,6 +665,7 @@ img { max-width: 100%; height: auto; }
 
 
 /* ==================== PROCESS SECTION ==================== */
+/* ==================== PROCESS SECTION ==================== */
 .process-section {
     padding: 0 0 80px 0;
     position: relative;
@@ -762,7 +763,7 @@ img { max-width: 100%; height: auto; }
     overflow: hidden;
     display: flex; 
     align-items: center; 
-    min-height: 150px;
+    min-height: 230px;
 }
 
 /* 内容容器 */
@@ -801,24 +802,22 @@ img { max-width: 100%; height: auto; }
 /* SVG 箭头样式 */
 .chevron-shape {
     position: absolute;
-    height: 80vh; 
+    height: 100%; 
     width: auto;  
     opacity: 0; 
     filter: drop-shadow(5px 0 10px rgba(0,0,0,0.05));
-    min-height: 300px;
 }
 
 /* 箭头位置与颜色 */
-.chevron-left { color: #545454; left: 80px; z-index: 1; }
-.chevron-mid { color: #545454; left: 200px; z-index: 2; }
-.chevron-right { color: #545454; left: 320px; z-index: 3; }
+.chevron-left { color: #545454; left: 100px; z-index: 1; }
+.chevron-mid { color: #545454; left: 250px; z-index: 2; }
+.chevron-right { color: #545454; left: 400px; z-index: 3; }
 
 /* 内容排版 */
 .cta-content-left {
-    text-align: left;
-    margin-left: 400px; 
+    text-align: center;
+    padding-left: 600px; 
     flex-grow: 1;
-    max-width: 500px;
 }
 
 .cta-content-left h2 {
@@ -834,7 +833,6 @@ img { max-width: 100%; height: auto; }
     flex-shrink: 0;
     margin-left: 50px;
 }
-
 
 /* ============================================================
    RESPONSIVE: Laptop / Landscape Tablet (992px - 1199px)
@@ -867,6 +865,8 @@ img { max-width: 100%; height: auto; }
     font-size: 1.1rem;  /* 原 1.3rem -> 减小 */
   }
 
+
+  /* ===================== Header & Navigation ===================== */
 
   
   /* ===================== Header & Navigation ===================== */
@@ -914,7 +914,6 @@ img { max-width: 100%; height: auto; }
   .lang-png-icon {
     height: 30px;
   }
-
 
 /* ==================== Footer ==================== */
   /* 1. 整体高度压缩 */
@@ -968,7 +967,26 @@ img { max-width: 100%; height: auto; }
     margin-right: auto;
   }
 
+  /* === 0. 容器与大标题修正 === */
+  /* 强制收窄容器，适应屏幕 */
+  .why-bee-grid, 
+  .page-title {
+    max-width: 960px; /* 原 1000px/1200px -> 960px */
+  }
+
+  /* 标题字号缩小 */
+  .page-title {
+    font-size: 3rem; /* 原 4rem -> 3rem */
+    margin-left: 50px; /* 左边距稍微减小 */
+  }
   
+  /* 箭头缩小一点，防止遮挡内容 */
+  .nav-arrow.left-arrow-btn, 
+  .nav-arrow.right-arrow-btn {
+    font-size: 2.5rem;
+    padding: 10px;
+  }
+
   /* ==================== 1. HERO SECTION (首屏) ==================== */
   .hero-section {
     padding-top: 150px; /* 减少顶部留白 (原 200px) */
@@ -993,7 +1011,8 @@ img { max-width: 100%; height: auto; }
     font-size: 0.8rem; 
     max-width: 100%; /* 允许文字稍微宽一点 */
   }
-  
+
+
   /* ==================== 2. PROCESS SECTION (步骤条) ==================== */
   /* 容器变窄了，如果不调整，箭头和图标会挤在一起 */
   
@@ -1009,9 +1028,14 @@ img { max-width: 100%; height: auto; }
     font-size: 1rem; /* 字变小一点 */
   }
 
+  .step-icon-box {
+    width: 45px; font-size: 2rem; /* 图标缩小 */
+  }
+  
   /* 箭头缩小 */
   .process-arrow-connector {
     width: 10px; height: 10px;
+    transform: scale(0.8) !important; /* 强制缩小 */
   }
 
   /* 调整蜜蜂飞行轨迹 (如果有必要) */
@@ -1023,29 +1047,33 @@ img { max-width: 100%; height: auto; }
   /* ==================== 3. CTA SECTION (最关键修正) ==================== */
   
   .cta-section {
-    min-height: 200px;
+    min-height: 200px; /* 高度减小 */
   }
 
   /* 1. 修正左侧内容的死板 Padding */
   .cta-content-left {
-    margin-left: 280px; 
-    text-align: left;
-    max-width: 350px;
+    /* 【严重警告】原 padding-left: 600px 在 960px 屏幕上绝对会崩坏 */
+    /* 必须大幅减小，甚至改为 flex 比例控制 */
+    padding-left: 500px; /* 尝试减小到 450px */
+    
+    text-align: left; 
   }
 
   .cta-content-left h2 {
-    font-size: 1.1rem;
+    font-size: 1.1rem; /* 稍微改小 */
   }
 
   /* 2. 右侧按钮 */
   .cta-content-right {
-    margin-left: 30px;
+    margin-left: 30px; /* 间距缩小 (原 50px) */
   }
 
   /* 3. 装饰箭头位置微调 */
-  .chevron-left { left: 40px; }
-  .chevron-mid  { left: 140px; }
-  .chevron-right{ left: 240px; }
+  /* 因为容器变窄了，背景箭头也要稍微往左移一点，不然显得很空 */
+  .chevron-left { left: 50px; }
+  .chevron-mid  { left: 200px; }
+  .chevron-right{ left: 350px; }
+
 }
 
 
@@ -1633,11 +1661,11 @@ body.no-scroll {
 
     /* 内容排版 */
     .cta-content-left {
-        margin-left: 120px; 
+        padding-left: 170px; 
         text-align: left; 
         flex-grow: 1; 
-        max-width: 200px;
-        z-index: 10;
+        max-width: 250px; /* 文字区域可以稍微宽一点了 */
+        z-index: 10; /* 确保文字浮在箭头上面 */
     }
     
     .cta-content-right {
@@ -1651,10 +1679,11 @@ body.no-scroll {
         line-height: 1.3;
     }
 
+
   }
 
 
-  /* ============================================================
+    /* ============================================================
    MOBILE (Max-Width: 768px)
    ============================================================ */
 @media screen and (max-width: 767px) {
@@ -1712,8 +1741,7 @@ body.no-scroll {
     }
 
 
-    /* ==================== FOOTER (480px - 767px) - 缩小版 ==================== */
-    /* ==================== FOOTER (480px - 767px) - 缩小版 ==================== */
+   /* ==================== FOOTER (480px - 767px) - 缩小版 ==================== */
     /* 布局逻辑完全继承自 991px (Logo+Contact一行，Social换行)，只调大小 */
 
     /* 1. 减少整体留白 */
@@ -1829,7 +1857,7 @@ body.no-scroll {
     }
 
     .hero-content .hero-desc {
-       font-size: 0.8rem;
+        font-size: 0.8rem;
         line-height: 1.4em;
         padding: 0 30px; /* 防止文字贴边 */
     }
@@ -1933,8 +1961,17 @@ body.no-scroll {
     }
 
     .cta-content-left {
-    margin-left: 80px; 
-    max-width: 140px; 
+    /* 1. 删掉 padding-left */
+    /* padding-left: 120px;  <-- 这个会导致盒子变巨大且文字空间变小 */
+    
+    /* 2. 改用 margin-left */
+    /* 这是盒子外部的距离，用来避开左边的箭头，且不会压缩文字空间 */
+    /* 根据你的箭头位置（chevron-mid 在 70px），设 80px-90px 左右足够了 */
+    margin-left: 100px; 
+    
+    /* 3. 现在的 max-width 就是实打实的文字宽度了 */
+    /* 之前是 180-120=60，现在是实打实的 160，空间很足 */
+    max-width: 160px; 
     padding-left: 0;
     flex: 0 1 auto; 
     text-align: left;
@@ -1944,6 +1981,8 @@ body.no-scroll {
     font-size: 0.7rem; 
     line-height: 1.3;
     margin-bottom: 0;
+    
+    /* ★ 修改 2：核心！必须删掉 nowrap，改为 normal 允许换行 */
     white-space: normal; 
 }
     .cta-content-right {
@@ -1970,8 +2009,9 @@ body.no-scroll {
     
     .chevron-left { left: 10px; } 
     .chevron-mid { left: 70px; } 
-}
 
+
+}
 
 /* ============================================================
    MOBILE (Max-Width: 480px)

@@ -88,6 +88,7 @@ img { max-width: 100%; height: auto; }
     display: inline-flex;
     align-items: center;
     justify-content: center;
+     text-decoration: none;
 }
 
 .btn-primary { 
@@ -720,7 +721,8 @@ img { max-width: 100%; height: auto; }
 .typing-text-area {
   position: absolute;
   top: 463px; 
-  left: 18px; 
+  left: 50%;
+  transform: translateX(-50%);
   width: 330px;
   font-family: 'Open Sans', sans-serif;
   font-size: 0.7rem;
@@ -1396,9 +1398,10 @@ h5.feedback-small-title {
         font-size: 0.6rem; 
         
         /* 因为图片变小了，字的位置必须跟着往上提 */
-        /* 你可能需要根据屏幕实际效果微调这几个数字 */
-        top: 360px; 
-        left: 15px; 
+        /* 【关键】改为相对比例：约为图片高度的 115%，确保居中对齐 */
+        top: calc(320px * 1.15); /* 动态计算，避免硬编码 */
+        left: 50%;
+        transform: translateX(-50%);
     }
 
   /* === 1. FEEDBACK SECTION === */
@@ -2058,9 +2061,9 @@ body.no-scroll {
 .typing-text-area {
     width: 300px;      
     font-size: 0.65rem; 
-    top: 75%;          
-    left: 50%;         
-    transform: translateX(-50%); 
+    top: 390px;          
+    left: 50%;
+    transform: translateX(-50%);
 }
 
     /* === 2. RESULTS (768px - 991px) - Grid Layout === */
@@ -2449,6 +2452,8 @@ body.no-scroll {
         
         /* 重新计算坐标 */
         top: 345px;         /* 原 485px * 0.7 ≈ 340px (根据视觉微调) */
+        left: 50%;
+        transform: translateX(-50%);
         
         line-height: 1.25;
         padding-right: 5px;
@@ -2884,6 +2889,8 @@ body.no-scroll {
         width: 170px;       /* 宽度缩小 */
         font-size: 0.45rem;  /* 字体极小 */
         top: 250px;         /* 345px * 0.85 ≈ 295px */
+        left: 50%;
+        transform: translateX(-50%);
         line-height: 1.2;
     }
 
