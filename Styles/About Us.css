@@ -55,7 +55,7 @@ img { max-width: 100%; height: auto; }
   position: fixed;
   top: 0; left: 0;
   width: 60px; height: 60px;
-  pointer-events: none; /* 确保不阻挡点击 */
+  pointer-events: none; 
   z-index: 9999;
   transform: translate(-50%, -50%); 
 }
@@ -112,8 +112,6 @@ img { max-width: 100%; height: auto; }
     position: relative; 
     z-index: 2; 
     
-    /* ★ 修改这里：从 1.1em 改为 1.4em 或 1.5em */
-    /* 给文字留出足够的上下空间，尤其是底部 */
     height: 1.4em; 
     
     overflow: hidden; 
@@ -121,24 +119,20 @@ img { max-width: 100%; height: auto; }
     flex-direction: column; 
     align-items: center; 
     
-    /* ★ 新增：确保文字在变高的容器里垂直居中 */
     justify-content: center;
 }
 
-/* 2. 调整内部文字的行高 */
+
 .btn .text-inner { 
     white-space: nowrap; 
     transform: translateY(0); 
     position: relative; 
     
-    /* ★ 修改这里：去掉 top: -1px，或者改为 top: 0 */
-    /* 既然增加了高度，就不需要硬往上提了 */
     top: 0; 
     
     display: block; 
     transition: opacity 0.3s ease; 
     
-    /* ★ 修改这里：让行高和上面的 height 保持一致，保证居中 */
     line-height: 1.4em; 
 }
 .btn .text-inner:nth-child(2) { position: absolute; top: 0; left: 0; width: 100%; opacity: 0; }
@@ -228,15 +222,14 @@ img { max-width: 100%; height: auto; }
 .lang-png-icon { height: 35px; width: auto; display: block; }
 
 
-/* ==================== 最终完美修正版 DROPDOWN ==================== */
+/* ==================== DROPDOWN ==================== */
 
-/* 1. 父容器 (保持不变) */
 .nav-links li.has-dropdown {
     position: relative;
     overflow: visible; 
 }
 
-/* 2. 箭头旋转 (保持不变) */
+/* 2. 箭头旋转  */
 .nav-links li.has-dropdown .nav-arrow {
     transition: transform 0.1s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
@@ -244,7 +237,7 @@ img { max-width: 100%; height: auto; }
     transform: rotate(180deg);
 }
 
-/* 3. 下拉菜单容器 (关键修改) */
+/* 3. 下拉菜单容器 */
 .dropdown-menu {
     position: absolute;
     top: 100%; 
@@ -255,13 +248,10 @@ img { max-width: 100%; height: auto; }
     
     background: white;
     
-    /* --- 关键点 A: 加大宽度余量 --- */
-    /* 稍微给大一点 (280px)，确保文字往右动的时候，
-       右边还有空间，不会把盒子撑得更宽 */
     min-width: 280px; 
     
-    padding: 0; /* 建议改为0，由内部链接撑开 */
-    padding-top: 10px; /* 上下留白放在这里 */
+    padding: 0;
+    padding-top: 10px; 
     padding-bottom: 10px;
 
     border-radius: 20px;
@@ -276,8 +266,6 @@ img { max-width: 100%; height: auto; }
     flex-direction: column;
     gap: 0;
 
-    /* --- 关键点 B: 裁剪溢出 --- */
-    /* 这行代码确保灰色背景无论怎么变，都绝对不会跑出圆角矩形外面 */
     overflow: hidden; 
 }
 
@@ -306,48 +294,37 @@ img { max-width: 100%; height: auto; }
     font-weight: 600;
     color: var(--text-main, #333);
     text-decoration: none;
-    
-    /* 默认内边距 */
+
     padding: 12px 30px; 
     
     text-align: left;
     white-space: nowrap;
-    
-    /* 使用 padding 过渡，而不是 transform */
+   
     transition: all 0.2s ease; 
     
-    /* 确保背景色铺满 */
+
     width: 100%;
     box-sizing: border-box; 
     
     justify-content: flex-start; 
 }
 
-/* 7. 链接 Hover 效果 (修复灰色背景溢出) */
 .dropdown-menu li a:hover {
     color: var(--brand-yellow);
-    background-color: rgba(0,0,0,0.03); /* 灰色背景 */
-    
-    /* --- 关键点 C: 用 Padding 移动文字 --- */
-    /* 之前用的 transform 会移动背景，导致背景跑出去。
-       现在改用 padding-left，背景不动，只有字动。
-       因为上面 min-width 设够了，这 5px 增加不会撑大盒子。 */
-    padding-left: 38px; /* 30px + 8px移动 */
-}
-
+    background-color: rgba(0,0,0,0.03); 
+    padding-left: 38px; }
 
 /* ==================== LANGUAGE SWITCHER 样式 ==================== */
 
-/* 1. 外层容器 (模拟 li.has-dropdown 的行为) */
+/* 1. 外层容器 */
 .lang-wrapper {
     position: relative;
     display: flex;
     align-items: center;
-    height: 100%; /* 确保高度填满，利于 hover 捕捉 */
-    margin-right: 15px; /* 和搜索框拉开点距离 */
+    height: 100%; 
+    margin-right: 15px; 
 }
 
-/* 2. 按钮样式重置 & 布局 */
 .lang-btn {
     background: transparent;
     border: none;
@@ -355,14 +332,14 @@ img { max-width: 100%; height: auto; }
     cursor: pointer;
     display: flex;
     align-items: center;
-    gap: 5px; /* 图标和箭头的距离 */
+    gap: 5px; 
 }
 
-/* 3. 箭头样式 (与 Services 保持一致) */
+
 .lang-wrapper .nav-arrow {
-    font-size: 1.0rem; /* 和导航一致的大小 */
-    color: var(--text-main, #333); /* 关键：改成深色，和 Services 一样 */
-    transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94); /* 同款丝滑动画 */
+    font-size: 1.0rem; 
+    color: var(--text-main, #333); 
+    transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94); 
 }
 
 /* 4. Hover 交互：旋转箭头 */
@@ -370,16 +347,12 @@ img { max-width: 100%; height: auto; }
     transform: rotate(180deg);
 }
 
-/* 5. Hover 交互：显示下拉菜单 */
-/* 这里直接复用了 .dropdown-menu 的样式，只需要写显示的触发逻辑 */
 .lang-wrapper:hover .dropdown-menu {
     opacity: 1;
     visibility: visible;
     transform: translateX(-50%) translateY(-5px);
 }
 
-/* 6. 语言菜单的特殊调整 (lang-menu-override) */
-/* 因为 Services 设了 min-width: 280px，对于语言来说太宽了，这里缩小一点 */
 .dropdown-menu.lang-menu-override {
     min-width: 140px; /* 语言菜单宽度 */
     left: 50%; /* 居中对齐图标 */
@@ -387,7 +360,7 @@ img { max-width: 100%; height: auto; }
 
 
 /* ==================== SEARCH BOX ==================== */
-/* === 1. 搜索框容器 (基于你原本的样式) === */
+
 .search-box {
     position: relative; /* 【关键】必须加这个，为了让下拉菜单能定位 */
     display: flex;

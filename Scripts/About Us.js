@@ -1,5 +1,5 @@
 // ============================================================
-// About Us.JS - FINAL CLEAN VERSION
+// About Us.JS 
 // ============================================================
 
 gsap.registerPlugin(ScrollTrigger);
@@ -116,22 +116,18 @@ navLinks.forEach(link => {
   const textInner = link.querySelectorAll('.text-inner'); 
   const navArrow = link.querySelector('.nav-arrow');
 
-  // 【修改点 1】：直接获取 wrap 的高度作为滚动的距离
-  // 这样无论 CSS 里的 em 是多少，动画距离永远精准等于盒子高度
   let textHeight = textWrap ? textWrap.offsetHeight : 0;
 
-  // 如果获取失败，才用 fallback
   if (textHeight === 0 && textInner.length > 0) {
       textHeight = textInner[0].offsetHeight;
   }
 
   if (background && textWrap && textInner.length > 1) { 
-    // 初始化位置
     gsap.set(textInner[0], { y: 0 }); 
     gsap.set(textInner[1], { y: 0 }); 
 
     link.addEventListener('mouseenter', () => {
-      // 在 hover 瞬间重新计算高度（防止浏览器缩放导致的高度变化）
+      
       let currentHeight = textWrap.offsetHeight; 
 
       gsap.killTweensOf([background, link, textInner]);
@@ -142,7 +138,7 @@ navLinks.forEach(link => {
       gsap.to(background, { scale: 1, duration: 0.4, ease: "power2.out" });
       gsap.to(link, { color: 'white', duration: 0.2 });
       
-      // 【修改点 2】：使用重新计算的 currentHeight
+      
       gsap.to(textInner, { y: -currentHeight, duration: 0.3, ease: "power2.out" });
       
       if (navArrow) gsap.to(navArrow, { color: 'white', duration: 0.2 });
@@ -154,7 +150,7 @@ navLinks.forEach(link => {
       gsap.to(background, { scale: 0, duration: 0.3, ease: "power2.out" });
       gsap.to(link, { color: 'var(--dark-text)', duration: 0.2, delay: 0.1 });
       
-      // 回归原位
+    
       gsap.to(textInner, { y: 0, duration: 0.3, ease: "power2.out" });
       
       if (navArrow) gsap.to(navArrow, { color: 'var(--dark-text)', duration: 0.2 });
@@ -164,11 +160,10 @@ navLinks.forEach(link => {
 
 
 
-// ==================== 03. CORE VALUES ACCORDION (最终完美修复版) ====================
+// ==================== 03. CORE VALUES ACCORDION ====================
 const valueItems = gsap.utils.toArray('.value-item');
 const valueButtons = gsap.utils.toArray('.value-item .toggle-btn');
 
-// 初始化图标状态
 gsap.set('.value-item .icon-minus', { opacity: 0, rotationY: 180 });
 gsap.set('.value-item .icon-plus', { opacity: 1, rotationY: 0 });
 
@@ -186,18 +181,18 @@ valueButtons.forEach(button => {
         const isCollapsing = parentItem.classList.contains('active');
         const style = window.getComputedStyle(parentItem);
         
-        // 1. 获取容器的基础样式 (Padding / Border)
+        
         const paddingTop = parseFloat(style.paddingTop) || 0;
         const paddingBottom = parseFloat(style.paddingBottom) || 0;
         const borderTop = parseFloat(style.borderTopWidth) || 0;
         const borderBottom = parseFloat(style.borderBottomWidth) || 0;
 
-        // 2. 获取标题行高度
+        
         const titleRow = parentItem.querySelector('.title-row');
         const titleRect = titleRow.getBoundingClientRect();
         const titleHeight = titleRect.height; 
 
-        // 3. 计算闭合状态下的高度
+        
         const targetCollapsedHeight = Math.ceil(titleHeight + paddingTop + paddingBottom + borderTop + borderBottom);
 
         if (isCollapsing) {
@@ -234,14 +229,14 @@ valueButtons.forEach(button => {
         } else {
             // ==================== [展开逻辑] ====================
             
-            // 1. 关闭其他已展开的卡片
+           
             valueItems.forEach(item => {
                 if (item !== parentItem && item.classList.contains('active')) {
                     item.classList.remove('active');
                     const otherBtn = item.querySelector('.toggle-btn');
                     if (otherBtn) otherBtn.classList.remove('active');
 
-                    // 计算其他卡片的闭合高度
+                    
                     const iStyle = window.getComputedStyle(item);
                     const iTitleRow = item.querySelector('.title-row');
                     const iPt = parseFloat(iStyle.paddingTop) || 0;
@@ -277,28 +272,25 @@ valueButtons.forEach(button => {
                 }
             });
 
-            // ==================== [展开当前卡片 - 修复核心] ====================
-
+            
             const startHeight = parentItem.offsetHeight;
 
-            // ★ 步骤 A: 先强制显示内容 (display: block)，这是为了让浏览器能计算出真实的 margin
             gsap.set(targetContent, { display: 'block', height: 'auto', opacity: 1 });
             
-            // ★ 步骤 B: 在显示状态下，读取 margin-top 和高度
+           
             const activeContentStyle = window.getComputedStyle(targetContent);
-            // 这里获取的值绝对准确，因为元素已经渲染出来了
+            
             const cssMarginTop = parseFloat(activeContentStyle.marginTop) || 20; 
             const contentHeight = targetContent.scrollHeight;
 
-            // ★ 步骤 C: 读取完毕，立即重置状态，准备开始动画
             gsap.set(targetContent, { display: 'none', height: 0, opacity: 0 }); 
             
-            // ★ 步骤 D: 计算最终展开高度 (包含刚刚读取到的 margin)
+            
             const finalExpandHeight = Math.ceil(startHeight + contentHeight + cssMarginTop);
 
             parentItem.classList.add('active');
             button.classList.add('active');
-            targetContent.style.display = 'block'; // 确保动画开始前是 block
+            targetContent.style.display = 'block';
 
             gsap.set(parentItem, {
                 backgroundColor: 'white',
@@ -317,7 +309,7 @@ valueButtons.forEach(button => {
                 0
             );
 
-            // 在动画中使用读取到的正确 cssMarginTop
+            
             expandTL.fromTo(targetContent, 
                 { height: 0, opacity: 0, marginTop: 0 }, 
                 { 
@@ -330,32 +322,27 @@ valueButtons.forEach(button => {
 });
 
 
-// ==================== 04. SLIDER & ANIMATION (MOBILE SCROLL + DESKTOP SLIDER) ====================
+// ====================  SLIDER & ANIMATION (MOBILE SCROLL + DESKTOP SLIDER) ====================
 function initWhyBeeSlider() {
     const track = document.querySelector('.carousel-track');
-    // 使用 Array.from 确保拿到的是纯净数组
+    
     const originalSlides = Array.from(document.querySelectorAll('.slide-item')); 
     const nextBtn = document.querySelector('.right-arrow-btn');
     const prevBtn = document.querySelector('.left-arrow-btn');
 
     if (!track || originalSlides.length === 0) return;
 
-    // 判断是否为手机/平板 (<= 991px)
+    
     const isMobile = window.innerWidth <= 991;
 
-    // ============================================================
-    // ★★★ 分流 1: 手机端 (垂直堆叠 + 滚动触发动画) ★★★
-    // ============================================================
+   
     if (isMobile) {
-        // 1. 隐藏多余的克隆/穿帮元素
-        // 手机端不需要克隆，直接操作 originalSlides
-        const elementsToHide = document.querySelectorAll('.line-path, .line-dot, .page-title, .fade-item, .main-bee-img, .logo-breakdown, .fade-p3, .pop-p3, .title-mascot-img, .fade-p2, .evolution-row > *, .font-row');
-        gsap.set(elementsToHide, { opacity: 0, visibility: "hidden" }); // 初始隐身
         
-        // 2. 定义动画播放器 (针对每一页)
+        const elementsToHide = document.querySelectorAll('.line-path, .line-dot, .page-title, .fade-item, .main-bee-img, .logo-breakdown, .fade-p3, .pop-p3, .title-mascot-img, .fade-p2, .evolution-row > *, .font-row');
+        gsap.set(elementsToHide, { opacity: 0, visibility: "hidden" }); 
         const playMobileAnims = (slideIndex, slideElement) => {
             
-            // --- Page 1: 蓝图动画 ---
+            // --- Page 1:  ---
             if (slideIndex === 0) {
                 const mainImg = slideElement.querySelector('.main-bee-img');
                 const lines = slideElement.querySelectorAll('.line-path');
@@ -364,7 +351,7 @@ function initWhyBeeSlider() {
                 
                 if (mainImg) {
                     const tl = gsap.timeline();
-                    // 重置状态
+                    
                     gsap.set(dots, { attr: { r: 0 }, opacity: 1, visibility: "visible" });
                     lines.forEach(path => {
                         const length = path.getTotalLength();
@@ -373,9 +360,9 @@ function initWhyBeeSlider() {
                     gsap.set(fadeItems, { opacity: 0, y: 20, visibility: "visible" });
                     gsap.set(mainImg, { opacity: 0, scale: 0.8, visibility: "visible" });
 
-                    // 播放
+                    
                     tl.to(mainImg, { opacity: 1, scale: 1, duration: 0.8, ease: "back.out(1.7)" })
-                      .add(() => { /* 同步点 */ });
+                      .add(() => {  });
                       
                     lines.forEach((line, i) => {
                         const dot = dots[i];
@@ -395,7 +382,7 @@ function initWhyBeeSlider() {
                 const fontRows = slideElement.querySelectorAll('.font-row');
                 
                 const tl = gsap.timeline();
-                // 确保可见
+                
                 gsap.set([fadeItems, evoItems, fontRows], { visibility: "visible" });
 
                 if(fadeItems.length) tl.fromTo(fadeItems, { autoAlpha: 0, y: 50 }, { autoAlpha: 1, y: 0, duration: 0.8, stagger: 0.1, ease: "power3.out" });
@@ -403,22 +390,20 @@ function initWhyBeeSlider() {
                 if(fontRows.length) tl.fromTo(fontRows, { x: 50, autoAlpha: 0 }, { x: 0, autoAlpha: 1, duration: 0.4, stagger: 0.1, ease: "power2.out" }, "<");
             }
 
-            // --- Page 3: Buzz ---
+            
             // --- Page 3: Buzz ---
 if (slideIndex === 2) {
     const fadeItems = slideElement.querySelectorAll('.fade-p3');
     const popItems = slideElement.querySelectorAll('.pop-p3');
-    const mascot = slideElement.querySelector('.title-mascot-img'); // ★ 确保选中吉祥物元素
-    
+    const mascot = slideElement.querySelector('.title-mascot-img'); 
     const tl = gsap.timeline();
     
-    // 确保 visibility 开启，并设置初始隐藏状态 (防止闪烁)
+   
     gsap.set([fadeItems, popItems, mascot], { visibility: "visible" }); 
-    if (mascot) gsap.set(mascot, { opacity: 0, scale: 0.5, y: 30 }); // ★ 新增：吉祥物初始状态
+    if (mascot) gsap.set(mascot, { opacity: 0, scale: 0.5, y: 30 }); 
     gsap.set(fadeItems, { autoAlpha: 0, x: -30 });
     gsap.set(popItems, { scale: 0, autoAlpha: 0 });
 
-    // ★★★ 播放吉祥物动画 (先让它出来) ★★★
     if (mascot) {
         tl.fromTo(mascot, 
             { opacity: 0, scale: 0.5, y: 30 }, 
@@ -427,7 +412,7 @@ if (slideIndex === 2) {
     }
 
     if (fadeItems.length > 0) {
-        // 让文字在吉祥物出来后 0.4 秒左右开始
+    
         tl.fromTo(fadeItems, 
             { autoAlpha: 0, x: -30 }, 
             { autoAlpha: 1, x: 0, duration: 0.6, stagger: 0.15, ease: "power2.out" },
@@ -445,41 +430,33 @@ if (slideIndex === 2) {
 }
         };
 
-        // 3. 使用 IntersectionObserver 监听滚动
-        // 当页面滑入屏幕 30% 时，触发对应动画
+       
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
-                    // 找到当前滑入的是第几个 Slide
+                    
                     const index = originalSlides.indexOf(entry.target);
                     if (index !== -1) {
                         playMobileAnims(index, entry.target);
-                        // 播放后取消监听 (只播一次，不反复播)
+                       
                         observer.unobserve(entry.target); 
                     }
                 }
             });
-        }, { threshold: 0.25 }); // 25% 可见时触发
-
-        // 开始监听 3 个页面
+        }, { threshold: 0.25 }); 
         originalSlides.forEach(slide => observer.observe(slide));
 
-        return; // ★★★ 结束手机端逻辑，不执行下面的 Desktop 代码 ★★★
+        return; 
     }
 
 
-    // ============================================================
-    // ★★★ 分流 2: 电脑端 (横向轮播 + 点击触发动画) ★★★
-    // ============================================================
-    
-    // (以下是你原本的 Desktop 完整代码，完全没动，除了变量名复用)
     const totalSlidesOriginal = originalSlides.length; 
 
-    // Clone Setup
+   
     const firstSlideClone = originalSlides[0].cloneNode(true);
     const lastSlideClone = originalSlides[totalSlidesOriginal - 1].cloneNode(true);
     
-    // 初始隐藏
+    
     const elementsToHide = firstSlideClone.querySelectorAll('.line-path, .line-dot, .page-title, .fade-item, .main-bee-img, .logo-breakdown, .fade-p3, .pop-p3, .title-mascot-img');
     const elementsToHide2 = lastSlideClone.querySelectorAll('.fade-p3, .pop-p3, .title-mascot-img');
     
@@ -668,7 +645,7 @@ document.addEventListener("DOMContentLoaded", function() {
     const teamSection = document.querySelector('.team-section-wrapper');
     const missionBeeImg = document.querySelector('.mission-bee-img'); // 找到蜂巢图片
 
-    // 观察团队区域的渐显
+   
     const teamObserver = new IntersectionObserver((entries) => {
         if (entries[0].isIntersecting) {
             teamSection.classList.add('active');
@@ -677,7 +654,7 @@ document.addEventListener("DOMContentLoaded", function() {
     }, { threshold: 0.2 });
     teamObserver.observe(teamSection);
 
-    // 观察蜂巢图片的渐显
+    
     const beeObserver = new IntersectionObserver((entries) => {
         if (entries[0].isIntersecting) {
             missionBeeImg.classList.add('scroll-visible'); // 直接添加 visible 类
@@ -694,16 +671,13 @@ document.addEventListener("DOMContentLoaded", function() {
 });
 
 
-
-
-// ==================== TEAM ====================
 document.addEventListener("DOMContentLoaded", function() {
     const teamSection = document.querySelector('.team-section-wrapper');
 
     const observer = new IntersectionObserver((entries) => {
         if (entries[0].isIntersecting) {
-            teamSection.classList.add('active'); // 只要看到了，就加上 active 类
-            observer.disconnect(); // 完事收工，不再监控
+            teamSection.classList.add('active'); 
+            observer.disconnect(); 
         }
     }, { threshold: 0.2 });
 
@@ -714,7 +688,6 @@ document.addEventListener("DOMContentLoaded", function() {
 // SEARCH BOX
 document.addEventListener('DOMContentLoaded', function() {
     
-    // 1. 这里的 Data 可以随便写，用来测试
     const searchData = [
         { title: "Brand Identity", category: "Service", link: "Services_Branding.html" },
         { title: "Web Development", category: "Service", link: "Services_WebDesign.html" },
@@ -729,13 +702,13 @@ document.addEventListener('DOMContentLoaded', function() {
     const searchInput = document.getElementById('searchInput');
     const searchResults = document.getElementById('searchResults');
 
-    // 3. 定义分类颜色 (想要什么颜色改这里)
+    // 3. 定义分类颜色 
     function getCategoryColor(cat) {
         switch(cat) {
-            case 'Service': return '#964f33';   // 你的品牌棕色
-            case 'Portfolio': return '#E04F5F'; // 红色/粉色
-            case 'Page': return '#4A90E2';      // 蓝色
-            case 'Contact': return '#27AE60';   // 绿色
+            case 'Service': return '#964f33';
+            case 'Portfolio': return '#E04F5F';
+            case 'Page': return '#4A90E2';
+            case 'Contact': return '#27AE60';
             default: return '#999';
         }
     }
@@ -744,7 +717,7 @@ document.addEventListener('DOMContentLoaded', function() {
     searchInput.addEventListener('input', function(e) {
         const value = e.target.value.toLowerCase().trim();
 
-        // 如果输入为空，隐藏下拉框
+       
         if (value.length === 0) {
             searchResults.classList.remove('active');
             return;
@@ -771,7 +744,7 @@ document.addEventListener('DOMContentLoaded', function() {
             
             const color = getCategoryColor(item.category);
 
-            // 【关键改动】：category 放前面，title 放后面
+            // ...existing code...
             link.innerHTML = `
                 <span class="item-category" style="color: ${color}">${item.category}</span>
                 <span class="item-title">${item.title}</span>
@@ -810,34 +783,33 @@ let tl = gsap.timeline({
     }
 });
 
-// 1. 弹跳入场 (优化版)
+// 1. 弹跳入场
 tl.fromTo(beeImg, 
     { 
-        scale: 0.5,     // 不需要从0开始，从0.5开始会让浏览器绘制压力小很多，视觉效果没区别
+        scale: 0.5,     
         autoAlpha: 0 
     },
     { 
-        duration: 0.8,  // 时间缩短，动作更干脆利落
+        duration: 0.8,  
         scale: 1, 
         autoAlpha: 1, 
         
-        // 【关键改动】用 back.out 代替 elastic
-        // 1.7 是回弹力度，越大弹得越猛，1.7 是标准值
+       
         ease: "back.out(1.7)", 
         
-        force3D: true // 再次强制 GSAP 使用 GPU
+        force3D: true 
     }
 )
-// 2. 持续漂浮 (保持丝滑)
+
 .to(beeImg, {
     y: -30, 
-    duration: 1,  // 稍微慢一点点，显得更有质感
+    duration: 1, 
     ease: "sine.inOut", 
     yoyo: true, 
     repeat: -1
 });
 
-/* ==================== MOBILE MENU & SEARCH JS (最终修复版) ==================== */
+/* ==================== MOBILE MENU & SEARCH JS  ==================== */
 document.addEventListener('DOMContentLoaded', () => {
 
     // ============================================================
@@ -866,7 +838,6 @@ document.addEventListener('DOMContentLoaded', () => {
             // 解锁背景滚动
             document.body.classList.remove('no-scroll');
 
-            // ★★★ 自动收起 Services 菜单 (重置状态) ★★★
             if (mobileGridWrapper) mobileGridWrapper.classList.remove('open');
             if (mobileServiceLink) mobileServiceLink.classList.remove('active');
 
@@ -881,7 +852,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // 绑定点击事件
+    
     if (hamburgerBtn) hamburgerBtn.addEventListener('click', toggleMenu);
     if (menuOverlay) menuOverlay.addEventListener('click', toggleMenu);
 
@@ -889,7 +860,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // ============================================================
     // 2. Services 菜单折叠逻辑 (丝滑动画版)
     // ============================================================
-    // 注意：这里必须获取 .submenu-grid-wrapper 才能实现丝滑动画
+   
     const serviceLinkTrigger = document.querySelector('.mobile-has-submenu > a');
     const serviceGridWrapper = document.querySelector('.submenu-grid-wrapper');
 
@@ -933,11 +904,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
 
-    // ============================================================
-    // 3. 统一搜索逻辑 (纯净版 - 样式完全由 CSS 控制)
-    // ============================================================
-    
-    // A. 你的原始数据
+
     const searchData = [
         { title: "Brand Identity", category: "Service", link: "Services_Branding.html" },
         { title: "Web Development", category: "Service", link: "Services_Website Design.html" },
@@ -948,13 +915,12 @@ document.addEventListener('DOMContentLoaded', () => {
         { title: "Social Media", category: "Service", link: "Services_Social Media Management.html" }
     ];
 
-    // B. 你的颜色定义函数
     function getCategoryColor(cat) {
         switch(cat) {
-            case 'Service': return '#964f33';   // 品牌棕色
-            case 'Portfolio': return '#E04F5F'; // 红色
-            case 'Page': return '#4A90E2';      // 蓝色
-            case 'Contact': return '#27AE60';   // 绿色
+            case 'Service': return '#964f33';
+            case 'Portfolio': return '#E04F5F';
+            case 'Page': return '#4A90E2';
+            case 'Contact': return '#27AE60';
             default: return '#999';
         }
     }
@@ -990,17 +956,15 @@ document.addEventListener('DOMContentLoaded', () => {
             container.innerHTML = ''; 
 
             if (results.length > 0) {
-                container.style.display = 'block'; // 显示下拉框
+                container.style.display = 'block'; 
                 
                 results.forEach(item => {
                     const link = document.createElement('a');
                     link.href = item.link;
-                    link.className = 'search-item'; // CSS 样式类
-                    
+                    link.className = 'search-item';
                     const color = getCategoryColor(item.category);
 
-                    // ★★★ 修正版：没有任何宽度/字体样式，只有颜色 ★★★
-                    // 样式全部由 CSS (.item-category, .item-title) 控制
+                    // ...existing code...
                     link.innerHTML = `
                         <span class="item-category" style="color: ${color}">${item.category}</span>
                         <span class="item-title">${item.title}</span>

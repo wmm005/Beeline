@@ -1,6 +1,3 @@
-// ============================================================
-// HOMEPAGE.JS - FINAL FIXED VERSION
-// ============================================================
 
 // 注册 GSAP 插件
 if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
