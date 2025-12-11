@@ -754,84 +754,105 @@ img { max-width: 100%; height: auto; }
 .process-step-item.active { opacity: 1; transform: scale(1); }
 .process-arrow-connector.active { opacity: 1; transform: scale(1); }
 
-
 /* ==================== CTA SECTION ==================== */
+/* ==================== 1. 外层容器 ==================== */
 .cta-section {
     padding: 0; 
+    /* 你的背景色 */
     background: linear-gradient(to right, rgb(255, 219, 164) 60%, rgba(255,236,207, 0));
     position: relative; 
     overflow: hidden;
+    min-height: 230px;
+    
+    /* 垂直居中设置 */
     display: flex; 
     align-items: center; 
-    min-height: 230px;
+    justify-content: center;
 }
 
-/* 内容容器 */
+/* 这是一个包裹层，确保它占满宽度即可 */
+.cta-arrow-visual {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+/* ==================== 2. 核心布局容器 (Flex Parent) ==================== */
 .cta-layout-container {
     display: flex; 
-    align-items: center; 
-    justify-content: space-between; 
+    align-items: center; /* 垂直方向居中 */
+    justify-content: space-between; /* 左右两端对齐，中间撑开 */
     width: 100%; 
     max-width: 1200px; 
     margin: 0 auto;
     padding: 0 20px; 
-    position: relative; 
+    box-sizing: border-box;
+    position: relative;
     z-index: 2; 
 }
 
-/* 箭头容器 */
-.cta-arrow-visual {
-    position: absolute;
-    top: 0; left: 0;
-    width: 100%; 
-    height: 100%; 
-    display: flex;
-    align-items: center;
-    pointer-events: none;
-    z-index: 1;
-
-    left: 50%;
-    transform: translateX(-50%); /* 让它水平居中 */
-    
-    width: 100%; 
-    max-width: 1200px; /* 【关键】加上和内容一样的宽度限制 */
-    padding: 0 20px; 
-    box-sizing: border-box;
+/* ==================== 3. PART 1: 左侧箭头区 (固定宽) ==================== */
+.arrow-wrapper {
+    /* ✅ 关键：给箭头区一个固定空间，不再用 margin 顶 */
+    width: 320px; 
+    height: 230px; /* 高度设为和 section 一样，保证箭头撑满 */
+    position: relative; /* 让里面的 SVG 绝对定位以此为基准 */
+    flex-shrink: 0; /* 禁止被压缩 */
 }
 
-/* SVG 箭头样式 */
+/* 箭头 SVG 通用样式 */
 .chevron-shape {
     position: absolute;
+    top: 0;
     height: 100%; 
     width: auto;  
-    opacity: 0; 
+    /* 这里可以加一点阴影或透明度 */
     filter: drop-shadow(5px 0 10px rgba(0,0,0,0.05));
+    color: #545454; /* 你的箭头颜色 */
 }
 
-/* 箭头位置与颜色 */
-.chevron-left { color: #545454; left: 100px; z-index: 1; }
-.chevron-mid { color: #545454; left: 250px; z-index: 2; }
-.chevron-right { color: #545454; left: 400px; z-index: 3; }
+/* 箭头具体位置 (相对于 arrow-wrapper) */
+.chevron-left { 
+    left: 0px; 
+    z-index: 1; 
+} 
+.chevron-mid { 
+    left: 130px; /* 调整间距 */
+    z-index: 2; 
+}
+.chevron-right { 
+    left: 260px; 
+    z-index: 3; 
+}
 
-/* 内容排版 */
+/* ==================== 4. PART 2: 中间文字区 (弹性宽) ==================== */
 .cta-content-left {
-    text-align: center;
-    padding-left: 600px; 
-    flex-grow: 1;
+    /* ✅ 关键：flex: 1 让它自动占满剩余空间 */
+    flex: 1; 
+    text-align: left;
+    
+    /* 给左右留点缝隙，不要紧贴着箭头和按钮 */
+    padding-right: 40px;
+    display: flex;
+    justify-content: flex-end; /* 让里面的 h2 往右边跑 */
 }
 
 .cta-content-left h2 {
     margin: 0;
-    text-align: left;
-    line-height: 1.5;
-    color: var(--text-main);
-    font-size: 1.2rem;
+    line-height: 1.2; /* 标题行高紧凑点更好看 */
+    color: var(--text-main, #333); /* 没变量时默认黑色 */
+    font-size: 1.5rem; /* 根据需要调整字体大小 */
     font-weight: 800;
+    text-align: left;
+    
+    /* ✅ 这里实现“文字短一点”：限制最大宽度 */
+    max-width: 400px; 
 }
 
+/* ==================== 5. PART 3: 右侧按钮区 (自适应) ==================== */
 .cta-content-right {
-    flex-shrink: 0;
-    margin-left: 50px;
+    flex-shrink: 0; /* 防止按钮变形 */
+    margin-left: 20px;
 }
 
 /* ============================================================
@@ -1035,7 +1056,7 @@ img { max-width: 100%; height: auto; }
   /* 箭头缩小 */
   .process-arrow-connector {
     width: 10px; height: 10px;
-    transform: scale(0.8) !important; /* 强制缩小 */
+    transform: scale(0.8) ; /* 强制缩小 */
   }
 
   /* 调整蜜蜂飞行轨迹 (如果有必要) */
@@ -1045,34 +1066,44 @@ img { max-width: 100%; height: auto; }
 
 
   /* ==================== 3. CTA SECTION (最关键修正) ==================== */
-  
-  .cta-section {
-    min-height: 200px; /* 高度减小 */
-  }
+/* 1. 容器两侧留白减小 */
+.cta-section, 
+    .cta-layout-container,
+    .arrow-wrapper {
+        min-height: 180px; /* 原来是 230px，改小到 180px */
+        height: 100%;     /* 强制高度 */
+    }
 
-  /* 1. 修正左侧内容的死板 Padding */
-  .cta-content-left {
-    /* 【严重警告】原 padding-left: 600px 在 960px 屏幕上绝对会崩坏 */
-    /* 必须大幅减小，甚至改为 flex 比例控制 */
-    padding-left: 500px; /* 尝试减小到 450px */
-    
-    text-align: left; 
-  }
+    .cta-layout-container {
+        padding: 0 10px; /* 原来是 20px */
+    }
 
-  .cta-content-left h2 {
-    font-size: 1.1rem; /* 稍微改小 */
-  }
+    /* 2. 压缩左侧箭头区域 */
+    /* 我们把箭头容器变窄，让它们叠得更紧凑，腾出空间给文字 */
+    .arrow-wrapper {
+        width: 320px; /* 原来是 320px+，现在改小 */
+    }
 
-  /* 2. 右侧按钮 */
-  .cta-content-right {
-    margin-left: 30px; /* 间距缩小 (原 50px) */
-  }
+    /* 3. 重新调整箭头的位置 (让它们挤一挤) */
+    /* 第一个箭头不动，只动后面两个 */
+    .chevron-mid { 
+        left: 120px; /* 原来是 110px，往左移 */
+    }
+    .chevron-right { 
+        left: 240px; /* 原来是 220px，往左移 */
+    }
 
-  /* 3. 装饰箭头位置微调 */
-  /* 因为容器变窄了，背景箭头也要稍微往左移一点，不然显得很空 */
-  .chevron-left { left: 50px; }
-  .chevron-mid  { left: 200px; }
-  .chevron-right{ left: 350px; }
+    /* 4. 调整文字大小 */
+    .cta-content-left h2 {
+        font-size: 1.3rem; /* 原来可能是 1.8rem，稍微改小防止换行太难看 */
+        max-width: 320px;  /* 稍微收紧最大宽度 */
+    }
+
+    /* 5. 调整文字区域的间距 */
+    /* 如果你之前用了 "justify-content: flex-end" 靠右对齐 */
+    .cta-content-left {
+        padding-right: 15px; /* 文字和按钮的距离稍微拉近一点点 */
+    }
 
 }
 
@@ -1140,11 +1171,13 @@ img { max-width: 100%; height: auto; }
 
     /* === B. Header 导航栏布局 === */
     
-    .nav-container {
-        padding: 0 20px;
+.nav-container {
+        padding: 0 40px;
         justify-content: space-between;
         align-items: center;
     }
+
+    .logo img { height: 40px; width: auto; display: block; }
 
     .nav-right {
         display: flex;
@@ -1624,59 +1657,72 @@ body.no-scroll {
 
 
    /* ==================== CTA SECTION (隐藏右侧箭头版) ==================== */
-    .cta-section {
-        background: linear-gradient(to right, rgb(255, 219, 164) 60%, rgba(255,236,207, 0));
-        padding: 0; 
-        min-height: 150px; /* 保持高度不变 */
+   /* 只有把高度压低，SVG 箭头才会按比例自动变小，腾出横向空间 */
+    .cta-section, 
+    .cta-layout-container,
+    .arrow-wrapper {
+        min-height: 150px; /* 上一档是180px，这里压到150px */
+        height: 150px;     
     }
 
-    .cta-layout-container {
-        flex-direction: row; 
-        max-width: 650px; 
+    .cta-layout-container{
+        max-width: 750px;
     }
     
-    .cta-arrow-visual {
-        display: flex ; 
-        max-width: 650px; 
-        left: 45%;
-        transform: translateX(-50%);
+
+    /* 2. 箭头区域极度收缩 */
+    .arrow-wrapper {
+        width: 220px; /* 给文字留活路，把箭头区缩到最小 */
     }
 
-    /* ★★★ 关键修改 1：直接隐藏最右边的箭头 ★★★ */
-    /* 这样就少了一个干扰源，空间瞬间宽敞了 */
+    /* 3. 箭头重叠度最大化 */
+    /* 让箭头叠得很紧，几乎像一个整体图形 */
+    .chevron-mid { 
+        left: 90px;  /* 上一档是120px，大幅左移 */
+    }
     .chevron-right { 
-        display: none ; 
-    }
-    
-    /* ★★★ 关键修改 2：把剩下两个箭头往左边靠 ★★★ */
-    /* 让它们只在左侧做背景，不伸到中间文字区域 */
-    .chevron-left { left: 0px; } /* 甚至可以稍微甚至屏幕外一点点 */
-    .chevron-mid { left: 80px; }   /* 第二个紧挨着 */
-    
-    /* 稍微缩小一点点箭头的高度，让它们没那么有压迫感 */
-    .chevron-shape { 
-        opacity: 0; 
-        height: 100%; /* 原来是 100%，改小一点 */
+       left: 180px;
     }
 
-    /* 内容排版 */
+    /* 4. 文字区域调整 */
     .cta-content-left {
-        padding-left: 170px; 
-        text-align: left; 
-        flex-grow: 1; 
-        max-width: 250px; /* 文字区域可以稍微宽一点了 */
-        z-index: 10; /* 确保文字浮在箭头上面 */
-    }
-    
-    .cta-content-right {
-        margin-left: 30px; 
-        flex-shrink: 0;
-        z-index: 10;
+        /* 文字和箭头贴得更近一点，利用每一寸空间 */
+        padding-left: 0; 
+        padding-right: 10px;
+        
+        /* 确保依然靠右对齐 */
+        justify-content: flex-end; 
     }
 
     .cta-content-left h2 {
-        font-size: 0.95rem;
+        font-size: 1.1rem; /* 字号必须小了，不然放不下 */
         line-height: 1.3;
+        max-width: 250px;  /* 限制宽度，强迫换行，避免撞到箭头 */
+    }
+
+    /* 5. 按钮缩小 */
+    .cta-content-right {
+        margin-left: 10px; /* 按钮和字的距离也拉近 */
+    }
+    .cta-content-right .btn {
+        /* ✅ 关键修正：不要用 scale缩放，而是物理缩小 */
+        transform: none; 
+        
+        /* 1. 减小内边距 (让按钮变短变矮) */
+        padding: 12px 5px; 
+        
+        /* 2. 减小字体 (让内容变小) */
+        font-size: 1rem;
+        
+        /* 3. 确保高度自动适应 */
+        height: auto;
+        min-height: auto;
+        line-height: 1; /* 稍微紧凑点 */
+    }
+    
+    /* 如果你的按钮里有 text-inner 这种结构，可能也需要微调 */
+    .cta-content-right .btn .text-inner {
+        padding: 0; /* 确保里面没多余间距 */
     }
 
 
@@ -1697,10 +1743,13 @@ body.no-scroll {
         padding: 0 20px; /* 两侧留白减小，让内容更宽 */
     }
 
+    
+
     /* === 2. 导航栏微调 === */
     .nav-container {
-        padding: 0 15px; /* 导航栏左右边距减小 */
+        padding: 0 30px; /* 导航栏左右边距减小 */
     }
+
     .hamburger {
         transform: scale(0.9); /* 汉堡按钮稍微缩小一点点，看起来精致 */
     }
@@ -1939,77 +1988,72 @@ body.no-scroll {
     }
 
     /* ==================== CTA SECTION (修复：锁定间距，不再漂移) ==================== */
-    .cta-section {
-        padding: 30px 15px; 
-        min-height: auto;
+    .cta-section, 
+    .cta-layout-container,
+    .arrow-wrapper {
+        min-height: 120px; /* 从 150px 降到 120px */
+        height: 120px;     
+    }
+
+    .cta-layout-container{
+        max-width: 550px;
     }
 
     .cta-layout-container {
-        display: flex;
-        flex-direction: row; 
-        align-items: center;
-        
-        /* ★ 核心修改 3：改为居中对齐，不用 space-between */
-        justify-content: center; 
-        
-        /* ★ 核心修改 4：用固定的 gap 控制文字和按钮的距离 */
-        gap: 10px; 
-        
-        max-width: 100%;
-        margin: 0 auto;
-        position: relative;
+        padding: 0 5px; /* 两侧边距几乎去掉，为了省空间 */
     }
 
+    /* 2. 箭头区域：再次收缩 */
+    .arrow-wrapper {
+        width: 160px; /* 从 220px 降到 160px */
+    }
+
+    /* 3. 箭头位置调整 */
+    /* 让两个箭头紧紧挨在一起 */
+    .chevron-mid { 
+        left: 70px;  /* 紧贴着第一个箭头 */
+    }
+    .chevron-right { 
+        display: none; /* 依然隐藏第三个，放不下 */
+    }
+
+    /* 4. 文字区域：字号变小 */
     .cta-content-left {
-    /* 1. 删掉 padding-left */
-    /* padding-left: 120px;  <-- 这个会导致盒子变巨大且文字空间变小 */
-    
-    /* 2. 改用 margin-left */
-    /* 这是盒子外部的距离，用来避开左边的箭头，且不会压缩文字空间 */
-    /* 根据你的箭头位置（chevron-mid 在 70px），设 80px-90px 左右足够了 */
-    margin-left: 100px; 
-    
-    /* 3. 现在的 max-width 就是实打实的文字宽度了 */
-    /* 之前是 180-120=60，现在是实打实的 160，空间很足 */
-    max-width: 160px; 
-    padding-left: 0;
-    flex: 0 1 auto; 
-    text-align: left;
-}
+        padding-right: 10px; /* 稍微留一点缝隙 */
+    }
 
-.cta-content-left h2 {
-    font-size: 0.7rem; 
-    line-height: 1.3;
-    margin-bottom: 0;
-    
-    /* ★ 修改 2：核心！必须删掉 nowrap，改为 normal 允许换行 */
-    white-space: normal; 
-}
+    .cta-content-left h2 {
+        font-size: 0.9em; /* 字号缩小到 16px 左右 */
+        line-height: 1.3;
+        max-width: 200px;  /* 允许文字在更窄的区域换行 */
+    }
+
+    /* 5. 按钮区域：缩小比例 */
     .cta-content-right {
-        margin: 0;
-        flex-shrink: 0;
+        margin-left: 5px; /* 紧贴文字 */
     }
 
-    /* 按钮样式微调 */
     .cta-content-right .btn {
-        padding: 8px 16px; 
-        font-size: 0.85rem; 
+        /* ✅ 关键修正：不要用 scale缩放，而是物理缩小 */
+        transform: none; 
+        
+        /* 1. 减小内边距 (让按钮变短变矮) */
+        padding: 10px 5px; 
+        
+        /* 2. 减小字体 (让内容变小) */
+        font-size: 0.85rem;
+        
+        /* 3. 确保高度自动适应 */
         height: auto;
-        min-width: auto;
-        line-height: 1.2;
-    }
-
-    /* 箭头背景调整 */
-    .cta-arrow-visual {
-        left: 50%;
-        transform: translateX(-50%); /* 确保背景在大屏幕下也居中 */
-        width: 100%;
-        max-width: 500px; /* 限制背景图最大宽度 */
+        min-height: auto;
+        line-height: 1; /* 稍微紧凑点 */
     }
     
-    .chevron-left { left: 10px; } 
-    .chevron-mid { left: 70px; } 
-
+    /* 如果你的按钮里有 text-inner 这种结构，可能也需要微调 */
+    .cta-content-right .btn .text-inner {
+        padding: 0; /* 确保里面没多余间距 */
+    }
+    
 
 }
 
@@ -2031,7 +2075,7 @@ body.no-scroll {
     
     /* 按钮瘦身 */
     .btn-primary, .btn-secondary {
-        padding: 10px 30px;
+        padding: 10px 20px;
         font-size: 0.9rem;
     }
     .btn .text-inner { top: 0px; }
@@ -2097,8 +2141,26 @@ body.no-scroll {
 }
 
 /* === 8. FOOTER (极简模式) === */
-    .footer { padding: 30px 0 50px 0; }
-    .footer-nav { gap: 5px 15px; margin-bottom: 50px; } /* 间距更小 */
+   .footer { padding: 30px 0 50px 0; }
+
+/* 1. 确保容器允许换行并居中 */
+.footer-nav { 
+    gap: 5px 30px; /* 建议稍微增加行距(第一个值)，原为5px可能太紧 */
+    margin-bottom: 50px; 
+    flex-wrap: wrap;       /* 必须：允许换行 */
+    justify-content: center; /* 必须：居中对齐 */
+}
+
+/* 2. ★★★ 核心代码：强制 3+2 布局 ★★★ */
+/* 选中第6个元素（即 Services 和 Portfolio 中间的那个竖线） */
+.footer-nav > span:nth-child(6) {
+    display: block;      /* 让它变成块级行为（在Flex里起作用） */
+    width: 100%;         /* 占满整行，强制把后面的内容挤到下一行 */
+    height: 0;           /* 不占高度 */
+    visibility: hidden;  /* 隐藏竖线符号 "|" */
+    margin: 0;           /* 清除间距干扰 */
+    border: none;
+}
     
     .footer-content-row { gap: 30px 0; } /* 行距缩小 */
     
@@ -2110,6 +2172,41 @@ body.no-scroll {
         gap: 15px;
     }
     .footer-contact-col span, .footer-contact-col p { font-size: 0.7rem; }
+
+    .whatsapp-float {
+        /* 1. 尺寸缩小 */
+        width: 40px;
+        height: 40px;
+        
+        /* 2. 位置更贴近角落 */
+        bottom: 15px;
+        right: 15px;
+        
+        /* 3. 图标字体缩小 */
+        font-size: 1.6rem;
+        
+        /* 4. 边框稍微细一点 */
+        border: 3px solid #ffffff;
+        
+        /* 5. ★★★ 核心：手机没法悬停，必须强制设为不透明，否则看不清 ★★★ */
+        opacity: 1; 
+    }
+
+    /* 6. 调整周围的环绕文字 (整体缩小并重新定位) */
+    .whatsapp-curved-text {
+        width: 80px;   /* 原 100px -> 80px */
+        height: 80px;
+
+        top: -18px;    
+
+    }
+
+    .whatsapp-curved-text text {
+        font-size: 11px;       /* 字体改小 */
+        letter-spacing: 0px;   /* 紧凑一点 */
+    }
+
+
 
     /* === 3. HERO SECTION (576px) === */
     .hero {
@@ -2144,6 +2241,10 @@ body.no-scroll {
     .hero-main-scene-shape-img {
         max-width: 250px;
         margin: 0 auto;
+    }
+
+    .hero-content .btn {
+        margin-top: 5px;
     }
 
     /* --- 1. Process 流程图修复：横向压缩 + 对齐 --- */
@@ -2207,46 +2308,73 @@ body.no-scroll {
 
 
     /* --- 2. CTA 区域：更矮更紧凑 --- */
-
-    .cta-section {
-        min-height: 70px; /* 压到 70px */
-        padding: 8px 0;   /* 极窄内边距 */
-    }
-    
+/* 保持你喜欢的“扁条”风格，高度设为 100px 左右足够了 */
+    .cta-section, 
     .cta-layout-container {
-        padding: 0 10px;
-        gap: 10px;
+        min-height: 100px; 
+        height: 100px;     
     }
 
-    .cta-content-left {
-        margin-left: 100px; /* 背景箭头留位稍微减小 */
-        flex: 1;
+    .cta-layout-container {
+        padding: 0 12px; /* 左右留一点边距，别贴边 */
+        max-width: 100%;
+        /* 确保文字在左，按钮在右 */
+        justify-content: space-between; 
     }
-    
+
+
+    /* 3. 文字区域：占满剩余空间 */
+    .cta-content-left {
+        /* 因为没有箭头了，左边距清零，让文字顶到最左边 */
+        padding-left: 0; 
+        padding-right: 20px; /* 和按钮留点缝隙 */
+        flex: 1; /* 自动撑开宽度 */
+        /* 保持左对齐，垂直居中 */
+        justify-content: flex-start; 
+        display: flex;
+        align-items: center;
+    }
 
     .cta-content-left h2 {
-        font-size: 0.6rem; /* 文字缩小 */
-        margin-bottom: 0;
-        text-align: left;
-        line-height: 1.2;
+        font-size: 0.8rem; /* 字号：大概 15px 左右，保证能看清 */
+        line-height: 1.3;
+        max-width: 100%;
+        text-align: left;  /* 确保左对齐 */
+    }
+
+
+    /* 4. 按钮区域：紧凑版 */
+    .cta-content-right {
+        margin-left: 0;
+        flex-shrink: 0; /* 禁止按钮被压缩 */
     }
 
     .cta-content-right .btn {
-        padding: 6px 12px; /* 按钮做得很小 */
-        font-size: 0.7rem;
-        height: auto;
+
+        
+        /* 物理缩小按钮尺寸 */
+        padding: 8px 0px; 
+        font-size: 0.8rem; /* 12-13px */
+        
+        /* 防止按钮文字换行撑坏布局 */
+        white-space: nowrap; 
     }
     
-    /* 背景箭头微调 */
-    .chevron-shape {
-        min-height: auto;
-        height: 100%;
-        top: 0;
-        transform:  translateX(-20px); /* 让背景也显得小一点 */
-        transform-origin: left center;
+    /* 微调按钮内部文字结构（如果有的话） */
+    .cta-content-right .btn .text-inner {
+        letter-spacing: 0; /* 手机上字间距稍微紧一点 */
     }
-    
-    .chevron-left { left: 0px; }
-    .chevron-mid { left: 50px; }
-    .chevron-right { display: none; }
+
+    .arrow-wrapper {
+        width: 110px; /* 原来是 320px+，现在改小 */
+    }
+
+    /* 3. 重新调整箭头的位置 (让它们挤一挤) */
+    /* 第一个箭头不动，只动后面两个 */
+    .chevron-mid { 
+       display: none;
+    }
+    .chevron-right { 
+        display: none;
+    }
 }

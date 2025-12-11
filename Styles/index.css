@@ -715,7 +715,7 @@ img { max-width: 100%; height: auto; }
 /* 打字机文本 */
 .typing-text-area {
   position: absolute;
-  top: 463px; 
+  top: 74%; 
   left: 50%;
   transform: translateX(-50%);
   width: 330px;
@@ -748,7 +748,7 @@ img { max-width: 100%; height: auto; }
 /* ==================== 06. RESULTS ==================== */
 .results {
   width: 100%;
-  padding: 20px 0 80px 0;
+  padding: 150px 0 80px 0;
   background-color: var(--light-peach);
 }
 
@@ -1250,6 +1250,7 @@ h5.feedback-small-title {
   /* 导航栏最右边的搜索框是最占地的，必须缩小 */
   .search-box {
     padding: 6px 12px;
+    align-items: center; /* 强制垂直居中 */
   }
   .search-box input {
     width: 80px; /* 原 130px -> 90px，够输入几个关键词就行 */
@@ -1357,10 +1358,11 @@ h5.feedback-small-title {
 
     /* 2. 左右比例调整：给文字多一点空间，防止换行太厉害 */
     .service-list {
-        flex: 0 0 45%; /* 文字区域扩大到 45% */
+        flex: 0 0 35%; /* 文字区域扩大到 45% */
+        
     }
     .service-media {
-        flex: 0 0 50%; /* 图片区域缩小到 50% (留5%空隙) */
+        flex: 0 0 60%; /* 图片区域缩小到 50% (留5%空隙) */
         min-height: 450px;
     }
 
@@ -1377,7 +1379,7 @@ h5.feedback-small-title {
 
     /* 标题字号微调 */
     .service-item h3 {
-        font-size: 1.1rem; 
+        font-size: 0.95rem; 
     }
 
     /* --- 右侧媒体调整 (必须手动缩小图片和定位) --- */
@@ -1394,7 +1396,7 @@ h5.feedback-small-title {
         
         /* 因为图片变小了，字的位置必须跟着往上提 */
         /* 【关键】改为相对比例：约为图片高度的 115%，确保居中对齐 */
-        top: calc(320px * 1.15); /* 动态计算，避免硬编码 */
+        top: 72%;
         left: 50%;
         transform: translateX(-50%);
     }
@@ -1524,10 +1526,12 @@ h5.feedback-small-title {
     /* === B. Header 导航栏布局 === */
     
     .nav-container {
-        padding: 0 20px;
+        padding: 0 40px;
         justify-content: space-between;
         align-items: center;
     }
+
+    .logo img { height: 40px; width: auto; display: block; }
 
     .nav-right {
         display: flex;
@@ -1986,12 +1990,7 @@ body.no-scroll {
         margin: 5px 0 30px;
     }
 
-    /* === 漂浮元素整体缩小 === */
-    /* 因为图片变小了，漂浮物也要跟着变小，否则会挡住内容 */
-    .hero-image-animated .float-element {
-        transform: scale(0.8); /* 整体缩小 20% */
 
-  }
 
   /* ==================== SERVICES (Responsive Fix) ==================== */
 /* 1. 容器调整 */
@@ -2056,18 +2055,31 @@ body.no-scroll {
 .typing-text-area {
     width: 300px;      
     font-size: 0.65rem; 
-    top: 390px;          
+    top: 74%;          
     left: 50%;
     transform: translateX(-50%);
 }
 
     /* === 2. RESULTS (768px - 991px) - Grid Layout === */
-    
-    .results-scroller-wrapper {
-        overflow: visible; /* 允许内容折行显示，不再隐藏溢出 */
-        max-width: 100%;  /* 占满屏幕宽度 */
-        padding: 60px 20px;   /* 上下内边距调整 */
-    }
+    .results {
+  padding: 50px 0 80px 0;
+}
+
+
+.results h2 {
+  font-size: 2.2rem;
+  margin-bottom: 10px;
+}
+
+.results p.section-subtitle {
+  font-size: 1.1rem;
+}
+
+.results-scroller-wrapper {
+    overflow: visible;
+    max-width: 100%;
+    padding: 40px 20px; /* 稍微减少 padding */
+}
 
     /* 隐藏两侧的淡化遮罩 */
     .results-scroller-wrapper::before,
@@ -2081,7 +2093,7 @@ body.no-scroll {
       grid-template-columns: repeat(2, 1fr); 
       width: 100%;       /* 占满容器宽度 */
       max-width: 600px;  /* 限制最大宽度 */
-      gap: 30px;         /* 卡片间距 */
+      gap: 40px 0px;         /* 卡片间距 */
       margin: 0 auto;    /* 居中 */
       justify-items: center; 
       
@@ -2091,13 +2103,52 @@ body.no-scroll {
 
     /* 调整卡片尺寸适配网格 */
     .result-card {
-      width: 100%;       
-      max-width: 200px;  
-      height: auto;      
-      min-height: 200px; 
-      margin: 0;         
-    }
+    width: 100%;
+    max-width: 200px;
+    
+    /* ★ 核心：强制正方形 ★ */
+    aspect-ratio: 1 / 1; 
+    
+    /* ★ 关键：必须去掉 min-height，否则正方形会被撑长 ★ */
+    min-height: 0; 
+    height: auto; 
+    
+    margin: 0;
+    
+    /* 内部布局居中 */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 15px; /* 增加一点内边距 */
+}
+
+
+  /* --- 3. 内容必须缩小，否则正方形放不下 --- */
+  .result-icon-wrapper {
+    /* 必须非常小，配合文字 */
+    width: 120px;  
+    height: 120px;
+    margin-bottom: 20px;
+    flex-shrink: 0; 
+  }
+
+
+  .result-card h3 {
+    font-size: 1rem; /* 字体调小 */
+    margin: 0 10px;
+    line-height: 1.2;
+    min-height: auto; /* 去掉文字最小高度限制 */
+  }
   
+
+
+.result-bee-animated-icon {
+  width: 100px; 
+  height: auto;
+}
+
+
     /* ==================== FEEDBACK (768px - 991px) ==================== */
 
     .customer-feedback {
@@ -2254,7 +2305,7 @@ body.no-scroll {
 
     /* === 2. 导航栏微调 === */
     .nav-container {
-        padding: 0 15px; /* 导航栏左右边距减小 */
+        padding: 0 30px; /* 导航栏左右边距减小 */
     }
     .hamburger {
         transform: scale(0.9); /* 汉堡按钮稍微缩小一点点，看起来精致 */
@@ -2451,7 +2502,7 @@ body.no-scroll {
         font-size: 0.55rem; /* 字体非常小了 */
         
         /* 重新计算坐标 */
-        top: 345px;         /* 原 485px * 0.7 ≈ 340px (根据视觉微调) */
+        top: 72%;         /* 原 485px * 0.7 ≈ 340px (根据视觉微调) */
         left: 50%;
         transform: translateX(-50%);
         
@@ -2830,8 +2881,26 @@ body.no-scroll {
 }
 
 /* === 8. FOOTER (极简模式) === */
-    .footer { padding: 30px 0 50px 0; }
-    .footer-nav { gap: 5px 15px; margin-bottom: 50px; } /* 间距更小 */
+   .footer { padding: 30px 0 50px 0; }
+
+/* 1. 确保容器允许换行并居中 */
+.footer-nav { 
+    gap: 5px 30px; /* 建议稍微增加行距(第一个值)，原为5px可能太紧 */
+    margin-bottom: 50px; 
+    flex-wrap: wrap;       /* 必须：允许换行 */
+    justify-content: center; /* 必须：居中对齐 */
+}
+
+/* 2. ★★★ 核心代码：强制 3+2 布局 ★★★ */
+/* 选中第6个元素（即 Services 和 Portfolio 中间的那个竖线） */
+.footer-nav > span:nth-child(6) {
+    display: block;      /* 让它变成块级行为（在Flex里起作用） */
+    width: 100%;         /* 占满整行，强制把后面的内容挤到下一行 */
+    height: 0;           /* 不占高度 */
+    visibility: hidden;  /* 隐藏竖线符号 "|" */
+    margin: 0;           /* 清除间距干扰 */
+    border: none;
+}
     
     .footer-content-row { gap: 30px 0; } /* 行距缩小 */
     
@@ -2887,8 +2956,8 @@ body.no-scroll {
     /* 图片缩小比例约 0.85 (240/280)，位置也要按比例上移 */
     .typing-text-area {
         width: 170px;       /* 宽度缩小 */
-        font-size: 0.45rem;  /* 字体极小 */
-        top: 250px;         /* 345px * 0.85 ≈ 295px */
+        font-size: 0.4rem;  /* 字体极小 */
+        top: 69%;         /* 345px * 0.85 ≈ 295px */
         left: 50%;
         transform: translateX(-50%);
         line-height: 1.2;
@@ -2930,13 +2999,7 @@ body.no-scroll {
         font-size: 0.75rem; 
     }
 
-    /* 4. 开关按钮 */
-    .service-item .toggle-btn {
-        /* 按钮缩小：30px -> 26px */
-        width: 26px;
-        height: 26px;
-        font-size: 0.9rem; /* 图标也随之缩小 */
-    }
+
 
     /* 5. 展开后的内容区域 */
     .service-item .service-content {
@@ -3080,7 +3143,7 @@ body.no-scroll {
     .faq-question { font-size: 0.7rem; padding: 15px 0; }
     .faq-answer p { padding-right: 0; font-size: 0.6rem; } /* 充分利用空间 */
 
-.cta-section { padding: 0 0 30px 0;  }
+.cta-section { padding: 0 0 80px 0;  }
 
     /* === 9. MODAL (Intro 弹窗) === */
 

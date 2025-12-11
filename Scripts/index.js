@@ -646,7 +646,7 @@ window.addEventListener('load', () => {
     let postCenterX, postCenterY;
 
     // ★★★ 新增：针对超小屏幕 (0 - 480px) ★★★
-    if (w <= 480) {
+    if (w <= 576) {
         // 图片非常小 (约 240px)，且屏幕很窄，中心点偏移量必须减小
         // 否则图标会飘到屏幕左边外面去
         postCenterX = socialPostImage.offsetLeft + (socialPostImage.offsetWidth / 2) - 95; // 偏移量改小 (-50)
@@ -679,8 +679,8 @@ window.addEventListener('load', () => {
     let heartAdjustY = 0;    
 
     // ★★★ 新增：针对超小屏幕 (0 - 480px) ★★★
-    if (w <= 480) {
-        distScale = 0.45; // ★ 极度收缩范围，防止撑破 320px 屏幕
+    if (w <= 576) {
+        distScale = 0.5; // ★ 极度收缩范围，防止撑破 320px 屏幕
         sizeScale = 0.5;  // ★ 图标变得很小，不然挡住文字
         
         moveX = 10;       // 稍微往右挪一点，因为屏幕左边没空间了
@@ -793,13 +793,25 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // 1. 这里的 Data 可以随便写，用来测试
     const searchData = [
-        { title: "Brand Identity", category: "Service", link: "Services_Branding.html" },
-        { title: "Web Development", category: "Service", link: "Services_WebDesign.html" },
-        { title: "Nike Campaign", category: "Portfolio", link: "Portfolio_Nike.html" },
-        { title: "Coffee Shop", category: "Portfolio", link: "Portfolio_Coffee.html" },
-        { title: "About Beeline", category: "Page", link: "About Us.html" },
+        { title: "Home", category: "Page", link: "index.html" },
+        { title: "About Us", category: "Page", link: "About Us.html" },
+        { title: "Portfolio", category: "Page", link: "Portfolio.html" },
+        { title: "Contact", category: "Page", link: "Get in Touch.html" },
+        { title: "Get in Touch", category: "Page", link: "Get in Touch.html" },
+
+        { title: "Branding", category: "Service", link: "Services_Branding.html" },
+        { title: "Website Design", category: "Service", link: "Services_Website Design.html" },
+        { title: "Influencer Collaboration", category: "Service", link: "Services_Influencer Collaboration.html" },
+        { title: "Social Media Management", category: "Service", link: "Services_Social Media Management.html" },
+
+        { title: "DE CREATIVE", category: "Portfolio", link: "Portfolio_Branding_01.html" },
+        { title: "LEHAO", category: "Portfolio", link: "Portfolio_Social Media Management_01.html" },
+        { title: "QUBE", category: "Portfolio", link: "Portfolio_Website Design_01.html" },
+        { title: "ZIDS", category: "Portfolio", link: "Portfolio_Website Design_02.html" },
+
         { title: "Contact Us", category: "Contact", link: "Get in Touch.html" },
-        { title: "Instagram Management Management", category: "Service", link: "Services_Social.html" }
+        { title: "Get in Touch", category: "Contact", link: "Get in Touch.html" },
+        
     ];
 
     // 2. 获取元素
@@ -980,13 +992,25 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // A. 你的原始数据
     const searchData = [
-        { title: "Brand Identity", category: "Service", link: "Services_Branding.html" },
-        { title: "Web Development", category: "Service", link: "Services_Website Design.html" },
-        { title: "Nike Campaign", category: "Portfolio", link: "Portfolio.html" },
-        { title: "Coffee Shop", category: "Portfolio", link: "Portfolio.html" },
-        { title: "About Beeline", category: "Page", link: "About Us.html" },
+        { title: "Home", category: "Page", link: "index.html" },
+        { title: "About Us", category: "Page", link: "About Us.html" },
+        { title: "Portfolio", category: "Page", link: "Portfolio.html" },
+        { title: "Contact", category: "Page", link: "Get in Touch.html" },
+        { title: "Get in Touch", category: "Page", link: "Get in Touch.html" },
+
+        { title: "Branding", category: "Service", link: "Services_Branding.html" },
+        { title: "Website Design", category: "Service", link: "Services_Website Design.html" },
+        { title: "Influencer Collaboration", category: "Service", link: "Services_Influencer Collaboration.html" },
+        { title: "Social Media Management", category: "Service", link: "Services_Social Media Management.html" },
+
+        { title: "DE CREATIVE", category: "Portfolio", link: "Portfolio_Branding_01.html" },
+        { title: "LEHAO", category: "Portfolio", link: "Portfolio_Social Media Management_01.html" },
+        { title: "QUBE", category: "Portfolio", link: "Portfolio_Website Design_01.html" },
+        { title: "ZIDS", category: "Portfolio", link: "Portfolio_Website Design_02.html" },
+
         { title: "Contact Us", category: "Contact", link: "Get in Touch.html" },
-        { title: "Social Media", category: "Service", link: "Services_Social Media Management.html" }
+        { title: "Get in Touch", category: "Contact", link: "Get in Touch.html" },
+        
     ];
 
     // B. 你的颜色定义函数

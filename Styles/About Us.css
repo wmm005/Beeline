@@ -143,6 +143,7 @@ img { max-width: 100%; height: auto; }
 
 
 
+
 /* ==================== 1. HEADER & NAV ==================== */
 .header {
   padding: 30px 0;
@@ -222,14 +223,15 @@ img { max-width: 100%; height: auto; }
 .lang-png-icon { height: 35px; width: auto; display: block; }
 
 
-/* ==================== DROPDOWN ==================== */
+/* ==================== 最终完美修正版 DROPDOWN ==================== */
 
+/* 1. 父容器 (保持不变) */
 .nav-links li.has-dropdown {
     position: relative;
     overflow: visible; 
 }
 
-/* 2. 箭头旋转  */
+/* 2. 箭头旋转 (保持不变) */
 .nav-links li.has-dropdown .nav-arrow {
     transition: transform 0.1s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
@@ -237,7 +239,7 @@ img { max-width: 100%; height: auto; }
     transform: rotate(180deg);
 }
 
-/* 3. 下拉菜单容器 */
+/* 3. 下拉菜单容器 (关键修改) */
 .dropdown-menu {
     position: absolute;
     top: 100%; 
@@ -248,10 +250,13 @@ img { max-width: 100%; height: auto; }
     
     background: white;
     
+    /* --- 关键点 A: 加大宽度余量 --- */
+    /* 稍微给大一点 (280px)，确保文字往右动的时候，
+       右边还有空间，不会把盒子撑得更宽 */
     min-width: 280px; 
     
-    padding: 0;
-    padding-top: 10px; 
+    padding: 0; /* 建议改为0，由内部链接撑开 */
+    padding-top: 10px; /* 上下留白放在这里 */
     padding-bottom: 10px;
 
     border-radius: 20px;
@@ -266,6 +271,8 @@ img { max-width: 100%; height: auto; }
     flex-direction: column;
     gap: 0;
 
+    /* --- 关键点 B: 裁剪溢出 --- */
+    /* 这行代码确保灰色背景无论怎么变，都绝对不会跑出圆角矩形外面 */
     overflow: hidden; 
 }
 
@@ -294,37 +301,48 @@ img { max-width: 100%; height: auto; }
     font-weight: 600;
     color: var(--text-main, #333);
     text-decoration: none;
-
+    
+    /* 默认内边距 */
     padding: 12px 30px; 
     
     text-align: left;
     white-space: nowrap;
-   
+    
+    /* 使用 padding 过渡，而不是 transform */
     transition: all 0.2s ease; 
     
-
+    /* 确保背景色铺满 */
     width: 100%;
     box-sizing: border-box; 
     
     justify-content: flex-start; 
 }
 
+/* 7. 链接 Hover 效果 (修复灰色背景溢出) */
 .dropdown-menu li a:hover {
     color: var(--brand-yellow);
-    background-color: rgba(0,0,0,0.03); 
-    padding-left: 38px; }
+    background-color: rgba(0,0,0,0.03); /* 灰色背景 */
+    
+    /* --- 关键点 C: 用 Padding 移动文字 --- */
+    /* 之前用的 transform 会移动背景，导致背景跑出去。
+       现在改用 padding-left，背景不动，只有字动。
+       因为上面 min-width 设够了，这 5px 增加不会撑大盒子。 */
+    padding-left: 38px; /* 30px + 8px移动 */
+}
+
 
 /* ==================== LANGUAGE SWITCHER 样式 ==================== */
 
-/* 1. 外层容器 */
+/* 1. 外层容器 (模拟 li.has-dropdown 的行为) */
 .lang-wrapper {
     position: relative;
     display: flex;
     align-items: center;
-    height: 100%; 
-    margin-right: 15px; 
+    height: 100%; /* 确保高度填满，利于 hover 捕捉 */
+    margin-right: 15px; /* 和搜索框拉开点距离 */
 }
 
+/* 2. 按钮样式重置 & 布局 */
 .lang-btn {
     background: transparent;
     border: none;
@@ -332,14 +350,14 @@ img { max-width: 100%; height: auto; }
     cursor: pointer;
     display: flex;
     align-items: center;
-    gap: 5px; 
+    gap: 5px; /* 图标和箭头的距离 */
 }
 
-
+/* 3. 箭头样式 (与 Services 保持一致) */
 .lang-wrapper .nav-arrow {
-    font-size: 1.0rem; 
-    color: var(--text-main, #333); 
-    transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94); 
+    font-size: 1.0rem; /* 和导航一致的大小 */
+    color: var(--text-main, #333); /* 关键：改成深色，和 Services 一样 */
+    transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94); /* 同款丝滑动画 */
 }
 
 /* 4. Hover 交互：旋转箭头 */
@@ -347,12 +365,16 @@ img { max-width: 100%; height: auto; }
     transform: rotate(180deg);
 }
 
+/* 5. Hover 交互：显示下拉菜单 */
+/* 这里直接复用了 .dropdown-menu 的样式，只需要写显示的触发逻辑 */
 .lang-wrapper:hover .dropdown-menu {
     opacity: 1;
     visibility: visible;
     transform: translateX(-50%) translateY(-5px);
 }
 
+/* 6. 语言菜单的特殊调整 (lang-menu-override) */
+/* 因为 Services 设了 min-width: 280px，对于语言来说太宽了，这里缩小一点 */
 .dropdown-menu.lang-menu-override {
     min-width: 140px; /* 语言菜单宽度 */
     left: 50%; /* 居中对齐图标 */
@@ -360,7 +382,7 @@ img { max-width: 100%; height: auto; }
 
 
 /* ==================== SEARCH BOX ==================== */
-
+/* === 1. 搜索框容器 (基于你原本的样式) === */
 .search-box {
     position: relative; /* 【关键】必须加这个，为了让下拉菜单能定位 */
     display: flex;
@@ -435,7 +457,6 @@ img { max-width: 100%; height: auto; }
 .item-category {
     /* 【关键】固定宽度，确保右边的 Title 起始位置对齐 */
     min-width: 75px; 
-    
     font-size: 0.65rem;
     font-weight: 700;
     text-transform: uppercase;
@@ -1258,6 +1279,11 @@ img { max-width: 100%; height: auto; }
     margin-bottom: 2rem;
 }
 
+.buzz-intro-wrapper {
+    position: relative; /* ★ 关键：图片现在认它做定位基准 */
+    width: 100%;
+    /* 保持电脑版的布局逻辑，不需要额外限制，除非你需要 */
+}
 .buzz-title {
     font-size: 9rem; /* 标题加大 */
     font-weight: 900;
@@ -1411,13 +1437,22 @@ img { max-width: 100%; height: auto; }
     min-height: 600px;
 }
 
+.why-bee-container {
+    position: relative;     /* ★ 核心：它是所有子元素的定位基准 */
+    max-width: 1000px;      /* 宽度限制移到这里 */
+    width: 100%;
+    margin: 0 auto;         /* 整体居中 */
+    min-height: 600px;      /* 高度也可移到这里 */
+    /* 可以在这里加 margin-top 来控制整体在页面中的垂直位置 */
+}
+
 .page-title {
     font-size: 4rem;
     font-family: 'Open Sans', sans-serif;
     font-style: italic;
     font-weight: 800;
     color: var(--text-brown);
-    margin: 0 0 15px 40px; 
+    margin: 0 0 15px 0px; 
     text-align: start;  
     opacity: 1; 
     position: relative;
@@ -1734,7 +1769,6 @@ width: 15%;}
   /* 标题稍微改小一点，左对齐微调 */
   .page-title {
     font-size: 3rem; /* 原 4rem */
-    margin-left: 20px; /* 原 80px，因为容器居中了，左边距不需要那么大 */
     margin-bottom: 20px;
   }
 
@@ -1791,6 +1825,7 @@ width: 15%;}
     top: 71%; 
     left: 39.7%;
   }
+
   .logo-small { width: 210px; } /* 图片缩小 */
   
   .logo-text-info {
@@ -2092,14 +2127,15 @@ top: 26%;
     .custom-cursor { display: none !important; }
     body, a, button { cursor: auto !important; }
 
-
     /* === B. Header 导航栏布局 === */
     
     .nav-container {
-        padding: 0 20px;
+        padding: 0 40px;
         justify-content: space-between;
         align-items: center;
     }
+
+    .logo img { height: 40px; width: auto; display: block; }
 
     .nav-right {
         display: flex;
@@ -2507,303 +2543,311 @@ body.no-scroll {
     /* --- 1. 外层容器：高度自适应，允许内容撑开 --- */
     .why-bee-section {
         padding: 150px 0 60px 0;
-        height: auto !important;      /* 关键：高度由内容撑开 */
-        min-height: auto !important;
-        overflow: visible !important; /* 允许看到下面的页面 */
+        height: auto ;      /* 关键：高度由内容撑开 */
+        min-height: auto ;
+        overflow: visible ; /* 允许看到下面的页面 */
     }
 
     /* --- 2. 拆除轮播核心逻辑 (Kill Carousel) --- */
     .carousel-mask {
-        height: auto !important;
-        overflow: visible !important;
+        height: auto ;
+        overflow: visible ;
     }
 
     .carousel-track {
-        display: block !important;    /* ★★★ 核心：取消 Flex 横排，变为垂直块 */
-        width: 100% !important;       
-        height: auto !important;
-        transform: none !important;   /* 禁止 JS 左右移动 */
+        display: block ;    /* ★★★ 核心：取消 Flex 横排，变为垂直块 */
+        width: 100% ;       
+        height: auto ;
+        transform: none ;   /* 禁止 JS 左右移动 */
     }
 
     /* 隐藏左右箭头 */
     .nav-arrow.left-arrow-btn, 
     .nav-arrow.right-arrow-btn {
-        display: none !important;
+        display: none ;
     }
 
     /* --- 3. 所有 Page 的通用样式 --- */
     .slide-item {
-        width: 100% !important;
+        width: 100% ;
         flex-shrink: 0;
-        display: block !important;    /* 确保显示 */
-        opacity: 1 !important;        /* 强制不透明 */
-        visibility: visible !important;
+        display: block ;    /* 确保显示 */
+        opacity: 1 ;        /* 强制不透明 */
+        visibility: visible ;
         min-height: auto ;
     }
 
     /* ==================== PAGE 1: 蓝图缩放 (保留原样但变小) ==================== */
     
     /* 专门针对第一个页面 (Slide 1) */
+    /* 1. 容器高度调整 */
     .slide-item:first-child {
-        height: 450px;     /* 给缩放后的蓝图留出固定高度 */
-        overflow: hidden;             /* 防止缩放前的宽撑坏布局 */
+        /* 缩放后，实际占用的高度会变小，所以这里设一个较小的高度 */
+        height: 500px;       
+        overflow: hidden;    
         position: relative;
-        margin-bottom: 0;             /* 下面的间距由 margin-bottom 负值控制 */
-        border-bottom: 1px solid rgba(0,0,0,0.5); /* 分隔线 */
+        border-bottom: 1px solid rgba(0,0,0,0.5);
     }
 
-    .page-title {
-        font-size: 3rem;
-        margin: 0 0 10px 0;           
-        width: 100%;
-        text-align: left;           /* 标题居中 */
-    }
-
-    /* 蓝图 Grid 的缩放逻辑 */
-    .why-bee-grid {
-        /* 锁死宽度，保持蓝图排版不乱 */
-        width: 1000px !important; 
-        min-width: 1000px !important;
-        max-width: none !important;
-
-        /* 缩放 0.7 倍 (适应平板宽度) */
-        transform: scale(0.7); 
-        transform-origin: top center; /* 从顶部中间开始缩 */
+    /* 2. ★★★ 核心：父容器统一缩放 ★★★ */
+    /* 就像你在 1199px 做的一样：把容器定死 1000px，然后整体缩小 */
+    .why-bee-container {
+        /* 1. 锁定画板尺寸 */
+        width: 1000px;
+        max-width: none; /* 覆盖默认响应式 */
         
-        /* 绝对居中 */
+        /* 2. 整体缩放 (0.75倍适合这个屏幕段) */
+        transform: scale(0.75);
+        transform-origin: top center; 
+        
+        /* 3. 绝对居中 */
         position: relative;
         left: 50%;
-        margin-left: -500px; 
+        margin-left: -500px; /* 1000px的一半，确保居中 */
         
-        /* ★★★ 关键：消除底部空白 (把下面的 Page 2 拉上来) ★★★ */
+        /* 4. 消除底部空白 (因为缩放后下面会空出来) */
         margin-bottom: -150px; 
     }
 
-    /* 确保蓝图元素可见 */
-    .blueprint-lines, .blueprint-layer { display: block !important; }
-  、
+    /* 3. 标题：乖乖待在画板里 */
+    .why-bee-container .page-title {
+        width: 100%;          /* 占满画板 */
+        font-size: 4rem;      /* 保持大字体，反正会被缩小 */
+        text-align: left;     /* 确保左对齐 */
+        margin-bottom: 20px;  
+        position: relative;   /* 确保在流中 */
+        top: 0; left: 0;
+        
+        /* 如果之前有内边距，这里保持一致 */
+        padding-left: 0;      
+    }
+
+    /* 4. Grid：卸下所有负担，只负责填满画板 */
+    .why-bee-grid {
+        display: block;
+        width: 100%;          /* 填满父容器 */
+        height: auto;
+        
+        /* ★ 关键：清除 Grid 身上所有的缩放和定位代码 ★ */
+        transform: none ; 
+        left: auto ;
+        margin-left: 0 ;
+        margin-bottom: 0 ;
+        max-width: none ;
+        min-width: 0 ;
+    }
+
+    /* === 内部元素的微调 (保持原有比例即可) === */
+    /* 因为父容器整体缩放了，内部元素通常不需要大改，除非为了美观微调 */
     
-    /* 恢复绝对定位 (防止之前的代码覆盖了) */
-    .intro-text-block, .hex-info-block, .logo-breakdown, 
-    .arrow-feature, .wings-feature, .stinger-feature, .color-palette {
-        position: absolute; text-align: left;
+    .main-bee-img {
+        width: 26%; /* 稍微调整中间蜜蜂大小 */
     }
 
     .intro-text-block {
-    width: 30%;
-}
-
-    .hex-info-block {
-    left: 14%;
-}
-
-.logo-breakdown {
-    left: 40.5%; 
-}
-
-  /* 1. 中间的大蜜蜂 */
-  .main-bee-img {
-    width: 25%; /* 稍微缩小 (原 30%) */
-  }
-
-    .color-palette { flex-direction: column; align-items: flex-start; }
-
-    .arrow-feature, .wings-feature, .stinger-feature { 
-      left: 73%;
+        width: 32%; /* 左侧文字块宽度 */
     }
+    
+    /* 确保SVG线条显示 */
+    .blueprint-lines, .blueprint-layer { display: block ; }
 
-    
-    /* ==================== PAGE 2  垂直堆叠在下方 ==================== */
-    
-    /* 针对 Page 2 (Logo) 和 Page 3 (Buzz) */
-    .slide-item.page-design-system,
-    .slide-item.page-buzz-character {
+    .logo-breakdown {
+    top: 71%; 
+    left: 40.5%;
+  }
+    /* ==================== PAGE 2: DESIGN SYSTEM (堆叠 + 居中) ==================== */
+
+    /* 1. Page 容器设定 */
+    .slide-item.page-design-system {
         margin-top: 0; 
         padding-top: 60px;   /* 上方留白 */
         padding-bottom: 80px;
-        height: auto !important; /* 高度完全自适应 */
-        border-bottom: 1px solid rgba(0,0,0,0.5); /* 分隔线 */
+        height: auto !important; /* 高度自适应 */
+        border-bottom: 1px solid rgba(0,0,0,0.5);
+        
+        /* ★★★ 关键：让整个页面内的文本默认居中 ★★★ */
+        text-align: center; 
     }
     
-    /* 1. 核心布局容器：改为垂直排列 */
+    /* 2. 核心布局容器：垂直堆叠 */
     .design-grid {
         display: flex !important;
-        flex-direction: column !important; /* ★★★ 关键：垂直堆叠 */
-        align-items: center !important;
+        flex-direction: column !important; /* 垂直堆叠 */
+        align-items: center !important;    /* 水平居中 */
         width: 100%;
     }
 
-    /* 2. Visuals (Logo & Color) - 放在第一位 */
+    /* === 第一部分：Visuals (Logo & Color) === */
     .col-visuals {
-        order: 1; /* ★★★ 明确排在上面 */
+        order: 1; /* 排在上面 */
         width: 100% !important;
         flex: 0 0 auto !important;
         padding: 0 !important;
-        margin-bottom: 30px; /* 与下方拉开距离 */
+        margin-bottom: 60px; /* 与下方拉开距离 */
+        
+        display: flex;             /* 开启Flex */
+        flex-direction: column;    /* 垂直排列 */
+        align-items: center;       /* ★★★ 强制子元素居中 ★★★ */
     }
 
     .col-visuals .page-title {
-        font-size: 2.8rem;
+        font-size: 3rem;
         margin-bottom: 50px;
+        text-align: center; /* 标题居中 */
+        width: 100%;
+    }
+
+    /* Logo 演变步骤 */
+    .logo-evolution-container {
+        display: flex;
+        justify-content: center; /* 让横向排列的 Logo 步骤居中 */
+        gap: 20px;
+        width: 100%;
+    }
+    
+    .evo-step { width: 80px; height: 80px; }
+    .evo-arrow { font-size: 1.2rem; align-self: center; }
+    
+    /* 最终 Logo 区域 */
+    .final-logo-display {
+        display: flex;
+        flex-direction: column;
+        align-items: center; /* 确保内部居中 */
+    }
+    
+    .label-tag {
+        font-size: 1.3rem;
+        margin-bottom: 1.5rem;
+        display: flex;       
+        justify-content: center; 
+        gap: 10px;
+    }
+    .label-tag i { font-size: 1.3rem; }
+    .final-logo-img {
+        width: 200px; 
+        height: auto;
+        display: block;      
+        margin: 0 auto;
+    }
+
+    /* --- Color Scheme --- */
+    .color-scheme-section {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;  /* 整体居中 */
+        margin-top: 40px;
+    }
+
+    .section-subhead {
+        font-size: 1.5rem;
+        margin-bottom: 20px;
         text-align: center;
     }
 
-    /* 3. Typography (Font) - 放在第二位 */
+    .color-scheme-container {
+        display: flex;
+        justify-content: center; /* 色块组居中 */
+        gap: 40px;
+    }
+    .swatches-row {
+        display: flex;
+        justify-content: center; /* 色块行居中 */
+        gap: 2rem;
+    }
+    .group-label {
+        text-align: center;
+        width: 100%;
+        display: block;
+    }
+    
+    .swatch {
+        width: 70px;
+        height: 70px;
+        border-radius: 14px;
+        margin: 0 auto 1rem auto; /* 确保色块在自己的列里居中 */
+    }
+    .hex-code { text-align: center; display: block; }
+
+
+    /* === 第二部分：Typography (Font) === */
     .col-typography {
-        order: 2; /* ★★★ 明确排在下面 */
+        order: 2; /* 排在下面 */
+        width: 100% ;
+        flex: 0 0 auto ;
+        padding-left: 0 ;
         
-        width: 100% !important;
-        flex: 0 0 auto !important;
-        padding-left: 0 !important; /* 清除电脑版的左边距 */
-        
-        /* 让内部元素居中 */
         display: flex;
         flex-direction: column;
+        align-items: center; /* ★★★ 强制子元素居中 ★★★ */
         
-        /* 限制最大宽度并居中自己 */
         max-width: 600px;
-        margin: 0 auto; 
+        margin: 0 auto;      /* 容器本身居中 */
     }
 
-
-.evo-step {
-    width: 80px;
-    height: 80px;
-}
-
-/* 实心箭头样式 */
-.evo-arrow { 
-    font-size: 1.2rem; /* 调大一点，匹配实心三角形 */
-}
-
-/* --- Final Logo 标签样式 --- */
-.label-tag {
-    font-size: 1.3rem;
-    margin-bottom: 1.5rem;
-}
-
-/* 微调图标大小和颜色，让它看起来更精致 */
-.label-tag i {
-    font-size: 1.3rem;        /* 图标稍微比文字小一点点 */
-}
-
-.final-logo-img {
-    width: 200px; 
-    height: auto;
-}
-
-/* --- Color Scheme Section --- */
-.color-scheme-section {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-top: 1rem;
-}
-
-.section-subhead {
-    font-size: 1.5rem;
-    margin-bottom: 20px; /* 稍微减少一点，因为文字现在在流布局里了 */
-}
-
-
-/* 容器：底部对齐，确保分割线和色块底部对其 */
-.color-scheme-container {
-    gap: 40px;               /* 组之间的间距加大，避免拥挤 */
-}
-
-
-/* 顶部组标签样式 (Main / Highlight) */
-.group-label {
-    font-size: 0.7rem;
-}
-
-.swatches-row {
-    display: flex;
-    gap: 2rem;             /* 色块之间的间距 */
-}
-
-/* 中间分割线 */
-.vertical-divider {
-    height: 80px;            /* 线的高度 */
-    margin-bottom: 15px;     /* 把线往上顶一点，对齐色块区域 */
-}
-
-
-.swatch {
-    width: 70px;             /* 稍微加大一点，匹配截图 */
-    height: 70px;
-    border-radius: 14px;     /* 圆角稍微大一点 */
-    box-shadow: 0 12px 24px -6px rgba(0, 0, 0, 0.25);
-    margin-bottom: 1rem;
-}
-
-.hex-code {
-    font-size: 0.8rem;
-    font-weight: 600;
-}
-
-
-    /* --- Typography 内部样式微调 --- */
-
     .typo-title {
-        text-align: left;      /* 标题居中 */
-        font-size: 1.8rem;       /* 稍微缩小 */
+        text-align: center;  /* 标题居中 */
+        font-size: 1.8rem;
         margin-bottom: 30px;
+        width: 100%;
     }
 
     /* 介绍文字块 */
     .typo-intro-block {
-        justify-content: center; /* 整体居中 */
-        text-align: left;        /* 内部文字保持左对齐，阅读体验更好 */
+        display: flex;
+        flex-direction: column; /* 垂直排列 */
+        align-items: center;    /* 居中对齐 */
+        text-align: center;     /* 文字内容居中 */
         margin-bottom: 40px;
-        width: 80%;
+        width: 90%;             
+        gap: 15px;
     }
-    
-/* 字体展示列表容器 */
-    /* ==================== 字体列表：整体靠右 + 内部靠右 ==================== */
+    .typo-intro-block .vertical-bar { display: none; }
 
-    /* 字体展示列表容器 */
+    /* --- 字体展示列表 --- */
     .font-showcase {
-        /* 1. 宽度收缩 */
-        width: fit-content; 
+        width: 100%;            
+        margin: 0 auto;         /* 居中 */
+        align-self: center;     
         
-        /* 2. 关键：让这个收缩后的盒子在父容器 (col-typography) 中靠右对齐 */
-        margin: 0 50px; /* 移除居中用的 margin: 0 auto */
-        align-self: flex-end; /* ★★★ 关键：让 .font-showcase 整体靠右 */
-        
-        /* 3. 内部布局：让所有行 靠右对齐 */
         display: flex;
         flex-direction: column;
-        align-items: flex-end; /* 让左边的文字贴向右边的 sample */
-        gap: 15px;
+        align-items: center;    /* ★★★ 让每一行字体居中 ★★★ */
+        gap: 20px;
     }
 
     /* 每一行字体 */
     .font-row {
-        /* 宽度自动，由内容撑开 */
-        width: auto; 
-        
-        /* 内部元素靠右排列 */
-        justify-content: flex-end; 
-        display: flex; /* 确保 flex 生效 */
-        gap: 15px;
-        
-        /* 确保文字本身也是右对齐 */
-        text-align: right;
+        width: 100%;            
+        display: flex;
+        justify-content: center; /* ★★★ 内容居中对齐 ★★★ */
+        align-items: baseline;   
+        gap: 20px;             
+        text-align: center;
+    }
+    
+    .font-name {
+        text-align: right;       
+        flex: 1;                 /* 占左半边 */
+        display: flex;
+        justify-content: flex-end;
+        font-size: 1.2rem;
+    }
+    
+    .font-sample-wrapper {
+        flex: 1;                 /* 占右半边 */
+        display: flex;
+        justify-content: flex-start; 
+        text-align: left;
     }
 
-      /* 字体演示：必须缩小，否则会撑破 960px 容器 */
-  .fw-bold-sample       { font-size: 5rem; }      /* 原 4.1rem */
-  .fw-semibold-sample   { font-size: 4.5rem; }    /* 原 3.3rem */
-  .fw-regular-sample    { font-size: 4rem; }    /* 原 3.0rem */
-  .fw-bold-italic-sample { font-size: 3.5rem; }
-  .fw-medium-italic-sample { font-size: 3rem; }
-  .fw-italic-sample     { font-size: 2.5rem; }
-
-  /* 字体名称也稍微缩小 */
-  .font-name { font-size: 1.2rem ;} 
-
+    /* 字体演示尺寸 */
+    .fw-bold-sample        { font-size: 5rem; }
+    .fw-semibold-sample    { font-size: 4.5rem; }
+    .fw-regular-sample     { font-size: 4rem; }
+    .fw-bold-italic-sample { font-size: 3.5rem; }
+    .fw-medium-italic-sample { font-size: 3rem; }
+    .fw-italic-sample      { font-size: 2.5rem; }
     
     /* ==================== PAGE 3 ==================== */
 
@@ -2814,99 +2858,87 @@ body.no-scroll {
 
    /* ==================== Page 3: BUZZ Character (768px - 991px) - 保留重叠 ==================== */
 
-    /* 1. 核心布局容器调整 (从 Grid 改为 Flex Column) */
     .page-buzz-character .buzz-layout {
         display: flex;
-        flex-direction: column; /* 垂直堆叠 Info 和 Poses */
-        gap: 50px; 
-        padding: 20px 20px; 
+        flex-direction: column; 
+        gap: 60px; 
+        padding: 80px 20px 20px 20px; 
         height: auto;
     }
 
-    /* 2. 布局顺序 (Info在上, Poses在下) */
+    /* 2. Info 列：容器 */
     .col-buzz-info {
-        order: 1; /* 信息列在上 */
+        order: 1; 
         width: 100%;
-        text-align: left; /* 保持左对齐 */
+        display: block; /* 不需要 flex 了，交给内部 wrapper */
     }
+    
     .col-buzz-poses {
-        order: 2; /* 姿势网格在下 */
+        order: 2; 
         width: 100%;
     }
 
-    /* 3. 标题和吉祥物调整 (保留重叠逻辑) */
-    .buzz-header-group {
+    /* =========================================
+       ★ 核心：新的 Wrapper 控制一切
+       ========================================= */
+    .buzz-intro-wrapper {
         position: relative; 
-        margin-bottom: 0; /* 移除容器底部边距，让 desc 紧贴着 */
+        width: 100%;
+        max-width: 600px;
+        margin: 0 auto;
+        min-height: 200px;
+    }
+
+    /* 左边内容 */
+    .buzz-header-group {
+        position: static; 
+        width: 50%;          /* 标题只占左半边 */
         text-align: left;
-        /* 限制整体宽度，让它在屏幕中央（可选） */
-        max-width: 500px; 
+        margin-bottom: 20px; 
+        padding-left: 20px;
     }
     
-    .buzz-title {
-        font-size: 10rem; /* 缩小标题 */
-        line-height: 0.9;
-        letter-spacing: -2px;
-        text-align: left; 
-        
+    .buzz-desc {
+        width: 50%;          /* 文字只占左半边 */
+        padding-left: 20px;
+        text-align: left;
     }
-    
+
+    /* 右边图片 */
+    /* 现在它是 Wrapper 的直接子元素，right: 0 就是 Wrapper 的最右边 */
     .title-mascot-img {
-        position: absolute; /* 保持绝对定位，实现重叠 */
-        left: 240px; /* 调整偏移量以匹配新的标题大小 */
-        top: 10px; 
-        width: 400px; /* 调整吉祥物大小 */
+        position: absolute; 
+        
+        top: -5%;
+        right: 0;           /* 紧贴 Wrapper 右边缘 */
+        left: auto;         /* 覆盖旧样式 */
+        
+        width: 100%;         /* 宽度相对于 Wrapper */
+        max-width: 300px;
         height: auto;
+        
         z-index: 2; 
         transform: rotate(5deg); 
-        /* JS 已经控制了动画，这里不需要 CSS 动画控制 */
-    }
-    
-    /* 4. 描述文字调整 (关键修复：避开吉祥物和标题) */
-    .buzz-desc {
-        max-width: 100%; /* 占满宽度 */
-        padding: 0;
-        text-align: left; 
-        
-        /* ★★★ 关键：通过 padding-top 避开重叠的标题和吉祥物 ★★★ */
-        padding-top: 10px; 
-        
-        /* 居中描述文字块，让它更美观 */
-        max-width: 260px;
     }
 
-    .buzz-desc p { 
-    font-size: 0.95rem
-}
 
-    /* 5. 三视图调整 */
+
+    /* 5. 三视图 & Poses (保持不变) */
     .three-views-wrapper {
         margin-top: 2rem;
         max-width: 500px; 
         margin-left: auto;
         margin-right: auto;
     }
-
-    .views-label {
-    font-size: 1.3rem;
-    margin: 80px 0 10px 0;
-}
-
-.views-labels-row span {
-    font-size: 1.2rem;
-}
-
-    /* 6. 姿势网格调整 (恢复为 3 列) */
+    .views-label { font-size: 1.3rem; margin: 80px 0 10px 0; }
+    .views-labels-row span { font-size: 1.2rem; }
     .poses-grid {
-        grid-template-columns: repeat(3, 1fr); /* ★ 关键：改为 3 列 */
-        gap: 15px; /* 稍微缩小间距 */
-        max-width: 600px; /* 调整最大宽度以适应 3 列 */
+        grid-template-columns: repeat(3, 1fr); 
+        gap: 15px; 
+        max-width: 600px; 
         margin: 0 auto;
     }
-    
-    .pose-item img {
-        max-width: 150px; /* 缩小图片尺寸，确保 3 列能容纳 */ 
-    }
+    .pose-item img { max-width: 150px; }
 
 
     /* ==================== 05. MISSION & VALUES ==================== */
@@ -3109,7 +3141,7 @@ body.no-scroll {
 
     /* === 2. 导航栏微调 === */
     .nav-container {
-        padding: 0 15px; /* 导航栏左右边距减小 */
+        padding: 0 30px; /* 导航栏左右边距减小 */
     }
     .hamburger {
         transform: scale(0.9); /* 汉堡按钮稍微缩小一点点，看起来精致 */
@@ -3246,255 +3278,181 @@ body.no-scroll {
         margin-top: 10px;
     }
 
-/* ==================== WHY A BEE ==================== */
-
-    /* --- 1. 外层容器 --- */
+ /* --- 1. 基础设置 (继承平板逻辑) --- */
     .why-bee-section {
-        padding: 100px 0 60px 0; /* 减少留白 */
-        height: auto ;
-        min-height: auto !important;
-        overflow: hidden !important; /* 手机端防止蓝图溢出产生横向滚动条 */
+        padding: 130px 0 50px 0; /*稍微减少 Padding */
+        height: auto;
+        min-height: auto;
+        overflow: visible;
     }
-
-    /* 拆除轮播逻辑 (保持与平板一致) */
-    .carousel-mask, .carousel-track, .slide-item {
-        display: block !important;
-        width: 100% ;
-        height: auto ;
-        transform: none !important;
-        opacity: 1 !important;
+    
+    /* 强行拆除轮播 & 强制显示 */
+    .carousel-track { display: block; transform: none; }
+    .nav-arrow { display: none; }
+    
+    .slide-item {
+        width: 100%;
+        display: block;
+        opacity: 1 !important;          
         visibility: visible !important;
+        transform: none !important;     
     }
-    
-    .nav-arrow { display: none !important; }
 
-    /* ==================== PAGE 1: 蓝图 (大幅缩小) ==================== */
+    /* ==================== PAGE 1: 蓝图 (缩小版) ==================== */
     
+    /* 1. 高度进一步减小 */
     .slide-item:first-child {
-        height: 380px; /* 高度减小 */
+        height: 350px;       /* 从 500px 减到 400px，因为内容缩得更小了 */
+        overflow: hidden;
+        position: relative;
         border-bottom: 1px solid rgba(0,0,0,0.5);
-        margin-bottom: 0;
-        margin-top: 20px;
     }
 
-    .page-title {
-        font-size: 2.2rem; /* 标题缩小 */
-        padding: 0 20px;
-    }
-
-    /* 蓝图 Grid 的极限缩放 */
-    .why-bee-grid {
-        width: 1000px !important;
-        min-width: 1000px !important;
-        max-width: none !important;
-
-        /* ★★★ 关键：缩放 0.45 倍 (适应手机宽度) */
-        transform: scale(0.55); 
-        transform-origin: top center;
+    /* 2. 容器缩放：0.75 -> 0.55 */
+    .why-bee-container {
+        width: 1000px;
+        max-width: none;
+        
+        /* ★ 核心调整：缩小到 0.55 倍 (550px宽)，刚好能塞进 576px 的屏幕 */
+        transform: scale(0.55);
+        transform-origin: top center; 
         
         position: relative;
-        top: 10%;
-        left: 45%;
-        margin-left: -500px; /* 依然是宽度的一半 */
-        
-        /* 把下方的页面拉上来，因为缩放后留白太多 */
-        margin-bottom: -280px; 
+        left: 50%;
+        margin-left: -500px; 
+        margin-bottom: -180px; /* 缩得更小了，底部空隙更大，需要拉得更多 */
     }
 
-    /* 恢复可见性 */
-    .blueprint-lines, .blueprint-layer { display: block !important; }
+    /* 内部元素保持平板设置 */
+    .why-bee-container .page-title {
+        width: 100%;
+        font-size: 4rem;
+        text-align: left;
+        margin-bottom: 20px;
+        position: relative;
+        top: 0; left: 0; padding-left: 0;
+    }
 
-    /* 绝对定位元素稍微调整 */
-    .intro-text-block { width: 40%; font-size: 1.2rem; }
-    .hex-info-block { font-size: 1.1rem; }
-
-.color-palette {
-    top: 65%;
-    left: 15%;
-}
-
-.intro-text-block {
-    position: absolute;
-    top: -10%; 
-    left: 15%;
-    width: 30%;
-}
+    .why-bee-grid {
+        width: 100%; display: block; transform: none ;
+        left: auto ; margin: 0 ;
+    }
+    .main-bee-img { width: 26%; }
+    .intro-text-block { width: 32%; }
+    .blueprint-lines, .blueprint-layer { display: block ; }
 
 
-    /* ==================== PAGE 2: Design System (堆叠) ==================== */
-
+    /* ==================== PAGE 2: Design System (字体缩小) ==================== */
+    
     .slide-item.page-design-system {
-        padding-top: 20px;
+        padding-top: 50px;
         padding-bottom: 60px;
-    }
-
-    .design-grid {
-        display: flex !important;
-        flex-direction: column !important;
-        align-items: center !important;
-    }
-
-    .col-visuals {
-        order: 1;
-        margin-bottom: 30px;
-    }
-
-    .col-visuals .page-title { font-size: 2rem; }
-
-    /* Logo 演变部分 */
-    .evo-step { width: 40px; height: 40px; } /* 缩小圆圈 */
-    .evo-arrow { font-size: 1rem; margin: 0 5px; } /* 缩小箭头和间距 */
-    
-    .final-logo-img { width: 100px; } /* 缩小最终Logo */
-    .label-tag { font-size: 1rem; }
-
-    /* 色板区域 (Color Scheme) */
-    .color-scheme-container {
-        gap: 20px; /* 间距缩小 */
-    }
-
-    .swatches-row { gap: 1rem; } /* 色块间距缩小 */
-
-    .swatch {
-        width: 50px; /* 色块缩小 */
-        height: 50px;
-        border-radius: 10px;
-    }
-    
-    .vertical-divider { height: 60px; } /* 分割线缩短 */
-    .hex-code { font-size: 0.6rem; } /* 色值字体缩小 */
-
-    /* Typography (Font) */
-    .col-typography {
-        order: 2;
-        padding-left: 0 !important;
-        width: 100%;
-        max-width: 90%; /* 防止贴边 */
-    }
-
-    .typo-title { font-size: 1.5rem; text-align: left; }
-    
-    .typo-intro-block {
-        width: 100%;
-        text-align: left; /* 手机上居中对齐看起来更好 */
-        margin-bottom: 30px;
-    }
-
-    .typo-desc {
-    font-size:  0.7rem;
-}
-
-    /* 字体展示列表 */
-    .font-showcase {
-        margin: 0 auto; /* 手机端改为居中 */
-        align-self: right; /* 取消靠右，改为居中 */
-        align-items: end; /* 内部元素居中 */
-        width: 100%;
-        gap: 10px;
-    }
-
-    .font-row {
-        justify-content: center; /* 居中 */
         text-align: center;
+    }
+    
+    .design-grid {
+        display: flex ;
+        flex-direction: column ;
+        align-items: center ;
+    }
+
+    /* Visuals */
+    .col-visuals {
+        order: 1; width: 100% ; margin-bottom: 50px;
+        display: flex; flex-direction: column; align-items: center;
+    }
+    .col-visuals .page-title { font-size: 2.5rem; } /* 缩小标题 */
+    
+    .logo-evolution-container { gap: 10px; } /* 间距缩小 */
+    .evo-step { width: 60px; height: 60px; } /* Logo变小 */
+    .final-logo-img { width: 160px; }
+
+    /* Typography */
+    .col-typography {
+        order: 2; width: 100% ; padding-left: 0 ;
+        display: flex; flex-direction: column; align-items: center;
+        max-width: 420px;
+        margin: 0 auto;
+    }
+    
+    .typo-title { font-size: 1.5rem; text-align: center; }
+
+    .typo-intro-block {
         gap: 5px;
     }
 
-    /* 字体演示大幅缩小 */
-    .fw-bold-sample       { font-size: 3.3rem; }
-    .fw-semibold-sample   { font-size: 2.7rem; }
-    .fw-regular-sample    { font-size: 2.5rem; }
-    .fw-bold-italic-sample { font-size: 2.2rem; }
-    .fw-medium-italic-sample { font-size: 2rem; }
-    .fw-italic-sample     { font-size: 1.8rem; }
+    .typo-desc {
+    font-size: 0.85rem;
+}
+
+    /* ★ 核心调整：字体演示太大了，必须大幅缩小 */
+    .fw-bold-sample        { font-size: 3.5rem; } 
+    .fw-semibold-sample    { font-size: 3.2rem; }
+    .fw-regular-sample     { font-size: 3rem; }
+    .fw-bold-italic-sample { font-size: 2.5rem; }
+    .fw-medium-italic-sample { font-size: 2.2rem; }
+    .fw-italic-sample      { font-size: 2rem; }
     
-    .font-name { font-size: 0.9rem; }
+    .font-name { font-size: 1rem; } /* 名字也小一点 */
+    .font-row { gap: 15px; }
 
-    /* ==================== PAGE 3: BUZZ Character ==================== */
 
-    /* 1. 布局容器 */
+    /* ==================== PAGE 3: BUZZ (Wrapper 适配) ==================== */
+    
     .page-buzz-character .buzz-layout {
-        display: flex;
-        flex-direction: column;
-        padding: 20px 10px;
-        gap: 60px; /* 上下间距 */
+        padding: 60px 20px 20px 20px;
+        gap: 40px;
     }
 
-    /* --- 2. 标题区域 (恢复原版重叠布局，非居中) --- */
-    .buzz-header-group {
-        position: relative;
+    .col-buzz-info {
+        order: 1; width: 100%; display: block;
+    }
+
+    /* Wrapper 容器适配 */
+    .buzz-intro-wrapper {
         width: 100%;
-        height: 80px; /* 给绝对定位元素留出高度占位 */
-        margin-bottom: 20px;
-        text-align: left; /* 保持左对齐 */
+        max-width: 450px; /* ★ 限制得更窄一点，防止太散 */
+        min-height: 250px; /* 高度减小 */
+    }
+
+    /* 标题组 */
+    .buzz-header-group {
+        width: 55%; 
+        padding-left: 0; /* 取消左边距，节省空间 */
     }
 
     .buzz-title {
-        position: absolute;
-        left: 10px;
-        top: 0;
-        font-size: 7rem; /* 字体缩小以适应手机，但保持气势 */
-        line-height: 1;
-        z-index: 1;
-        text-align: left;
-    }
-
-    .title-mascot-img {
-        position: absolute;
-        left: 150px; /* 调整位置以重叠在文字上 */
-        top: 20px;
-        width: 260px; /* 图片缩小 */
-        height: auto;
-        z-index: 2;
-        margin-left: 0;
-        opacity: 1; /* 恢复不透明 */
-        transform: rotate(5deg);
+        font-size: 6rem; /* ★ 核心：从 10rem 降到 6rem，否则会换行 */
+        letter-spacing: -2px;
     }
 
     /* 描述文字 */
     .buzz-desc {
-        position: relative;
-        padding-top: 10px;
-        padding-left: 15px;
-        text-align: left; /* 保持左对齐 */
-        max-width: 40%;
-        margin: 0;
+        width: 60%; /* 文字稍微宽一点，挤一下蜜蜂没关系 */
+        padding-left: 0;
     }
+    .buzz-desc p { font-size: 0.85rem; }
 
-    .buzz-desc p{
-        font-size: 0.7rem;
-    }
-
-    /* --- 3. 姿势网格 (强制 3 列) --- */
-    .poses-grid {
-        display: grid;
-        /* ★★★ 关键：强制 3 列 (覆盖之前的 2 列) ★★★ */
-        grid-template-columns: repeat(3, 1fr) !important; 
+    /* 蜜蜂图片 */
+    .title-mascot-img {
+         position: absolute; 
         
-        /* 间距设小，防止 3 列挤不下 */
-        gap: 5px; 
+        top: -5%;
+        right: -10%;           /* 紧贴 Wrapper 右边缘 */
+        left: auto;         /* 覆盖旧样式 */
         
-        width: 100%;
-        max-width: 100%;
+        width: 100%;         /* 宽度相对于 Wrapper */
+        max-width: 300px;
     }
 
-    .pose-item {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
-
-    .pose-item img {
-        width: 100%; /* 让图片撑满格子 */
-        height: auto;
-        object-fit: contain;
-    }
+    /* 三视图 & Poses */
+    .three-views-wrapper { margin-top: 1rem; }
+    .views-label { font-size: 1.1rem; margin: 60px 0 10px 0; }
     
-    .views-labels-row span { font-size: 0.8rem; }
-
-.views-label {
-    margin: 50px 0 10px 0;
-}
-
+    .poses-grid {
+        grid-template-columns: repeat(3, 1fr); /* 依然保持3列，但间距更小 */
+        gap: 8px;
+    }
 
     /* ==================== 05. MISSION & VALUES ==================== */
     
@@ -3545,41 +3503,63 @@ body.no-scroll {
         font-size: 0.9rem; /* 正文保持舒适阅读大小 */
     }
 
+/* 1. CTA Wrapper 调整 */
+    .cta-wrapper {
+        margin-top: 100px; /* 从 130px 减小，节省竖向空间 */
+    }
 
-    /* ==================== 06. TEAM SECTION (2列布局) ==================== */
-
+    /* 1. 标题调整 */
     .team-header h2 {
-        font-size: 2rem;
-        margin-top: 100px;
+        font-size: 2rem; 
+        margin-top: 120px;
+    }
+    .team-subtitle {
+        font-size: 1rem; 
+        margin-bottom: 30px;
     }
 
-    .team-subtitle{
-        margin-bottom: 20px;
-        margin-top: 5px;
-    }
-
+    /* 2. 网格布局调整 (核心修改：大幅缩窄容器) */
     .team-grid {
-        /* 保持 2 列，但调整间距 */
         display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        gap: 40px 10px; /* 上下30px，左右10px (紧凑) */
+        grid-template-columns: repeat(2, 1fr); 
+        
+        row-gap: 50px;
+        column-gap: 50px; 
+        
+        /* ★★★ 核心改动：从 500px 减小到 360px ★★★ */
+        /* 计算逻辑：图片140px * 2 = 280px，加上间距和边距，360px 刚刚好 */
+        /* 这样两列会紧紧挨在一起，不会有太多留白 */
+        max-width: 450px; 
+        
+        margin: 0 auto; 
+        padding: 0;
+    }
+
+    /* 3. 成员卡片 */
+    .team-member {
         max-width: 100%;
+        text-align: center;
+        /* 不需要手动设宽，Grid会把它限制在紧凑的列里 */
     }
-
+    
+    /* 4. 第5个成员 (2列变1列居中) */
     .team-member:nth-child(5) {
-        grid-column: 1 / -1;
-        justify-self: center;
-        max-width: 200px; /* 限制最后一个居中成员的宽度 */
+        grid-column: 1 / -1; 
+        justify-self: center; 
+        /* 它的宽度也稍微限制一下，保持一致感 */
+        width: 100%;
+        max-width: 180px; 
     }
 
+    /* 5. 图片调整 */
     .member-img {
-        width: 140px; /* 图片缩小 */
+        width: 180px;  /* 稍微再小一丢丢，确保比例完美 */
+        height: auto;
         margin-bottom: 10px;
     }
-
-    .team-member h3 { font-size: 1.1rem; }
+    
+    .team-member h3 { font-size: 1.1rem; margin: 5px 0; }
     .team-member p { font-size: 0.8rem; }
-
 }
 
 
@@ -3666,9 +3646,28 @@ body.no-scroll {
 
 }
 
+
 /* === 8. FOOTER (极简模式) === */
-    .footer { padding: 30px 0 50px 0; }
-    .footer-nav { gap: 5px 15px; margin-bottom: 50px; } /* 间距更小 */
+   .footer { padding: 30px 0 50px 0; }
+
+/* 1. 确保容器允许换行并居中 */
+.footer-nav { 
+    gap: 5px 30px; /* 建议稍微增加行距(第一个值)，原为5px可能太紧 */
+    margin-bottom: 50px; 
+    flex-wrap: wrap;       /* 必须：允许换行 */
+    justify-content: center; /* 必须：居中对齐 */
+}
+
+/* 2. ★★★ 核心代码：强制 3+2 布局 ★★★ */
+/* 选中第6个元素（即 Services 和 Portfolio 中间的那个竖线） */
+.footer-nav > span:nth-child(6) {
+    display: block;      /* 让它变成块级行为（在Flex里起作用） */
+    width: 100%;         /* 占满整行，强制把后面的内容挤到下一行 */
+    height: 0;           /* 不占高度 */
+    visibility: hidden;  /* 隐藏竖线符号 "|" */
+    margin: 0;           /* 清除间距干扰 */
+    border: none;
+}
     
     .footer-content-row { gap: 30px 0; } /* 行距缩小 */
     
@@ -3680,266 +3679,6 @@ body.no-scroll {
         gap: 15px;
     }
     .footer-contact-col span, .footer-contact-col p { font-size: 0.7rem; }
-
-    /* === CTA Wrapper (价值观底部按钮) === */
-    .cta-wrapper {
-        margin-top: 40px;
-        padding: 0 15px;
-        text-align: center;
-    }
-
-    /* CTA 按钮及文字调整 */
-    .cta-wrapper .btn-primary,
-    .cta-wrapper .btn-secondary {
-        padding: 12px 25px;
-        font-size: 0.85rem;
-        white-space: nowrap;
-    }
-
-    /* 确保 CTA 文字不会撑破容器 */
-    .cta-wrapper a {
-        text-decoration: none;
-        display: inline-block;
-    }
-
-    /* CTA 箭头和文字缩小 */
-    .cta-wrapper .nav-arrow {
-        font-size: 0.9rem;
-        margin-left: 5px;
-    }
-
-
-
-
-    /* ==================== PAGE 1: 蓝图 (极限压缩) ==================== */
-    
-    .slide-item:first-child {
-        height: 240px; /* 高度再次减小 */
-        margin-top: 10px;
-    }
-
-    .page-title {
-        font-size: 1.8rem ; /* 标题缩小 */
-        padding: 0 5px ;
-    }
-
- /* 绝对定位文字块调整 */
-    .intro-text-block {
-        font-size: 1.6rem ; /* 缩放后字体看起来会很小，所以这里反而要设大一点 */
-        width: 35% ;        /* 宽度放宽 */
-        left: 14% ;
-        top: -5% ;
-    }
-    
-
-    /* 蓝图 Grid：缩小到 0.38 倍 */
-    .why-bee-grid {
-        
-        /* ★ 核心：缩放比例调至 0.38 左右，适应 iPhone SE (320px) */
-        transform: scale(0.35) ; 
-        transform-origin: top center;
-        
-        left: 41% ;
-        margin-left: -500px ; /* 居中校正 */
-        top: 10px ;
-        
-        margin-bottom: -320px ; /* 把下方内容大幅拉上来 */
-    }
-
-   
-    .hex-info-block { font-size: 1.2rem ; }
-    
-    /* 色板位置微调 */
-    .color-palette { top: 60% ; left: 15% ; }
-
-
-    /* ==================== PAGE 2: Design System (垂直堆叠) ==================== */
-
-    .slide-item.page-design-system {
-        padding-top: 10px ;
-        padding-bottom: 40px ;
-    }
-
-    .col-visuals .page-title { font-size: 1.6rem !important; }
-
-    /* Logo 演变 */
-    .evo-step { width: 35px; height: 35px ; }
-    .final-logo-img { width: 80px !important; }
-
-    .label-tag { font-size: 0.8rem !important; margin-top: 5px !important; margin-bottom: 10px;}
-.evo-arrow { 
-    font-size: 0.5rem; /* 调大一点，匹配实心三角形 */
-}
-
-.section-subhead {
-
-    font-size: 1rem;
-    margin-bottom: 10px; /* 稍微减少一点，因为文字现在在流布局里了 */
-}
-
-.group-label{
-    font-size: 0.5rem;
-}
-.evolution-row {
-    gap: 5px;
-    margin-bottom: 30px;
-}
-
-.col-visuals .page-title {
-    margin-bottom: 3=0px;
-}
-
-.col-visuals {
-   
-margin: 0;
- 
-}
-    /* 色板 */
-    .swatches-row { gap: 0.5rem ; }
-    .swatch { width: 40px ; height: 40px ; } /* 色块更小 */
-    .hex-code { font-size: 0.5rem ; }
-    .vertical-divider { height: 50px ; }
-
-
-
-
-
-    /* 字体展示 (Font Showcase) - 必须大幅缩小 */
-    .col-typography { 
-        padding: 0 15px !important; 
-        margin-top: 0px;
-    }
-    
-    .typo-title { font-size: 1rem ; }
-    
-    .typo-intro-block { margin-bottom: 20px !important;  gap: 8px;}
-    .typo-desc { font-size: 0.5rem ; }
-
-    .fw-bold-sample       { font-size: 2.2rem !important; }
-    .fw-semibold-sample   { font-size: 2rem !important; }
-    .fw-regular-sample    { font-size: 1.8rem !important; }
-    .fw-bold-italic-sample { font-size: 1.6rem !important; }
-    .fw-medium-italic-sample { font-size: 1.5rem !important; }
-    .fw-italic-sample     { font-size: 1.4rem !important; }
-    
-    .font-name { font-size: 0.7rem !important; }
-
-
-    /* ==================== PAGE 3: BUZZ Character (重排) ==================== */
-.slide-item.page-buzz-character{
-    padding-top: 10px;
-}
-
-
-
-    .page-buzz-character .buzz-layout {
-        gap: 40px !important;
-        padding: 20px 5px !important;
-    }
-
-    /* 头部区域 */
-    .buzz-header-group {
-        height: 60px !important; /* 占位高度变小 */
-        margin-bottom: 10px !important;
-    }
-
-    /* 巨大的 BUZZ 标题 */
-    .buzz-title {
-        font-size: 4.5rem !important; /* 7rem -> 4.5rem */
-        left: 5px !important;
-    }
-
-    /* 吉祥物插图 (叠在文字上) */
-    .title-mascot-img {
-        width: 160px !important; /* 260px -> 160px */
-        left: 100px !important;  /* 调整位置 */
-        top: 15px !important;
-    }
-
-    /* 描述文字 */
-    .buzz-desc {
-        max-width: 40% !important; /* 宽度放开，否则手机上字会挤成一竖条 */
-        padding-left: 5px !important;
-        margin-top: 10px !important;
-    }
-    
-    .buzz-desc p { font-size: 0.5rem !important; }
-
-    /* 姿势网格 (保持 3 列，但间距极小) */
-    .poses-grid {
-        grid-template-columns: repeat(3, 1fr) !important;
-        gap: 5px !important;
-    }
-    
-    .views-label { margin: 30px 0 5px 0 !important; font-size: 0.8rem !important; }
-
-    .why-bee-section{
-        padding-bottom: 20px;
-    }
-
-    /* ==================== 05. MISSION & VALUES ==================== */
-    
-    .mission-values-section {
-        padding: 40px 10px !important;
-    }
-
-    .mission-text-wrapper h2 { font-size: 1.6rem !important; }
-    .mission-desc { 
-        font-size: 0.7rem !important; 
-        margin-bottom: 60px !important; 
-        padding: 0 5px !important; 
-    }
-
-    /* Values 卡片区域 */
-    .values-row h2 { font-size: 1rem ; margin-bottom: 25px ; }
-    
-    .values-grid {
-        max-width: 100% ; /* 宽度放开 */
-        padding: 0 5px ;
-        gap: 15px ;
-    }
-
-    .value-item {
-        padding: 20px 15px ; /* 内边距再紧凑点 */
-        border-radius: 20px ;
-        width: 80%;
-        margin: 0 auto;
-    }
-    
-    .value-item h3 { font-size: 0.8rem ; }
-    .value-item .value-content p { font-size: 0.85rem ; }
-
-
-    /* ==================== 06. TEAM SECTION (2列紧凑) ==================== */
-
-    .team-header h2 {
-        margin-top: 60px !important;
-        font-size: 1.2rem !important;
-    }
-
-    .team-subtitle{
-        font-size: 0.8rem;
-    }
-
-    .team-grid {
-        /* 保持 2 列，但在小手机上 (320px) 可能会很挤，需要缩小图片 */
-        grid-template-columns: repeat(2, 1fr) !important;
-        gap: 30px 5px !important; /* 左右间距极小 */
-        padding: 0 5px !important;
-    }
-
-    .member-img {
-        width: 100px;
-        margin-bottom: 8px !important;
-    }
-
-    .team-member h3 { font-size: 0.95rem !important; } /* 名字变小 */
-    .team-member p { font-size: 0.75rem !important; }  /* 职位变小 */
-    
-    /* 最后一个居中的成员 */
-    .team-member:nth-child(5) {
-        max-width: 100% !important;
-    }
 
     .whatsapp-float {
         /* 1. 尺寸缩小 */
@@ -3974,4 +3713,305 @@ margin: 0;
         letter-spacing: 0px;   /* 紧凑一点 */
     }
 
+/* ==================== PAGE 1: 蓝图 (修复摇晃的核心) ==================== */
+    
+    .why-bee-section {
+        padding: 120px 0 40px 0; 
+        overflow: hidden; /* 双重保险，防止撑开 */
+    }
+
+    .slide-item:first-child {
+        height: 250px; /* 高度再压缩 */
+    }
+
+    .why-bee-container {
+        width: 1000px;
+        
+        /* ★★★ 关键修复：必须降到 0.35 ★★★ */
+        /* 计算：1000px * 0.35 = 350px */
+        /* 这样才能塞进 360px 的主流安卓机和 390px 的 iPhone */
+        transform: scale(0.35); 
+        transform-origin: top center; 
+        
+        position: relative;
+        left: 50%;
+        margin-left: -500px; 
+        
+        /* 缩得越小，底部留白越多，需要往上拉更多 */
+        margin-bottom: -280px; 
+    }
+    
+    /* 文字块稍微宽一点，防止换行太早 */
+    .intro-text-block { width: 40%; }
+
+
+    /* ==================== PAGE 2: Design System (极小屏适配版) ==================== */
+    .slide-item.page-design-system {
+        padding-top: 20px;  /* 间距再压小 */
+        padding-bottom: 50px;
+    }
+    
+    /* --- 1. Logo 区域 (更小一点) --- */
+    .col-visuals .page-title { 
+        font-size: 1.6rem; 
+        margin-bottom: 25px; 
+    }
+    
+    .logo-evolution-container { 
+        gap: 2px; /* 几乎无间距 */
+    } 
+    
+    .evo-step { 
+        width: 40px;   /* ★ 从 45px -> 40px */
+        height: 40px; 
+    } 
+    
+    .evo-arrow { 
+        font-size: 0.8rem; /* 箭头变小 */
+        margin: 0 2px;     /* 减少箭头左右间距 */
+    }
+    
+    .final-logo-img { 
+        width: 110px;  /* ★ 从 130px -> 110px */
+    }
+    
+    .label-tag {
+        font-size: 1rem; /* 标签文字变小 */
+        margin-bottom: 1rem;
+    }
+    .label-tag i { font-size: 1rem; }
+
+
+    /* --- 2. Color Scheme (解决超出屏幕的核心) --- */
+    .color-scheme-section {
+        margin-top: 20px;
+        width: 100%;
+        padding: 0 5px; /* 防止贴边 */
+    }
+
+    .section-subhead {
+        font-size: 1.2rem;
+        margin-bottom: 15px;
+    }
+
+    /* 容器：减小两组色块之间的间距 */
+    .color-scheme-container {
+        gap: 15px; /* ★ 原来可能是 40px，这里必须大幅减小 */
+        /* 如果依然排不下，可以加 flex-wrap: wrap; 让 Highlight 组换行 */
+        /* flex-wrap: wrap; */ 
+    }
+
+    /* 色块行：减小色块之间的间距 */
+    .swatches-row {
+        gap: 15px; /* ★ 极小间距 */
+    }
+
+    /* 色块本身：大幅缩小 */
+    .swatch {
+        width: 45px;   /* ★ 关键：从 70px 缩到 45px */
+        height: 45px;
+        border-radius: 8px; /* 圆角也相应变小 */
+        margin: 0 auto 5px auto;
+    }
+
+    /* 色值文字 */
+    .hex-code {
+        font-size: 0.6rem; /* 字体缩小，防止换行 */
+    }
+    
+    .group-label {
+        font-size: 0.7rem;
+        margin-bottom: 5px;
+    }
+
+
+    /* --- 3. Typography (字体部分：紧凑 + 等比缩放) --- */
+    .col-typography {
+        /* 1. 宽度变“短”：限制最大宽度，让它聚拢在中间 */
+        width: 100%;
+        max-width: 300px;  /* ★ 限制在 340px，这样在大手机上也不会散开 */
+        margin: 0 auto;    /* 居中 */
+        padding: 0 5px !important; 
+    }
+    
+    .typo-desc {
+    font-size: 0.8rem;
+    }
+
+    .typo-intro-block {
+    margin-bottom: 30px;     
+}
+
+    .typo-title { 
+        font-size: 1.4rem; 
+        margin-top: 30px;
+        margin-bottom: 20px;
+    }
+    
+    /* 2. 字体样本：恢复“阶梯感”，等比例缩小 */
+    /* 保持原有的层级差异，最大的依然很大，最小的变小 */
+    
+    .fw-bold-sample        { font-size: 2.8rem; } /* 最大：2.8rem (约45px) */
+    .fw-semibold-sample    { font-size: 2.4rem; } /* 2.4rem */
+    .fw-regular-sample     { font-size: 2.1rem; } /* 2.1rem */
+    .fw-bold-italic-sample { font-size: 1.8rem; } /* 1.8rem */
+    .fw-medium-italic-sample { font-size: 1.6rem; } /* 1.6rem */
+    .fw-italic-sample      { font-size: 1.4rem; } /* 最小：1.4rem */
+    
+    /* 辅助调整 */
+    .font-name { font-size: 0.75rem; } /* 名字稍微小一点 */
+    .font-row { 
+        gap: 10px; 
+        width: 100%; 
+        justify-content: center; /* 确保内容居中 */
+    }
+
+
+    /* ==================== PAGE 3: BUZZ (垂直堆叠重构) ==================== */
+    /* --- PAGE 3: BUZZ (小手机布局重构) --- */
+    
+    .page-buzz-character .buzz-layout {
+        padding: 60px 15px; /* 减小内边距 */
+        gap: 50px;
+    }
+
+    /* 1. 让 Info 列变成垂直居中模式 */
+    .col-buzz-info {
+        display: flex;
+        flex-direction: column;
+        align-items: center; 
+        width: 100%;
+    }
+
+    /* 2. Wrapper: 取消宽度限制，改为垂直排列 */
+    .buzz-intro-wrapper {
+        width: 100%;
+        max-width: 100%;
+        min-height: auto; /* 取消最小高度，由内容撑开 */
+        
+        display: flex;
+        flex-direction: column; 
+        align-items: center;    
+    }
+
+    /* 3. 标题组：占满宽度，给绝对定位的蜜蜂留出高度 */
+    .buzz-header-group {
+        width: 100%;
+        text-align: center;
+        padding-left: 0;   /* 取消左对齐的 padding */
+        margin-bottom: 0;
+        
+        position: relative; 
+        height: 120px;     /* ★ 关键：固定高度，给上面的蜜蜂留位子 */
+    }
+
+    .buzz-title {
+        /* ★ 使用 vw 单位，保证字永远比屏幕小 (约占屏幕宽度的 18%) */
+        /* 576px时约 100px, 320px时约 57px */
+        font-size: 7rem; 
+        text-align: center;
+        
+        position: relative;
+        top: 0;         /* 标题下沉，给蜜蜂让路 */
+        z-index: 1;
+        width: 100%;
+    }
+
+    /* 4. 蜜蜂：绝对定位，在标题正上方居中 */
+    .title-mascot-img {
+        position: absolute;
+        
+        /* 设置固定宽度 */
+        width: 250px;       
+        max-width: none;
+        height: auto;
+        
+        /* 垂直位置：根据需要微调 top */
+        top: 5%; 
+        
+        /* ★★★ 终极居中方案 (Left 0 + Right 0 + Margin Auto) ★★★ */
+        /* 这会让浏览器强制把左右两边的空间平分，从而实现完美居中 */
+        left: 0;
+        right: 0;
+        margin-left: auto;
+        margin-right: auto;
+        
+        /* 旋转保持 (去掉 translateX，因为已经物理居中了) */
+        transform: rotate(5deg);
+        
+        z-index: 2;
+    }
+
+    /* 5. 描述文字：在下方，占满宽度，居中 */
+    .buzz-desc {
+        width: 100%;       /* 占满整行 */
+        max-width: 80%;
+        padding-left: 0;
+        text-align: center; /* 文字居中 */
+        margin-top: 140px;   /* 与上方拉开距离 */
+    }
+    
+    .buzz-desc p { 
+        font-size: 0.9rem; 
+        padding: 0 10px;    /* 防止文字贴着屏幕边缘 */
+        line-height: 1.4;
+    }
+
+.views-label { font-size: 1.1rem; margin: 20px 0 10px 0; }
+
+    /* 6. 底部姿势网格 (保持3列但缩小间距) */
+    .poses-grid {
+        gap: 8px;
+    }
+
+
+    /* ==================== 05. MISSION & VALUES ==================== */
+    .mission-values-section { padding: 30px 10px; }
+    .mission-text-wrapper h2 { font-size: 1.5rem; }
+    .mission-desc { margin-bottom: 70px; padding: 0 5px; }
+
+    .values-row h2 { font-size: 1.5rem; margin-bottom: 25px; }
+
+    /* Values Grid: 保持单列，宽度缩紧 */
+    .values-grid {
+        grid-template-columns: 1fr; 
+        gap: 15px; 
+        max-width: 300px; /* 适配 320px 屏幕 */
+        padding: 0;
+    }
+    .value-item { padding: 20px 20px; min-width: none;;}
+
+    .value-item h3 {
+        font-size: 0.9rem; /* 稍微调小 */
+    }
+
+    .value-item .value-content p {
+        font-size: 0.8rem; /* 正文保持舒适阅读大小 */
+    }
+
+
+    /* ==================== 07. TEAM SECTION (单列模式) ==================== */
+    
+    .cta-wrapper { margin-top: 100px; }
+    .team-header h2 { font-size: 1.6rem; margin-top: 90px; }
+
+    .team-grid {
+        /* ★ 核心改动：强制 1 列 ★ */
+        /* 320px 屏幕放两列根本看不清 */
+        grid-template-columns: 1fr; 
+        
+        max-width: 280px; /* 限制卡片宽度，使其精致 */
+        row-gap: 40px;
+        column-gap: 0;
+    }
+
+    .team-member:nth-child(5) {
+        max-width: 100%; /* 恢复自然宽度 */
+    }
+
+    .member-img {
+        width: 160px; /* 单列了，图片可以稍微大一点 */
+    }
+
+    
 }
