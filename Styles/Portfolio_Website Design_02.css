@@ -683,52 +683,53 @@ img { max-width: 100%; height: auto; }
     position: relative; 
     width: 100%;
     overflow: hidden;
-    height: 1300px; /* 你可以改成你想要的高度 */
+    padding-bottom: 109%;
 }
 
 /* 大背景图 */
 .pic1 {
-    width: 42%; /* 500/1200 ≈ 41.6% */
-    max-width: 500px;
+    width: 100%;  /* 500/1200 */
+    max-width: 35%; /* 限制百分比，防止溢出 */
     position: absolute;
-    top: 50px;
-    left:29%;
+    top: 4%;
+    left:50%;
     z-index:10;
+    transform: translateX(-50%)
 }
 
 .pic2 {
-    width: 42%; /* 同上 */
-    max-width: 500px;
+    width: 100%;  /* 500/1200 */
+    max-width: 32%; /* 限制百分比，防止溢出 */
     position: absolute;
     top: 12%;
-    left: 0%;
+    left: 10%;
     z-index:9;
 }
 
 
 .pic3 {
-    width: 42%; /* 同上 */
-    max-width: 500px;
+    width: 100%;  /* 500/1200 */
+    max-width: 32%; /* 限制百分比，防止溢出 */
     position: absolute;
     top: 12%;  
-    right: 0%;
+    right: 10%;
     z-index: 8;
 }
 
 .pic4 {
-    width: 85%; /* 1000/1200 ≈ 83.3% */
-    max-width: 1000px;
+    width: 100%; /* 1000/1200 ≈ 83.3% */
+    max-width: 85%;
     position: absolute;
-    top: 570px;   
+    top: 44%;   
     left: 0%;
     z-index: 6;
 }
 
 .pic5 {
-    width: 38%; /* 450/1200 = 37.5% */
-    max-width: 450px;
+    width: 100%;/* 450/1200 = 37.5% */
+    max-width: 38%;
     position: absolute;
-    top: 550px;   
+    top: 42%;   
     left: 60%;
     z-index: 7;
 }
@@ -783,8 +784,6 @@ img { max-width: 100%; height: auto; }
     padding: 16px 40px; /* 原 20px 50px -> 减小 */
     font-size: 1.1rem;  /* 原 1.3rem -> 减小 */
   }
-
-
   
   /* ===================== Header & Navigation ===================== */
 
@@ -832,7 +831,6 @@ img { max-width: 100%; height: auto; }
     height: 30px;
   }
 
-
 /* ==================== Footer ==================== */
   /* 1. 整体高度压缩 */
   .footer {
@@ -872,49 +870,10 @@ img { max-width: 100%; height: auto; }
     font-size: 0.65rem; 
   }
 
-  /* 1. Hero 区域收紧 */
-    .branding-hero {
-        padding: 150px 0 50px; /* 原 150px 0 60px */
-    }
 
-    .branding-hero h1 {
-        font-size: 2.6rem; /* 原 3.2rem */
-    }
-
-    .branding-hero h2 {
-        font-size: 1.3rem; /* 原 1.5rem */
-    }
-    
-    .branding-hero p {
-        font-size: 1.1rem;
-        margin-top: 15px;
-    }
-
-    .branding-wrapper {
-        height: 1000px; /* 原 1300px -> 减小 300px */
-    }
-
-    /* 2. 上半部分 (Pic1, Pic2, Pic3) */
-    /* 因为 Pic2/Pic3 用的是百分比 top (12%)，
-       当容器高度变小 (1300 -> 1000) 时，
-       12% 也会自动变小 (156px -> 120px)。
-       这意味着 Pic2/3 会自动往上跑，自动适配，太棒了！不需要手动改。 */
-
-    /* 3. 下半部分整体“上提” (关键) */
-    
-    /* 下面的大底图 (Pic4) */
-    .pic4 {
-        /* 原 570px -> 上半部分图片变矮了，这个必须往上接 */
-        top: 450px; /* 上提 120px，保持视觉紧凑 */
-    }
-
-    /* 下面的叠加小图 (Pic5) */
-    .pic5 {
-        /* 原 550px -> 跟随 Pic4 一起上移 */
-        top: 430px; /* 同样上提 120px */
-    }
-
+  /* ==================== MAIN ==================== */
 }
+
 
 /* ============================================================
    MOBILE RESPONSIVE STYLES (MAX 991px)
@@ -980,10 +939,12 @@ img { max-width: 100%; height: auto; }
     /* === B. Header 导航栏布局 === */
     
     .nav-container {
-        padding: 0 20px;
+        padding: 0 40px;
         justify-content: space-between;
         align-items: center;
     }
+
+    .logo img { height: 40px; width: auto; display: block; }
 
     .nav-right {
         display: flex;
@@ -1384,79 +1345,13 @@ body.no-scroll {
         font-size: 0.65rem;
     }
 
+
     /* ==================== BRANDING HERO & GALLERY (768px - 991px) ==================== */
-
-    /* 1. 头部文字调整 */
-    .branding-hero {
-        padding: 150px 0 40px; /* 减小内边距 */
-    }
-    .branding-hero h1 {
-        font-size: 2.5rem; /* 缩小标题 */
-    }
-    .branding-hero h2 {
-        font-size: 1.2rem;
-    }
-    .branding-hero p {
-        font-size: 1rem;
-        margin-top: 15px;
-    }
-
-     /* 6. 底部按钮间距 */
-    .portfolio-footer {
-        margin-bottom: 80px;
-    }
-
-    /* ==================== BRANDING GALLERY 5-PIC (768px - 991px) ==================== */
-
-    /* 1. 容器总高度大幅减小 */
-    /* 原 1300px -> 改为 850px 左右 (因为图片变矮了，不需要那么高了) */
-    .branding-wrapper {
-        height: 1100px; 
-    }
-
-    /* 2. 第一层：中间那张 (.pic1) */
-    .pic1 {
-        width: 50%;     /* 稍微加大宽度 */
-        left: 25%;      /* 重新居中 (100% - 50%) / 2 */
-        top: 20px;      /* 保持靠上 */
-    }
-
-    /* 3. 第二层：左右护法 (.pic2, .pic3) */
-    /* 它们原本是 top: 12% (约156px)，现在手动调整以适应变矮的 pic1 */
-    .pic2 {
-        width: 45%;     /* 稍微加大 */
-        top: 260px;     /* 紧贴 pic1 下方 */
-        left: 5%;       /* 贴左边 */
-    }
-
-    .pic3 {
-        width: 45%;     /* 稍微加大 */
-        top: 260px;     /* 与 pic2 对齐 */
-        right: 5%;      /* 贴右边 */
-    }
-
-    /* 4. 第三层：底部大图 (.pic4) */
-    /* ★★★ 关键：大幅上提 ★★★ */
-    /* 原 top: 570px -> 改为 420px，消除中间的空白 */
-    .pic4 {
-        width: 90%;     /* 占满一点 */
-        left: 4%;       /* 居中 */
-        top: 550px;     
-    }
-
-    /* 5. 第四层：悬浮小图 (.pic5) */
-    /* 原 top: 550px -> 改为 400px，保持在 pic4 上方一点点 */
-    .pic5 {
-        width: 45%;     /* 稍微加大 */
-        left: 52%;      /* 调整水平位置，让它盖在 pic4 右侧 */
-        top: 530px;
-    }
 
   }
 
 
-
-    /* ============================================================
+  /* ============================================================
    MOBILE (Max-Width: 768px)
    ============================================================ */
 @media screen and (max-width: 767px) {
@@ -1472,12 +1367,12 @@ body.no-scroll {
 
     /* === 2. 导航栏微调 === */
     .nav-container {
-        padding: 0 15px; /* 导航栏左右边距减小 */
+        padding: 0 30px; /* 导航栏左右边距减小 */
     }
+
     .hamburger {
         transform: scale(0.9); /* 汉堡按钮稍微缩小一点点，看起来精致 */
     }
-
 
     /* === 3. 侧边栏 (Sidebar) 微调 === */
     .mobile-menu-sidebar {
@@ -1611,68 +1506,21 @@ body.no-scroll {
     }
 
     /* ==================== BRANDING HERO & GALLERY (768px - 991px) ==================== */
-
-    /* 1. 头部文字调整 */
-    .branding-hero {
-        padding: 150px 0 40px; /* 减小内边距 */
-    }
-    .branding-hero h1 {
-        font-size: 2.3rem; /* 缩小标题 */
-    }
-    .branding-hero h2 {
-        font-size: 1rem;
-    }
-    .branding-hero p {
-        font-size: 0.8rem;
-        margin-top: 15px;
-    }
-
-
-    /* 1. 容器总高度大幅减小 */
-    /* 原 1300px -> 改为 850px 左右 (因为图片变矮了，不需要那么高了) */
-    .branding-wrapper {
-        height: 750px; 
-    }
-
-    /* 2. 第一层：中间那张 (.pic1) */
-    .pic1 {
-        width: 50%;     /* 稍微加大宽度 */
-        left: 25%;      /* 重新居中 (100% - 50%) / 2 */
-        top: 20px;      /* 保持靠上 */
-    }
-
-    /* 3. 第二层：左右护法 (.pic2, .pic3) */
-    /* 它们原本是 top: 12% (约156px)，现在手动调整以适应变矮的 pic1 */
-    .pic2 {
-        width: 45%;     /* 稍微加大 */
-        top: 200px;     /* 紧贴 pic1 下方 */
-        left: 5%;       /* 贴左边 */
-    }
-
-    .pic3 {
-        width: 45%;     /* 稍微加大 */
-        top: 200px;     /* 与 pic2 对齐 */
-        right: 5%;      /* 贴右边 */
-    }
-
-    /* 4. 第三层：底部大图 (.pic4) */
-    /* ★★★ 关键：大幅上提 ★★★ */
-    /* 原 top: 570px -> 改为 420px，消除中间的空白 */
-    .pic4 {
-        width: 90%;     /* 占满一点 */
-        left: 4%;       /* 居中 */
-        top: 400px;     
-    }
-
-    /* 5. 第四层：悬浮小图 (.pic5) */
-    /* 原 top: 550px -> 改为 400px，保持在 pic4 上方一点点 */
-    .pic5 {
-        width: 45%;     /* 稍微加大 */
-        left: 52%;      /* 调整水平位置，让它盖在 pic4 右侧 */
-        top: 380px;
-    }
-
+.branding-hero h1 {
+    font-size: 3rem; 
 }
+
+.branding-hero h2 {
+    margin: 10px 0 0 0; 
+    font-size: 1.3rem;
+}
+
+.branding-hero p {
+    margin-top: 10px;
+    font-size: 1.0rem;
+}
+}
+
 
 /* ============================================================
      MOBILE (Max-Width: 576px)
@@ -1758,8 +1606,26 @@ body.no-scroll {
 }
 
 /* === 8. FOOTER (极简模式) === */
-    .footer { padding: 30px 0 50px 0; }
-    .footer-nav { gap: 5px 15px; margin-bottom: 50px; } /* 间距更小 */
+   .footer { padding: 30px 0 50px 0; }
+
+/* 1. 确保容器允许换行并居中 */
+.footer-nav { 
+    gap: 5px 30px; /* 建议稍微增加行距(第一个值)，原为5px可能太紧 */
+    margin-bottom: 50px; 
+    flex-wrap: wrap;       /* 必须：允许换行 */
+    justify-content: center; /* 必须：居中对齐 */
+}
+
+/* 2. ★★★ 核心代码：强制 3+2 布局 ★★★ */
+/* 选中第6个元素（即 Services 和 Portfolio 中间的那个竖线） */
+.footer-nav > span:nth-child(6) {
+    display: block;      /* 让它变成块级行为（在Flex里起作用） */
+    width: 100%;         /* 占满整行，强制把后面的内容挤到下一行 */
+    height: 0;           /* 不占高度 */
+    visibility: hidden;  /* 隐藏竖线符号 "|" */
+    margin: 0;           /* 清除间距干扰 */
+    border: none;
+}
     
     .footer-content-row { gap: 30px 0; } /* 行距缩小 */
     
@@ -1772,7 +1638,6 @@ body.no-scroll {
     }
     .footer-contact-col span, .footer-contact-col p { font-size: 0.7rem; }
 
-   
     .whatsapp-float {
         /* 1. 尺寸缩小 */
         width: 40px;
@@ -1805,4 +1670,19 @@ body.no-scroll {
         font-size: 11px;       /* 字体改小 */
         letter-spacing: 0px;   /* 紧凑一点 */
     }
+.branding-hero h1 {
+    font-size: 2.1rem; 
+}
+
+.branding-hero h2 {
+    margin: 10px 0 0 0; 
+    font-size: 1.1rem;
+}
+
+.branding-hero p {
+    margin-top: 5px;
+    font-size: 0.8rem;
+}
+
+
 }

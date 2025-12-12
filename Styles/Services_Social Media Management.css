@@ -53,7 +53,7 @@ img { max-width: 100%; height: auto; }
 
 .bg-wrapper{
   background-image: url('../Images/Background03.png');
-  background-size: cover; 
+  background-size: contain; 
   background-position: bottom; 
   background-repeat: no-repeat;
 }

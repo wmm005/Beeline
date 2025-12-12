@@ -488,15 +488,15 @@ img { max-width: 100%; height: auto; }
 
 .bg-wrapper-01{
   background-image: url('../Images/Background01.png');
-  background-size: contain; 
-  background-position: center; 
+  background-size: cover; 
+  background-position:  bottom; 
   background-repeat: no-repeat;
 }
 
 .bg-wrapper-02{
   background-image: url('../Images/Background02.png');
   background-size: contain; 
-  background-position: center bottom;
+  background-position: bottom;
   background-repeat: no-repeat;
 }
 
@@ -507,7 +507,7 @@ img { max-width: 100%; height: auto; }
   box-sizing: border-box;
   max-width: 1200px;       /* 限制最大宽度和 Header 一致 */
   margin: 0 auto;          /* 居中 */
-  padding: 100px 20px 80px 20px; /* 左右只留 20px 的安全边距，不再用 200px */
+  padding: 100px 20px 0px 20px; /* 左右只留 20px 的安全边距，不再用 200px */
   gap: 40px; 
   min-height: 700px;
   box-sizing: border-box; 
@@ -541,7 +541,7 @@ img { max-width: 100%; height: auto; }
     max-width: 1200px;
     box-sizing: border-box;
     margin: 0 auto;
-    padding: 200px 20px 80px 20px;
+    padding: 280px 20px 80px 20px;
     
     /* 布局 */
     display: flex;

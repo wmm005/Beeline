@@ -2657,45 +2657,52 @@ body.no-scroll {
   }
     /* ==================== PAGE 2: DESIGN SYSTEM (堆叠 + 居中) ==================== */
 
-    /* 1. Page 容器设定 */
+   /* 使用 .slide-item.page-design-system 增加权重，无需 important */
     .slide-item.page-design-system {
         margin-top: 0; 
-        padding-top: 60px;   /* 上方留白 */
+        padding-top: 60px;
         padding-bottom: 80px;
-        height: auto !important; /* 高度自适应 */
+        height: auto;        /* 覆盖默认高度 */
+        min-height: 0;       /* 防止 Flex 子元素高度锁定 */
         border-bottom: 1px solid rgba(0,0,0,0.5);
-        
-        /* ★★★ 关键：让整个页面内的文本默认居中 ★★★ */
-        text-align: center; 
+        text-align: center;  /* 让文本默认居中 */
     }
-    
+
     /* 2. 核心布局容器：垂直堆叠 */
-    .design-grid {
-        display: flex !important;
-        flex-direction: column !important; /* 垂直堆叠 */
-        align-items: center !important;    /* 水平居中 */
+    /* 增加父级前缀 .page-design-system 确保覆盖 Desktop 样式 */
+    .page-design-system .design-grid {
+        display: flex;
+        flex-direction: column; /* 垂直堆叠 */
+        align-items: center;    /* ★ 核心：水平居中，解决视觉偏右问题 */
         width: 100%;
+        gap: 60px;              /* 保持模块间距 */
+        
+        /* 如果您觉得左边空隙依然很大，可以尝试重置容器 padding */
+        /* padding: 0 20px; */ 
     }
 
     /* === 第一部分：Visuals (Logo & Color) === */
-    .col-visuals {
-        order: 1; /* 排在上面 */
-        width: 100% !important;
-        flex: 0 0 auto !important;
-        padding: 0 !important;
-        margin-bottom: 60px; /* 与下方拉开距离 */
+    /* 增加前缀以确保覆盖原有的 flex: 1 设置 */
+    .page-design-system .col-visuals {
+        order: 1;            /* 排在上方 */
+        width: 100%;         /* 强制占满宽度 */
+        flex: 0 0 auto;      /* 覆盖 flex: 1，防止被压缩或拉伸 */
+        padding: 0;          /* 清除原有 padding，解决左侧多余空隙 */
+        margin-bottom: 60px; 
         
-        display: flex;             /* 开启Flex */
-        flex-direction: column;    /* 垂直排列 */
-        align-items: center;       /* ★★★ 强制子元素居中 ★★★ */
+        display: flex;
+        flex-direction: column;
+        align-items: center; /* 强制内部元素（Logo、色卡）居中 */
     }
 
-    .col-visuals .page-title {
+    /* 标题样式调整 */
+    .page-design-system .col-visuals .page-title {
         font-size: 3rem;
         margin-bottom: 50px;
-        text-align: center; /* 标题居中 */
+        text-align: center;
         width: 100%;
     }
+
 
     /* Logo 演变步骤 */
     .logo-evolution-container {
@@ -2848,6 +2855,7 @@ body.no-scroll {
     .fw-bold-italic-sample { font-size: 3.5rem; }
     .fw-medium-italic-sample { font-size: 3rem; }
     .fw-italic-sample      { font-size: 2.5rem; }
+    
     
     /* ==================== PAGE 3 ==================== */
 
@@ -3752,7 +3760,7 @@ body.no-scroll {
     }
     
     /* --- 1. Logo 区域 (更小一点) --- */
-    .col-visuals .page-title { 
+    .page-design-system .col-visuals .page-title{
         font-size: 1.6rem; 
         margin-bottom: 25px; 
     }

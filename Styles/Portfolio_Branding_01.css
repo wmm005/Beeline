@@ -638,7 +638,7 @@ img { max-width: 100%; height: auto; }
 /* ---------- HEADER BLOCK ---------- */
 .branding-hero {
     text-align: center;
-    padding: 150px 0 60px;
+    padding: 180px 0 60px;
     color: #3a3a3a;
 }
 
@@ -664,7 +664,6 @@ img { max-width: 100%; height: auto; }
     font-weight: 600;
 }
 
-
 /* ----- MAIN GALLERY LAYOUT (single card image version) ------ */
 .branding-gallery {
     width: 100%;
@@ -680,35 +679,36 @@ img { max-width: 100%; height: auto; }
     position: relative; 
     width: 100%;
     overflow: hidden;
-    height: 1500px; /* 你可以改成你想要的高度 */
+    padding-bottom: 130%;
 }
 
 /* 大背景图 */
 .branding-grid {
+    width:100% ;
     max-width: 45%; /* 加上限制，防止覆盖到左边 */
-    width: 500px;
     position: absolute;
-    top: 50px;
+    top: 4%;
     left:42%;
 }
 
 /* 中间那张手机 */
 .branding-phone-center {
-    width: 600px;
+    width:100% ;
+    max-width: 55%; /* 加上限制，防止覆盖到左边 */
     position: absolute;
-    max-width: 55%; /* 加上百分比限制 */
-    top: 50px;
+    top: 4%;
     left: 7%;
     z-index: 5;
 }
 
 /* 下面那张“大图”手机卡片 */
 .branding-phone-cards {
-   width: 100%;    /* <-- 改成 100% */
-    max-width: 1200px; /* 保持最大限制 */
+   width: 100%;   
+    max-width:100%;
     position: absolute;
-    top: 700px;   
-    left: 0%;
+    top: 50%;  
+    left: 50%;
+    transform: translateX(-50%);
     z-index: 10;
     display: block;
     height: auto;
@@ -765,8 +765,6 @@ img { max-width: 100%; height: auto; }
     padding: 16px 40px; /* 原 20px 50px -> 减小 */
     font-size: 1.1rem;  /* 原 1.3rem -> 减小 */
   }
-
-
   
   /* ===================== Header & Navigation ===================== */
 
@@ -814,7 +812,6 @@ img { max-width: 100%; height: auto; }
     height: 30px;
   }
 
-
 /* ==================== Footer ==================== */
   /* 1. 整体高度压缩 */
   .footer {
@@ -854,56 +851,8 @@ img { max-width: 100%; height: auto; }
     font-size: 0.65rem; 
   }
 
-  /* 1. Hero 区域收紧 */
-    .branding-hero {
-        padding: 150px 0 50px; /* 原 150px 0 60px */
-    }
 
-    .branding-hero h1 {
-        font-size: 2.6rem; /* 原 3.2rem */
-    }
-
-    .branding-hero h2 {
-        font-size: 1.3rem; /* 原 1.5rem */
-    }
-    
-    .branding-hero p {
-        font-size: 1.1rem;
-        margin-top: 15px;
-    }
-
-    /* 2. 核心容器高度调整 (关键) */
-    /* 因为内部图片按比例缩小了，容器高度必须减小，
-       否则 Footer 上方会有一大片空白 */
-    .branding-wrapper {
-        height: 1300px; /* 原 1500px -> 减小 300px */
-    }
-
-    /* 3. 顶部图片微调 */
-    /* 你的 max-width: 55% 已经生效，这里只需要微调位置 */
-    .branding-phone-center {
-        /* 让手机稍微往左一点，保证居中感 */
-        left: 5%; /* 原 7% */
-        top: 40px;
-    }
-    
-    .branding-grid {
-        /* 网格图也稍微调整跟随 */
-        left: 40%; /* 原 42% */
-        top: 40px;
-    }
-
-    /* 4. 底部大图上移 (最重要的一步) */
-    /* 因为上面的手机变小了，这张图必须往上提，
-       否则中间会有巨大的空隙 */
-    .branding-phone-cards {
-        top: 650px; /* 原 700px -> 大幅上提 150px */
-    }
-    
-    /* 5. 底部按钮间距 */
-    .portfolio-footer {
-        margin-bottom: 60px; /* 原 80px */
-    }
+  /* ==================== MAIN ==================== */
 }
 
 
@@ -971,10 +920,12 @@ img { max-width: 100%; height: auto; }
     /* === B. Header 导航栏布局 === */
     
     .nav-container {
-        padding: 0 20px;
+        padding: 0 40px;
         justify-content: space-between;
         align-items: center;
     }
+
+    .logo img { height: 40px; width: auto; display: block; }
 
     .nav-right {
         display: flex;
@@ -1375,60 +1326,11 @@ body.no-scroll {
         font-size: 0.65rem;
     }
 
+
     /* ==================== BRANDING HERO & GALLERY (768px - 991px) ==================== */
 
-    /* 1. 头部文字调整 */
-    .branding-hero {
-        padding: 150px 0 40px; /* 减小内边距 */
-    }
-    .branding-hero h1 {
-        font-size: 2.5rem; /* 缩小标题 */
-    }
-    .branding-hero h2 {
-        font-size: 1.2rem;
-    }
-    .branding-hero p {
-        font-size: 1rem;
-        margin-top: 15px;
-    }
-
-    /* 2. 画廊容器高度调整 */
-    /* 关键：因为内部图片缩水了，总高度必须减小，否则下面会空出一大截 */
-    .branding-wrapper {
-        height: 1100px; /* 原 1500px -> 改为 1000px */
-    }
-
-    /* 3. 背景网格图 (右后方) */
-    .branding-grid {
-        width: 450px;   /* 稍微缩小宽度 */
-        max-width: 50%; /* 限制百分比 */
-        left: 35%;      /* 保持靠右位置 */
-        top: 40px;
-    }
-
-    /* 4. 中间手机图 (左前方) */
-    .branding-phone-center {
-        width: 480px;   /* 缩小宽度 */
-        max-width: 60%; /* 限制百分比 */
-        left:0%;       /* 稍微靠左，保持和网格的重叠感 */
-        top: 60px;
-    }
-
-    /* 5. 底部大图 (Phone Cards) */
-    .branding-phone-cards {
-        width: 100%;
-        max-width: 100%;
-        /* ★★★ 关键调整：往上提 ★★★ */
-        /* 因为上面的图变小了，这张图如果不提上去，中间会有300px的空白 */
-        top: 580px;  /* 原 700px -> 改为 480px (根据上面图片的高度估算) */
-    }
-
-    /* 6. 底部按钮间距 */
-    .portfolio-footer {
-        margin-bottom: 80px;
-    }
-    
   }
+
 
   /* ============================================================
    MOBILE (Max-Width: 768px)
@@ -1446,12 +1348,12 @@ body.no-scroll {
 
     /* === 2. 导航栏微调 === */
     .nav-container {
-        padding: 0 15px; /* 导航栏左右边距减小 */
+        padding: 0 30px; /* 导航栏左右边距减小 */
     }
+
     .hamburger {
         transform: scale(0.9); /* 汉堡按钮稍微缩小一点点，看起来精致 */
     }
-
 
     /* === 3. 侧边栏 (Sidebar) 微调 === */
     .mobile-menu-sidebar {
@@ -1585,60 +1487,22 @@ body.no-scroll {
     }
 
     /* ==================== BRANDING HERO & GALLERY (768px - 991px) ==================== */
+.branding-hero h1 {
+    font-size: 3rem; 
+}
 
-    /* 1. 头部文字调整 */
-    .branding-hero {
-        padding: 150px 0 40px; /* 减小内边距 */
-    }
-    .branding-hero h1 {
-        font-size: 2.3rem; /* 缩小标题 */
-    }
-    .branding-hero h2 {
-        font-size: 1rem;
-    }
-    .branding-hero p {
-        font-size: 0.8rem;
-        margin-top: 15px;
-    }
+.branding-hero h2 {
+    margin: 10px 0 0 0; 
+    font-size: 1.3rem;
+}
 
-    /* 2. 画廊容器高度调整 */
-    /* 关键：因为内部图片缩水了，总高度必须减小，否则下面会空出一大截 */
-    .branding-wrapper {
-        height: 750px; /* 原 1500px -> 改为 1000px */
-    }
-
-    /* 3. 背景网格图 (右后方) */
-    .branding-grid {
-        width: 450px;   /* 稍微缩小宽度 */
-        max-width: 50%; /* 限制百分比 */
-        left: 35%;      /* 保持靠右位置 */
-        top: 40px;
-    }
-
-    /* 4. 中间手机图 (左前方) */
-    .branding-phone-center {
-        width: 480px;   /* 缩小宽度 */
-        max-width: 60%; /* 限制百分比 */
-        left:0%;       /* 稍微靠左，保持和网格的重叠感 */
-        top: 60px;
-    }
-
-    /* 5. 底部大图 (Phone Cards) */
-    .branding-phone-cards {
-        width: 100%;
-        max-width: 100%;
-        /* ★★★ 关键调整：往上提 ★★★ */
-        /* 因为上面的图变小了，这张图如果不提上去，中间会有300px的空白 */
-        top: 400px;  /* 原 700px -> 改为 480px (根据上面图片的高度估算) */
-    }
-
-    /* 6. 底部按钮间距 */
-    .portfolio-footer {
-        margin-bottom: 80px;
-    }
-    
+.branding-hero p {
+    margin-top: 10px;
+    font-size: 1.0rem;
+}
 
 }
+
 
 /* ============================================================
      MOBILE (Max-Width: 576px)
@@ -1724,8 +1588,26 @@ body.no-scroll {
 }
 
 /* === 8. FOOTER (极简模式) === */
-    .footer { padding: 30px 0 50px 0; }
-    .footer-nav { gap: 5px 15px; margin-bottom: 50px; } /* 间距更小 */
+   .footer { padding: 30px 0 50px 0; }
+
+/* 1. 确保容器允许换行并居中 */
+.footer-nav { 
+    gap: 5px 30px; /* 建议稍微增加行距(第一个值)，原为5px可能太紧 */
+    margin-bottom: 50px; 
+    flex-wrap: wrap;       /* 必须：允许换行 */
+    justify-content: center; /* 必须：居中对齐 */
+}
+
+/* 2. ★★★ 核心代码：强制 3+2 布局 ★★★ */
+/* 选中第6个元素（即 Services 和 Portfolio 中间的那个竖线） */
+.footer-nav > span:nth-child(6) {
+    display: block;      /* 让它变成块级行为（在Flex里起作用） */
+    width: 100%;         /* 占满整行，强制把后面的内容挤到下一行 */
+    height: 0;           /* 不占高度 */
+    visibility: hidden;  /* 隐藏竖线符号 "|" */
+    margin: 0;           /* 清除间距干扰 */
+    border: none;
+}
     
     .footer-content-row { gap: 30px 0; } /* 行距缩小 */
     
@@ -1738,7 +1620,6 @@ body.no-scroll {
     }
     .footer-contact-col span, .footer-contact-col p { font-size: 0.7rem; }
 
-    
     .whatsapp-float {
         /* 1. 尺寸缩小 */
         width: 40px;
@@ -1771,4 +1652,19 @@ body.no-scroll {
         font-size: 11px;       /* 字体改小 */
         letter-spacing: 0px;   /* 紧凑一点 */
     }
+
+.branding-hero h1 {
+    font-size: 2.1rem; 
+}
+
+.branding-hero h2 {
+    margin: 10px 0 0 0; 
+    font-size: 1.1rem;
+}
+
+.branding-hero p {
+    margin-top: 5px;
+    font-size: 0.8rem;
+}
+
 }

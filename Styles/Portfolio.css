@@ -1153,10 +1153,14 @@ img { max-width: 100%; height: auto; }
     /* === B. Header 导航栏布局 === */
     
     .nav-container {
-        padding: 0 20px;
+        padding: 0 40px;
         justify-content: space-between;
         align-items: center;
     }
+
+    .logo img { height: 40px; width: auto; display: block; }
+
+
 
     .nav-right {
         display: flex;
@@ -1654,7 +1658,7 @@ body.no-scroll {
 
     /* === 2. 导航栏微调 === */
     .nav-container {
-        padding: 0 15px; /* 导航栏左右边距减小 */
+        padding: 0 30px; /* 导航栏左右边距减小 */
     }
     .hamburger {
         transform: scale(0.9); /* 汉堡按钮稍微缩小一点点，看起来精致 */
@@ -1799,6 +1803,14 @@ body.no-scroll {
         overflow: visible;     /* 允许页面向下自然延伸 */
     }
 
+    .portfolio-section .portfolio-wrapper {
+        /* ✅ 核心修改：整体宽度锁定在 550px */
+        max-width: 550px;
+        margin: 0 auto; /* 确保居中 */
+        padding: 0 15px; /* 两侧留一点安全缝隙 */
+    }
+
+
     /* 1. 隐藏多余组件 (箭头和圆点) */
     .slider-nav, 
     .slider-dots {
@@ -1819,7 +1831,9 @@ body.no-scroll {
         flex-wrap: wrap;
         justify-content: center;
         gap: 10px 20px;                    /* 按钮之间的间距 */
-        margin-bottom: 50px;
+        margin: 0 auto 50px auto;
+        max-width: 550px;
+
     }
 
     .tab-btn {
@@ -1891,17 +1905,6 @@ body.no-scroll {
     .card-text {
         transform: translateY(0) !important;
         padding: 0px !important;
-    }
-    .card-text h3 { font-size: 0.85rem !important; margin-bottom: 0px; }
-    
-    .card-text p {
-        opacity: 1 !important;
-        visibility: visible !important;
-        font-size: 0.65rem !important;
-        /* 限制文字行数 */
-        -webkit-box-orient: vertical;
-        overflow: hidden;
-        margin-top: 0;
     }
     
     .card-overlay {
@@ -1999,8 +2002,26 @@ body.no-scroll {
 }
 
 /* === 8. FOOTER (极简模式) === */
-    .footer { padding: 30px 0 50px 0; }
-    .footer-nav { gap: 5px 15px; margin-bottom: 50px; } /* 间距更小 */
+   .footer { padding: 30px 0 50px 0; }
+
+/* 1. 确保容器允许换行并居中 */
+.footer-nav { 
+    gap: 5px 30px; /* 建议稍微增加行距(第一个值)，原为5px可能太紧 */
+    margin-bottom: 50px; 
+    flex-wrap: wrap;       /* 必须：允许换行 */
+    justify-content: center; /* 必须：居中对齐 */
+}
+
+/* 2. ★★★ 核心代码：强制 3+2 布局 ★★★ */
+/* 选中第6个元素（即 Services 和 Portfolio 中间的那个竖线） */
+.footer-nav > span:nth-child(6) {
+    display: block;      /* 让它变成块级行为（在Flex里起作用） */
+    width: 100%;         /* 占满整行，强制把后面的内容挤到下一行 */
+    height: 0;           /* 不占高度 */
+    visibility: hidden;  /* 隐藏竖线符号 "|" */
+    margin: 0;           /* 清除间距干扰 */
+    border: none;
+}
     
     .footer-content-row { gap: 30px 0; } /* 行距缩小 */
     
@@ -2013,7 +2034,6 @@ body.no-scroll {
     }
     .footer-contact-col span, .footer-contact-col p { font-size: 0.7rem; }
 
-    
     .whatsapp-float {
         /* 1. 尺寸缩小 */
         width: 40px;
@@ -2046,4 +2066,13 @@ body.no-scroll {
         font-size: 11px;       /* 字体改小 */
         letter-spacing: 0px;   /* 紧凑一点 */
     }
+
+    .card-text h3 { font-size: 0.8rem !important; margin-bottom: 0px; }
+    
+    .card-text p {
+        font-size: 0.6rem !important;
+        margin-top: 0;
+    }
+
+
 }
