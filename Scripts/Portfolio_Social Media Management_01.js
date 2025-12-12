@@ -166,18 +166,77 @@ navLinks.forEach(link => {
 }); 
 
 
+// ANIMATION
+gsap.registerPlugin(ScrollTrigger);
+
+// 选中所有图片
+const images = document.querySelectorAll(".pic1 img, .pic2 img, .branding-wrapper p");
+
+images.forEach((img) => {
+    
+    // 创建独立的时间轴
+    const tl = gsap.timeline({
+        scrollTrigger: {
+            trigger: img,         // 【关键修改】触发器改为图片自己，不再是 wrapper
+            start: "top 85%",     // 图片顶部进入屏幕 85% 处就开始（进屏幕就动）
+            toggleActions: "play none none none",
+            once: true            // 依然只播一次
+        }
+    });
+
+    tl
+    // 动作1：入场 (加大距离，让渐显感更强)
+    .fromTo(img, 
+        { 
+            y: 150,           // 【修改】从更下方 150px 处上来，动作幅度大才看得清
+            autoAlpha: 0 
+        }, 
+        { 
+            y: 0, 
+            autoAlpha: 1, 
+            duration: 1.5,    // 【修改】时间延长到 1.5s，更优雅
+            ease: "power2.out",
+            force3D: true     // 【关键】强制开启 GPU，解决大图卡顿问题
+        }
+    )
+    // 动作2：漂浮
+    .to(img, {
+        y: -20,               // 漂浮幅度
+        duration: 1.5,
+        repeat: -1,
+        yoyo: true,
+        ease: "sine.inOut",
+        stagger: 0.3,
+        force3D: true, 
+                // 保持 GPU 渲染
+    });
+});
+
+
 // SEARCH BOX
 document.addEventListener('DOMContentLoaded', function() {
     
     // 1. 这里的 Data 可以随便写，用来测试
     const searchData = [
-        { title: "Brand Identity", category: "Service", link: "Services_Branding.html" },
-        { title: "Web Development", category: "Service", link: "Services_WebDesign.html" },
-        { title: "Nike Campaign", category: "Portfolio", link: "Portfolio_Nike.html" },
-        { title: "Coffee Shop", category: "Portfolio", link: "Portfolio_Coffee.html" },
-        { title: "About Beeline", category: "Page", link: "About Us.html" },
+        { title: "Home", category: "Page", link: "index.html" },
+        { title: "About Us", category: "Page", link: "About Us.html" },
+        { title: "Portfolio", category: "Page", link: "Portfolio.html" },
+        { title: "Contact", category: "Page", link: "Get in Touch.html" },
+        { title: "Get in Touch", category: "Page", link: "Get in Touch.html" },
+
+        { title: "Branding", category: "Service", link: "Services_Branding.html" },
+        { title: "Website Design", category: "Service", link: "Services_Website Design.html" },
+        { title: "Influencer Collaboration", category: "Service", link: "Services_Influencer Collaboration.html" },
+        { title: "Social Media Management", category: "Service", link: "Services_Social Media Management.html" },
+
+        { title: "DE CREATIVE", category: "Portfolio", link: "Portfolio_Branding_01.html" },
+        { title: "LEHAO", category: "Portfolio", link: "Portfolio_Social Media Management_01.html" },
+        { title: "QUBE", category: "Portfolio", link: "Portfolio_Website Design_01.html" },
+        { title: "ZIDS", category: "Portfolio", link: "Portfolio_Website Design_02.html" },
+
         { title: "Contact Us", category: "Contact", link: "Get in Touch.html" },
-        { title: "Instagram Management Management", category: "Service", link: "Services_Social.html" }
+        { title: "Get in Touch", category: "Contact", link: "Get in Touch.html" },
+        
     ];
 
     // 2. 获取元素
@@ -250,53 +309,6 @@ document.addEventListener('DOMContentLoaded', function() {
         if (!searchInput.contains(e.target) && !searchResults.contains(e.target)) {
             searchResults.classList.remove('active');
         }
-    });
-});
-
-
-// ANIMATION
-gsap.registerPlugin(ScrollTrigger);
-
-// 选中所有图片
-const images = document.querySelectorAll(".pic1 img, .pic2 img, .branding-wrapper p");
-
-images.forEach((img) => {
-    
-    // 创建独立的时间轴
-    const tl = gsap.timeline({
-        scrollTrigger: {
-            trigger: img,         // 【关键修改】触发器改为图片自己，不再是 wrapper
-            start: "top 85%",     // 图片顶部进入屏幕 85% 处就开始（进屏幕就动）
-            toggleActions: "play none none none",
-            once: true            // 依然只播一次
-        }
-    });
-
-    tl
-    // 动作1：入场 (加大距离，让渐显感更强)
-    .fromTo(img, 
-        { 
-            y: 150,           // 【修改】从更下方 150px 处上来，动作幅度大才看得清
-            autoAlpha: 0 
-        }, 
-        { 
-            y: 0, 
-            autoAlpha: 1, 
-            duration: 1.5,    // 【修改】时间延长到 1.5s，更优雅
-            ease: "power2.out",
-            force3D: true     // 【关键】强制开启 GPU，解决大图卡顿问题
-        }
-    )
-    // 动作2：漂浮
-    .to(img, {
-        y: -20,               // 漂浮幅度
-        duration: 1.5,
-        repeat: -1,
-        yoyo: true,
-        ease: "sine.inOut",
-        stagger: 0.3,
-        force3D: true, 
-                // 保持 GPU 渲染
     });
 });
 
@@ -403,13 +415,25 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // A. 你的原始数据
     const searchData = [
-        { title: "Brand Identity", category: "Service", link: "Services_Branding.html" },
-        { title: "Web Development", category: "Service", link: "Services_Website Design.html" },
-        { title: "Nike Campaign", category: "Portfolio", link: "Portfolio.html" },
-        { title: "Coffee Shop", category: "Portfolio", link: "Portfolio.html" },
-        { title: "About Beeline", category: "Page", link: "About Us.html" },
+        { title: "Home", category: "Page", link: "index.html" },
+        { title: "About Us", category: "Page", link: "About Us.html" },
+        { title: "Portfolio", category: "Page", link: "Portfolio.html" },
+        { title: "Contact", category: "Page", link: "Get in Touch.html" },
+        { title: "Get in Touch", category: "Page", link: "Get in Touch.html" },
+
+        { title: "Branding", category: "Service", link: "Services_Branding.html" },
+        { title: "Website Design", category: "Service", link: "Services_Website Design.html" },
+        { title: "Influencer Collaboration", category: "Service", link: "Services_Influencer Collaboration.html" },
+        { title: "Social Media Management", category: "Service", link: "Services_Social Media Management.html" },
+
+        { title: "DE CREATIVE", category: "Portfolio", link: "Portfolio_Branding_01.html" },
+        { title: "LEHAO", category: "Portfolio", link: "Portfolio_Social Media Management_01.html" },
+        { title: "QUBE", category: "Portfolio", link: "Portfolio_Website Design_01.html" },
+        { title: "ZIDS", category: "Portfolio", link: "Portfolio_Website Design_02.html" },
+
         { title: "Contact Us", category: "Contact", link: "Get in Touch.html" },
-        { title: "Social Media", category: "Service", link: "Services_Social Media Management.html" }
+        { title: "Get in Touch", category: "Contact", link: "Get in Touch.html" },
+        
     ];
 
     // B. 你的颜色定义函数

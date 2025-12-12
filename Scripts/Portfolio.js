@@ -352,13 +352,25 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // 1. 这里的 Data 可以随便写，用来测试
     const searchData = [
-        { title: "Brand Identity", category: "Service", link: "Services_Branding.html" },
-        { title: "Web Development", category: "Service", link: "Services_WebDesign.html" },
-        { title: "Nike Campaign", category: "Portfolio", link: "Portfolio_Nike.html" },
-        { title: "Coffee Shop", category: "Portfolio", link: "Portfolio_Coffee.html" },
-        { title: "About Beeline", category: "Page", link: "About Us.html" },
+        { title: "Home", category: "Page", link: "index.html" },
+        { title: "About Us", category: "Page", link: "About Us.html" },
+        { title: "Portfolio", category: "Page", link: "Portfolio.html" },
+        { title: "Contact", category: "Page", link: "Get in Touch.html" },
+        { title: "Get in Touch", category: "Page", link: "Get in Touch.html" },
+
+        { title: "Branding", category: "Service", link: "Services_Branding.html" },
+        { title: "Website Design", category: "Service", link: "Services_Website Design.html" },
+        { title: "Influencer Collaboration", category: "Service", link: "Services_Influencer Collaboration.html" },
+        { title: "Social Media Management", category: "Service", link: "Services_Social Media Management.html" },
+
+        { title: "DE CREATIVE", category: "Portfolio", link: "Portfolio_Branding_01.html" },
+        { title: "LEHAO", category: "Portfolio", link: "Portfolio_Social Media Management_01.html" },
+        { title: "QUBE", category: "Portfolio", link: "Portfolio_Website Design_01.html" },
+        { title: "ZIDS", category: "Portfolio", link: "Portfolio_Website Design_02.html" },
+
         { title: "Contact Us", category: "Contact", link: "Get in Touch.html" },
-        { title: "Instagram Management Management", category: "Service", link: "Services_Social.html" }
+        { title: "Get in Touch", category: "Contact", link: "Get in Touch.html" },
+        
     ];
 
     // 2. 获取元素
@@ -537,13 +549,25 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // A. 你的原始数据
     const searchData = [
-        { title: "Brand Identity", category: "Service", link: "Services_Branding.html" },
-        { title: "Web Development", category: "Service", link: "Services_Website Design.html" },
-        { title: "Nike Campaign", category: "Portfolio", link: "Portfolio.html" },
-        { title: "Coffee Shop", category: "Portfolio", link: "Portfolio.html" },
-        { title: "About Beeline", category: "Page", link: "About Us.html" },
+        { title: "Home", category: "Page", link: "index.html" },
+        { title: "About Us", category: "Page", link: "About Us.html" },
+        { title: "Portfolio", category: "Page", link: "Portfolio.html" },
+        { title: "Contact", category: "Page", link: "Get in Touch.html" },
+        { title: "Get in Touch", category: "Page", link: "Get in Touch.html" },
+
+        { title: "Branding", category: "Service", link: "Services_Branding.html" },
+        { title: "Website Design", category: "Service", link: "Services_Website Design.html" },
+        { title: "Influencer Collaboration", category: "Service", link: "Services_Influencer Collaboration.html" },
+        { title: "Social Media Management", category: "Service", link: "Services_Social Media Management.html" },
+
+        { title: "DE CREATIVE", category: "Portfolio", link: "Portfolio_Branding_01.html" },
+        { title: "LEHAO", category: "Portfolio", link: "Portfolio_Social Media Management_01.html" },
+        { title: "QUBE", category: "Portfolio", link: "Portfolio_Website Design_01.html" },
+        { title: "ZIDS", category: "Portfolio", link: "Portfolio_Website Design_02.html" },
+
         { title: "Contact Us", category: "Contact", link: "Get in Touch.html" },
-        { title: "Social Media", category: "Service", link: "Services_Social Media Management.html" }
+        { title: "Get in Touch", category: "Contact", link: "Get in Touch.html" },
+        
     ];
 
     // B. 你的颜色定义函数

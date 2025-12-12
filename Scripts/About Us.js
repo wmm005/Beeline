@@ -685,91 +685,6 @@ document.addEventListener("DOMContentLoaded", function() {
 });
 
 
-// SEARCH BOX
-document.addEventListener('DOMContentLoaded', function() {
-    
-    const searchData = [
-        { title: "Brand Identity", category: "Service", link: "Services_Branding.html" },
-        { title: "Web Development", category: "Service", link: "Services_WebDesign.html" },
-        { title: "Nike Campaign", category: "Portfolio", link: "Portfolio_Nike.html" },
-        { title: "Coffee Shop", category: "Portfolio", link: "Portfolio_Coffee.html" },
-        { title: "About Beeline", category: "Page", link: "About Us.html" },
-        { title: "Contact Us", category: "Contact", link: "Get in Touch.html" },
-        { title: "Instagram Management Management", category: "Service", link: "Services_Social.html" }
-    ];
-
-    // 2. 获取元素
-    const searchInput = document.getElementById('searchInput');
-    const searchResults = document.getElementById('searchResults');
-
-    // 3. 定义分类颜色 
-    function getCategoryColor(cat) {
-        switch(cat) {
-            case 'Service': return '#964f33';
-            case 'Portfolio': return '#E04F5F';
-            case 'Page': return '#4A90E2';
-            case 'Contact': return '#27AE60';
-            default: return '#999';
-        }
-    }
-
-    // 4. 监听输入
-    searchInput.addEventListener('input', function(e) {
-        const value = e.target.value.toLowerCase().trim();
-
-       
-        if (value.length === 0) {
-            searchResults.classList.remove('active');
-            return;
-        }
-
-        // 过滤数据
-        const filteredData = searchData.filter(item => 
-            item.title.toLowerCase().includes(value)
-        );
-
-        // 显示结果
-        displayResults(filteredData);
-    });
-
-    // 5. 渲染结果 HTML
-    function displayResults(results) {
-    searchResults.innerHTML = ''; 
-
-    if (results.length > 0) {
-        results.forEach(item => {
-            const link = document.createElement('a');
-            link.href = item.link;
-            link.className = 'search-item';
-            
-            const color = getCategoryColor(item.category);
-
-            // ...existing code...
-            link.innerHTML = `
-                <span class="item-category" style="color: ${color}">${item.category}</span>
-                <span class="item-title">${item.title}</span>
-            `;
-            
-            searchResults.appendChild(link);
-        });
-    } else {
-        searchResults.innerHTML = `
-            <div class="search-item" style="justify-content:center; color:#bbb; cursor:default;">
-                No results found
-            </div>
-        `;
-    }
-    
-    searchResults.classList.add('active');
-}
-
-    // 6. 点击外部关闭搜索框
-    document.addEventListener('click', function(e) {
-        if (!searchInput.contains(e.target) && !searchResults.contains(e.target)) {
-            searchResults.classList.remove('active');
-        }
-    });
-});
 
 
 // ==================== MISSION BEE====================
@@ -809,7 +724,107 @@ tl.fromTo(beeImg,
     repeat: -1
 });
 
-/* ==================== MOBILE MENU & SEARCH JS  ==================== */
+// SEARCH BOX
+document.addEventListener('DOMContentLoaded', function() {
+    
+    // 1. 这里的 Data 可以随便写，用来测试
+    const searchData = [
+        { title: "Home", category: "Page", link: "index.html" },
+        { title: "About Us", category: "Page", link: "About Us.html" },
+        { title: "Portfolio", category: "Page", link: "Portfolio.html" },
+        { title: "Contact", category: "Page", link: "Get in Touch.html" },
+        { title: "Get in Touch", category: "Page", link: "Get in Touch.html" },
+
+        { title: "Branding", category: "Service", link: "Services_Branding.html" },
+        { title: "Website Design", category: "Service", link: "Services_Website Design.html" },
+        { title: "Influencer Collaboration", category: "Service", link: "Services_Influencer Collaboration.html" },
+        { title: "Social Media Management", category: "Service", link: "Services_Social Media Management.html" },
+
+        { title: "DE CREATIVE", category: "Portfolio", link: "Portfolio_Branding_01.html" },
+        { title: "LEHAO", category: "Portfolio", link: "Portfolio_Social Media Management_01.html" },
+        { title: "QUBE", category: "Portfolio", link: "Portfolio_Website Design_01.html" },
+        { title: "ZIDS", category: "Portfolio", link: "Portfolio_Website Design_02.html" },
+
+        { title: "Contact Us", category: "Contact", link: "Get in Touch.html" },
+        { title: "Get in Touch", category: "Contact", link: "Get in Touch.html" },
+        
+    ];
+
+    // 2. 获取元素
+    const searchInput = document.getElementById('searchInput');
+    const searchResults = document.getElementById('searchResults');
+
+    // 3. 定义分类颜色 (想要什么颜色改这里)
+    function getCategoryColor(cat) {
+        switch(cat) {
+            case 'Service': return '#964f33';   // 你的品牌棕色
+            case 'Portfolio': return '#E04F5F'; // 红色/粉色
+            case 'Page': return '#4A90E2';      // 蓝色
+            case 'Contact': return '#27AE60';   // 绿色
+            default: return '#999';
+        }
+    }
+
+    // 4. 监听输入
+    searchInput.addEventListener('input', function(e) {
+        const value = e.target.value.toLowerCase().trim();
+
+        // 如果输入为空，隐藏下拉框
+        if (value.length === 0) {
+            searchResults.classList.remove('active');
+            return;
+        }
+
+        // 过滤数据
+        const filteredData = searchData.filter(item => 
+            item.title.toLowerCase().includes(value)
+        );
+
+        // 显示结果
+        displayResults(filteredData);
+    });
+
+    // 5. 渲染结果 HTML
+    function displayResults(results) {
+    searchResults.innerHTML = ''; 
+
+    if (results.length > 0) {
+        results.forEach(item => {
+            const link = document.createElement('a');
+            link.href = item.link;
+            link.className = 'search-item';
+            
+            const color = getCategoryColor(item.category);
+
+            // 【关键改动】：category 放前面，title 放后面
+            link.innerHTML = `
+                <span class="item-category" style="color: ${color}">${item.category}</span>
+                <span class="item-title">${item.title}</span>
+            `;
+            
+            searchResults.appendChild(link);
+        });
+    } else {
+        searchResults.innerHTML = `
+            <div class="search-item" style="justify-content:center; color:#bbb; cursor:default;">
+                No results found
+            </div>
+        `;
+    }
+    
+    searchResults.classList.add('active');
+}
+
+    // 6. 点击外部关闭搜索框
+    document.addEventListener('click', function(e) {
+        if (!searchInput.contains(e.target) && !searchResults.contains(e.target)) {
+            searchResults.classList.remove('active');
+        }
+    });
+});
+
+
+/* ==================== MOBILE MENU & SEARCH JS (最终修复版) ==================== */
 document.addEventListener('DOMContentLoaded', () => {
 
     // ============================================================
@@ -838,6 +853,7 @@ document.addEventListener('DOMContentLoaded', () => {
             // 解锁背景滚动
             document.body.classList.remove('no-scroll');
 
+            // ★★★ 自动收起 Services 菜单 (重置状态) ★★★
             if (mobileGridWrapper) mobileGridWrapper.classList.remove('open');
             if (mobileServiceLink) mobileServiceLink.classList.remove('active');
 
@@ -852,7 +868,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    
+    // 绑定点击事件
     if (hamburgerBtn) hamburgerBtn.addEventListener('click', toggleMenu);
     if (menuOverlay) menuOverlay.addEventListener('click', toggleMenu);
 
@@ -860,7 +876,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // ============================================================
     // 2. Services 菜单折叠逻辑 (丝滑动画版)
     // ============================================================
-   
+    // 注意：这里必须获取 .submenu-grid-wrapper 才能实现丝滑动画
     const serviceLinkTrigger = document.querySelector('.mobile-has-submenu > a');
     const serviceGridWrapper = document.querySelector('.submenu-grid-wrapper');
 
@@ -904,23 +920,40 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
 
-
+    // ============================================================
+    // 3. 统一搜索逻辑 (纯净版 - 样式完全由 CSS 控制)
+    // ============================================================
+    
+    // A. 你的原始数据
     const searchData = [
-        { title: "Brand Identity", category: "Service", link: "Services_Branding.html" },
-        { title: "Web Development", category: "Service", link: "Services_Website Design.html" },
-        { title: "Nike Campaign", category: "Portfolio", link: "Portfolio.html" },
-        { title: "Coffee Shop", category: "Portfolio", link: "Portfolio.html" },
-        { title: "About Beeline", category: "Page", link: "About Us.html" },
+        { title: "Home", category: "Page", link: "index.html" },
+        { title: "About Us", category: "Page", link: "About Us.html" },
+        { title: "Portfolio", category: "Page", link: "Portfolio.html" },
+        { title: "Contact", category: "Page", link: "Get in Touch.html" },
+        { title: "Get in Touch", category: "Page", link: "Get in Touch.html" },
+
+        { title: "Branding", category: "Service", link: "Services_Branding.html" },
+        { title: "Website Design", category: "Service", link: "Services_Website Design.html" },
+        { title: "Influencer Collaboration", category: "Service", link: "Services_Influencer Collaboration.html" },
+        { title: "Social Media Management", category: "Service", link: "Services_Social Media Management.html" },
+
+        { title: "DE CREATIVE", category: "Portfolio", link: "Portfolio_Branding_01.html" },
+        { title: "LEHAO", category: "Portfolio", link: "Portfolio_Social Media Management_01.html" },
+        { title: "QUBE", category: "Portfolio", link: "Portfolio_Website Design_01.html" },
+        { title: "ZIDS", category: "Portfolio", link: "Portfolio_Website Design_02.html" },
+
         { title: "Contact Us", category: "Contact", link: "Get in Touch.html" },
-        { title: "Social Media", category: "Service", link: "Services_Social Media Management.html" }
+        { title: "Get in Touch", category: "Contact", link: "Get in Touch.html" },
+        
     ];
 
+    // B. 你的颜色定义函数
     function getCategoryColor(cat) {
         switch(cat) {
-            case 'Service': return '#964f33';
-            case 'Portfolio': return '#E04F5F';
-            case 'Page': return '#4A90E2';
-            case 'Contact': return '#27AE60';
+            case 'Service': return '#964f33';   // 品牌棕色
+            case 'Portfolio': return '#E04F5F'; // 红色
+            case 'Page': return '#4A90E2';      // 蓝色
+            case 'Contact': return '#27AE60';   // 绿色
             default: return '#999';
         }
     }
@@ -956,15 +989,17 @@ document.addEventListener('DOMContentLoaded', () => {
             container.innerHTML = ''; 
 
             if (results.length > 0) {
-                container.style.display = 'block'; 
+                container.style.display = 'block'; // 显示下拉框
                 
                 results.forEach(item => {
                     const link = document.createElement('a');
                     link.href = item.link;
-                    link.className = 'search-item';
+                    link.className = 'search-item'; // CSS 样式类
+                    
                     const color = getCategoryColor(item.category);
 
-                    // ...existing code...
+                    // ★★★ 修正版：没有任何宽度/字体样式，只有颜色 ★★★
+                    // 样式全部由 CSS (.item-category, .item-title) 控制
                     link.innerHTML = `
                         <span class="item-category" style="color: ${color}">${item.category}</span>
                         <span class="item-title">${item.title}</span>

@@ -888,8 +888,6 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 
-
-
 /* ==================== MOBILE MENU & SEARCH JS (最终修复版) ==================== */
 document.addEventListener('DOMContentLoaded', () => {
 
